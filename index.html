@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirma tu asistencia — Capacitación ETB · Americas BPS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1F3A;
+  --navy-2:#132B4D;
+  --navy-3:#0F2444;
+  --teal:#00C2B2;
+  --teal-dim:#1D6E7A;
+  --white:#FFFFFF;
+  --grey:#9BA9BD;
+  --lgrey:#D6DEE8;
+  --red:#FF6B6B;
+  --green:#3DD68C;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Poppins',system-ui,sans-serif;
+  background:var(--navy);
+  color:var(--white);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 60px;
+}
+.topbar{height:6px;background:var(--teal)}
+
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+/* ---------- Encabezado ---------- */
+header{padding:38px 0 26px}
+.eyebrow{
+  font-family:'Roboto Mono',monospace;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:12px
+}
+h1{font-size:30px;font-weight:700;line-height:1.18;letter-spacing:-.01em}
+h1 .accent{color:var(--teal)}
+.sub{margin-top:12px;color:var(--grey);font-size:15px}
+
+/* ---------- Tarjeta de la cita ---------- */
+.cita{
+  background:var(--navy-2);
+  border-left:3px solid var(--teal);
+  border-radius:6px;
+  padding:20px 22px;
+  margin:26px 0 30px;
+}
+.cita h2{
+  font-family:'Roboto Mono',monospace;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--teal);font-weight:500;margin-bottom:14px
+}
+.dato{display:flex;gap:12px;align-items:flex-start;margin-bottom:11px;font-size:14.5px}
+.dato:last-child{margin-bottom:0}
+.dato .ic{width:20px;flex-shrink:0;text-align:center}
+.dato strong{font-weight:600}
+.dato span{color:var(--lgrey)}
+.traer{
+  margin-top:16px;padding-top:15px;border-top:1px solid rgba(255,255,255,.09);
+  font-size:14px;color:var(--lgrey)
+}
+.traer b{color:var(--white);font-weight:600}
+
+/* ---------- Formulario ---------- */
+form{display:block}
+.campo{margin-bottom:22px}
+label{display:block;font-size:14px;font-weight:500;margin-bottom:7px}
+.hint{display:block;font-weight:400;font-size:12.5px;color:var(--grey);margin-top:2px}
+input[type=text],input[type=tel],input[type=email]{
+  width:100%;padding:13px 14px;
+  background:var(--navy-3);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:5px;
+  color:var(--white);
+  font-family:'Poppins',sans-serif;font-size:15.5px;
+  transition:border-color .15s,box-shadow .15s;
+}
+input::placeholder{color:#5E7089}
+input:focus{
+  outline:none;border-color:var(--teal);
+  box-shadow:0 0 0 3px rgba(0,194,178,.16)
+}
+input:invalid:not(:placeholder-shown){border-color:var(--red)}
+
+/* ---------- Confirmación ---------- */
+.confirmar{
+  background:var(--navy-2);border-radius:6px;padding:20px 22px;margin:30px 0 24px;
+  border:1px solid rgba(0,194,178,.28)
+}
+.confirmar > p{font-size:15px;font-weight:600;margin-bottom:16px;line-height:1.45}
+.opcion{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:13px 15px;margin-bottom:9px;
+  background:var(--navy-3);border:1px solid rgba(255,255,255,.12);
+  border-radius:5px;cursor:pointer;transition:border-color .15s,background .15s
+}
+.opcion:last-of-type{margin-bottom:0}
+.opcion:hover{border-color:rgba(0,194,178,.5)}
+.opcion input{
+  appearance:none;-webkit-appearance:none;
+  width:19px;height:19px;flex-shrink:0;margin-top:1px;
+  border:2px solid var(--grey);border-radius:50%;
+  cursor:pointer;transition:border-color .15s;position:relative
+}
+.opcion input:checked{border-color:var(--teal)}
+.opcion input:checked::after{
+  content:'';position:absolute;inset:3px;border-radius:50%;background:var(--teal)
+}
+.opcion input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.opcion:has(input:checked){border-color:var(--teal);background:rgba(0,194,178,.09)}
+.opcion .txt{font-size:14.5px;line-height:1.45}
+
+/* ---------- Casilla de condiciones ---------- */
+.condiciones{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:16px 18px;margin-bottom:26px;
+  background:var(--navy-2);border-radius:6px;cursor:pointer
+}
+.condiciones input{
+  appearance:none;-webkit-appearance:none;
+  width:19px;height:19px;flex-shrink:0;margin-top:2px;
+  border:2px solid var(--grey);border-radius:4px;cursor:pointer;position:relative
+}
+.condiciones input:checked{border-color:var(--teal);background:var(--teal)}
+.condiciones input:checked::after{
+  content:'';position:absolute;left:5px;top:1px;width:5px;height:10px;
+  border:solid var(--navy);border-width:0 2.5px 2.5px 0;transform:rotate(45deg)
+}
+.condiciones input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.condiciones .txt{font-size:13.5px;color:var(--lgrey);line-height:1.5}
+
+/* ---------- Botón ---------- */
+button{
+  width:100%;padding:16px;
+  background:var(--teal);color:var(--navy);
+  border:none;border-radius:5px;
+  font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;
+  letter-spacing:.01em;cursor:pointer;
+  transition:background .15s,transform .08s
+}
+button:hover{background:#00D9C7}
+button:active{transform:translateY(1px)}
+button:focus-visible{outline:3px solid var(--white);outline-offset:2px}
+button:disabled{background:#2A4460;color:#6C7F96;cursor:not-allowed}
+
+.pie{margin-top:22px;text-align:center;font-size:12.5px;color:var(--grey);line-height:1.6}
+.pie a{color:var(--teal);text-decoration:none}
+.pie a:hover{text-decoration:underline}
+
+.error{
+  display:none;margin-top:14px;padding:12px 14px;
+  background:rgba(255,107,107,.12);border-left:3px solid var(--red);
+  border-radius:4px;font-size:13.5px;color:var(--white)
+}
+.error.visible{display:block}
+
+/* ---------- Pantalla de éxito ---------- */
+#exito{display:none;padding:50px 0 20px;text-align:center}
+#exito.visible{display:block;animation:sube .45s ease-out}
+@keyframes sube{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.check{
+  width:66px;height:66px;margin:0 auto 24px;
+  border-radius:50%;background:rgba(61,214,140,.14);
+  border:2px solid var(--green);
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;color:var(--green)
+}
+#exito h2{font-size:25px;font-weight:700;margin-bottom:14px}
+#exito .msg{color:var(--lgrey);font-size:15.5px;max-width:430px;margin:0 auto 26px}
+.recordatorio{
+  background:var(--navy-2);border-left:3px solid var(--teal);
+  border-radius:6px;padding:20px 22px;text-align:left;margin-bottom:22px
+}
+.recordatorio h3{
+  font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:13px
+}
+
+
+/* ---------- Modal postulación ---------- */
+.overlay{
+  position:fixed;inset:0;z-index:50;
+  background:rgba(4,12,24,.78);
+  backdrop-filter:blur(3px);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.overlay.visible{display:flex;animation:fade .2s ease-out}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--navy-2);
+  border:1px solid rgba(0,194,178,.3);
+  border-radius:8px;
+  max-width:430px;width:100%;
+  padding:30px 28px 26px;
+  animation:pop .25s cubic-bezier(.2,.8,.3,1);
+  max-height:92vh;overflow-y:auto;
+}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.modal .ico{
+  width:52px;height:52px;margin:0 auto 18px;border-radius:50%;
+  background:rgba(0,194,178,.14);border:2px solid var(--teal);
+  display:flex;align-items:center;justify-content:center;font-size:24px
+}
+.modal h3{font-size:20px;font-weight:700;text-align:center;line-height:1.3;margin-bottom:12px}
+.modal p{font-size:14.5px;color:var(--lgrey);text-align:center;margin-bottom:22px;line-height:1.55}
+.modal .acciones{display:flex;flex-direction:column;gap:10px}
+.btn-sec{
+  width:100%;padding:14px;background:transparent;color:var(--lgrey);
+  border:1px solid rgba(255,255,255,.22);border-radius:5px;
+  font-family:'Poppins',sans-serif;font-size:15px;font-weight:500;cursor:pointer;
+  transition:border-color .15s,color .15s
+}
+.btn-sec:hover{border-color:var(--teal);color:var(--white)}
+.btn-sec:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.modal .nota{
+  margin-top:18px;padding-top:15px;border-top:1px solid rgba(255,255,255,.09);
+  font-size:12.5px;color:var(--grey);text-align:center;margin-bottom:0
+}
+
+@media (max-width:520px){
+  header{padding:28px 0 20px}
+  h1{font-size:25px}
+  .cita,.confirmar,.recordatorio{padding:17px 18px}
+  .modal{padding:26px 22px 22px}
+  .modal h3{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+
+<div class="wrap">
+
+  <!-- ============ FORMULARIO ============ -->
+  <div id="vista-form">
+
+    <header>
+      <div class="eyebrow">Americas BPS · Campaña ETB</div>
+      <h1>Confirma tu asistencia a la <span class="accent">capacitación</span></h1>
+      <p class="sub">Completa tus datos para reservar tu cupo en el grupo que inicia el lunes.</p>
+    </header>
+
+    <div class="cita">
+      <h2>Tu citación</h2>
+      <div class="dato"><span class="ic">📅</span><div><strong>Lunes 24 de agosto</strong> <span>· 8:00 a.m. en punto</span></div></div>
+      <div class="dato"><span class="ic">📍</span><div><strong>Av. El Dorado (Cl. 26) # 90-10</strong><br><span>Bogotá · a 2 minutos caminando del Portal Eldorado</span></div></div>
+      <div class="dato"><span class="ic">🏍️</span><div><span>Hay parqueadero para bicicleta y moto</span></div></div>
+      <div class="traer">
+        <b>Debes traer:</b> cédula original en físico y un candado para el locker.
+        Por favor llega puntual.
+      </div>
+    </div>
+
+    <form id="formulario" novalidate>
+
+      <div class="campo">
+        <label for="nombre">Nombre completo
+          <span class="hint">Como aparece en tu cédula, con ambos apellidos</span>
+        </label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ej. María Fernanda Gómez Rincón" autocomplete="name" required>
+      </div>
+
+      <div class="campo">
+        <label for="cedula">Número de documento
+          <span class="hint">Cédula de ciudadanía, cédula de extranjería o PPT · solo números</span>
+        </label>
+        <input type="text" id="cedula" name="cedula" placeholder="1012345678" inputmode="numeric" pattern="[0-9]{6,12}" autocomplete="off" required>
+      </div>
+
+      <div class="campo">
+        <label for="celular">Celular (WhatsApp)
+          <span class="hint">Por aquí te enviaremos el recordatorio del domingo</span>
+        </label>
+        <input type="tel" id="celular" name="celular" placeholder="3001234567" inputmode="numeric" pattern="[0-9]{10}" autocomplete="tel" required>
+      </div>
+
+      <div class="campo">
+        <label for="correo">Correo electrónico</label>
+        <input type="email" id="correo" name="correo" placeholder="nombre@correo.com" autocomplete="email" required>
+      </div>
+
+      <div class="confirmar">
+        <p>¿Asistirás a la capacitación del lunes 24 de agosto a las 8:00 a.m.?</p>
+        <label class="opcion">
+          <input type="radio" name="asistencia" value="Sí, confirmo mi asistencia" required>
+          <span class="txt"><strong>Sí, confirmo mi asistencia</strong></span>
+        </label>
+        <label class="opcion">
+          <input type="radio" name="asistencia" value="No podré asistir">
+          <span class="txt">No podré asistir</span>
+        </label>
+      </div>
+
+      <label class="condiciones">
+        <input type="checkbox" id="acepto" name="acepto" required>
+        <span class="txt">
+          Entiendo que la capacitación es <b>100% presencial</b> en Bogotá, en horario de <b>8:00 a.m. a 5:00 p.m.</b>,
+          se reconocen <b>$13.000 por día</b> pagados una vez sea contratado(a), y que el <b>contrato se firma al finalizar</b> la formación.
+        </span>
+      </label>
+
+      <button type="submit" id="enviar">Confirmar mi cupo</button>
+
+      <div class="error" id="error"></div>
+
+      <p class="pie">
+        ¿Alguna dificultad para inscribirte?<br>
+        Escríbenos por WhatsApp y te ayudamos.
+      </p>
+
+    </form>
+  </div>
+
+  <!-- ============ CONFIRMACIÓN ============ -->
+  <div id="exito">
+    <div class="check">✓</div>
+    <h2 id="exito-titulo">¡Tu cupo quedó reservado!</h2>
+    <p class="msg" id="exito-msg">Te esperamos el lunes 24 de agosto a las 8:00 a.m. Te enviaremos un recordatorio por WhatsApp antes de esa fecha.</p>
+
+    <div class="recordatorio" id="exito-recordatorio">
+      <h3>No olvides</h3>
+      <div class="dato"><span class="ic">🪪</span><div><span>Cédula <strong>original en físico</strong> (no copia ni foto)</span></div></div>
+      <div class="dato"><span class="ic">🔒</span><div><span>Un <strong>candado</strong> para el locker</span></div></div>
+      <div class="dato"><span class="ic">⏰</span><div><span>Llegar <strong>puntual</strong> a las 8:00 a.m.</span></div></div>
+      <div class="dato"><span class="ic">📍</span><div><span>Av. El Dorado (Cl. 26) # 90-10 · Portal Eldorado</span></div></div>
+    </div>
+
+    <p class="pie">
+      ¿Se te presenta algún inconveniente?<br>
+      Avísanos por WhatsApp lo antes posible.
+    </p>
+  </div>
+
+</div>
+
+  <!-- ============ MODAL: POSTULACIÓN EN CONTRATANDO ============ -->
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <div class="modal">
+      <div class="ico">📋</div>
+      <h3 id="modal-titulo">Un último paso: tu postulación en ContrAtando</h3>
+      <p>
+        Para que tu cupo quede en firme, tu postulación en ContrAtando debe estar
+        completa y con la hoja de vida cargada.
+      </p>
+      <div class="acciones">
+        <button type="button" id="btn-ir">Completar mi postulación</button>
+        <button type="button" class="btn-sec" id="btn-listo">Ya la completé</button>
+      </div>
+      <p class="nota">
+        Si no estás seguro(a), entra a revisarla. Solo toma un par de minutos.
+      </p>
+    </div>
+  </div>
+
+
+<script>
+// === CONFIGURACIÓN ===
+// Pega aquí la URL de tu Google Form o endpoint. Si la dejas vacía,
+// el formulario guarda las respuestas en el navegador y las puedes
+// descargar con la consola: descargarRespuestas()
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbzGjHZN-GsD3guFc-013Ycu7tmTxe2h45Z7NhN7kwS3BR6GB6rcTIOYY9NfT_hq2_2c/exec";
+
+const form   = document.getElementById('formulario');
+const errBox = document.getElementById('error');
+const boton  = document.getElementById('enviar');
+
+function mostrarError(txt){
+  errBox.textContent = txt;
+  errBox.classList.add('visible');
+  errBox.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  errBox.classList.remove('visible');
+
+  const nombre  = document.getElementById('nombre').value.trim();
+  const cedula  = document.getElementById('cedula').value.replace(/\D/g,'');
+  const celular = document.getElementById('celular').value.replace(/\D/g,'');
+  const correo  = document.getElementById('correo').value.trim();
+  const asis    = document.querySelector('input[name="asistencia"]:checked');
+  const acepto  = document.getElementById('acepto').checked;
+
+  if (nombre.split(/\s+/).length < 3)
+    return mostrarError('Escribe tu nombre completo con ambos apellidos.');
+  if (cedula.length < 6 || cedula.length > 12)
+    return mostrarError('El número de documento debe tener entre 6 y 12 dígitos.');
+  if (celular.length !== 10)
+    return mostrarError('El celular debe tener 10 dígitos, sin indicativo.');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo))
+    return mostrarError('Revisa tu correo electrónico.');
+  if (!asis)
+    return mostrarError('Indícanos si asistirás el lunes 24 de agosto.');
+  if (!acepto)
+    return mostrarError('Marca la casilla de condiciones para continuar.');
+
+  const datos = {
+    nombre, cedula, celular, correo,
+    asistencia: asis.value,
+    fecha: new Date().toISOString()
+  };
+
+  boton.disabled = true;
+  boton.textContent = 'Enviando…';
+
+  try {
+    if (ENDPOINT) {
+      await fetch(ENDPOINT, {
+        method:'POST',
+        mode:'no-cors',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(datos)
+      });
+    } else {
+      const prev = JSON.parse(localStorage.getItem('confirmaciones_etb') || '[]');
+      prev.push(datos);
+      localStorage.setItem('confirmaciones_etb', JSON.stringify(prev));
+    }
+
+    window.__noAsiste = (asis.value === 'No podré asistir');
+
+    if (asis.value === 'No podré asistir') {
+      mostrarExito();
+    } else {
+      abrirModal();
+    }
+
+  } catch (err) {
+    boton.disabled = false;
+    boton.textContent = 'Confirmar mi cupo';
+    mostrarError('No pudimos registrar tu confirmación. Intenta de nuevo en unos segundos.');
+  }
+});
+
+
+const overlay = document.getElementById('overlay');
+const CONTRATANDO = 'https://contratando.desarrollando.co/aplicar/srsy3v';
+
+function abrirModal(){
+  overlay.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('btn-ir').focus();
+}
+
+function mostrarExito(){
+  overlay.classList.remove('visible');
+  document.body.style.overflow = '';
+  if (window.__noAsiste) {
+    document.getElementById('exito-titulo').textContent = 'Gracias por avisarnos';
+    document.getElementById('exito-msg').textContent =
+      'Registramos tu respuesta y liberamos el cupo. Te contactaremos cuando abramos un nuevo grupo de capacitación.';
+    document.getElementById('exito-recordatorio').style.display = 'none';
+  }
+  document.getElementById('vista-form').style.display = 'none';
+  document.getElementById('exito').classList.add('visible');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('btn-ir').addEventListener('click', () => {
+  window.open(CONTRATANDO, '_blank', 'noopener');
+  mostrarExito();
+});
+document.getElementById('btn-listo').addEventListener('click', mostrarExito);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && overlay.classList.contains('visible')) mostrarExito();
+});
+
+// Solo números en documento y celular
+['cedula','celular'].forEach(id => {
+  document.getElementById(id).addEventListener('input', e => {
+    e.target.value = e.target.value.replace(/\D/g,'');
+  });
+});
+
+// Descargar respuestas guardadas localmente (escribir en la consola del navegador)
+function descargarRespuestas(){
+  const d = JSON.parse(localStorage.getItem('confirmaciones_etb') || '[]');
+  if (!d.length) return console.log('No hay respuestas registradas.');
+  const cols = ['fecha','nombre','cedula','celular','correo','asistencia'];
+  const csv  = [cols.join(';')].concat(d.map(r => cols.map(c => `"${r[c]||''}"`).join(';'))).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'}));
+  a.download = 'confirmaciones_capacitacion_etb.csv';
+  a.click();
+  console.log(`${d.length} respuestas descargadas.`);
+}
+window.descargarRespuestas = descargarRespuestas;
+</script>
+</body>
+</html>
