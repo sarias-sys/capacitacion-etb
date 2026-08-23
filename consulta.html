@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulta tu resultado — Proceso ETB · Americas BPS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1F3A;--navy-2:#132B4D;--navy-3:#0F2444;--teal:#00C2B2;--white:#FFF;
+--grey:#9BA9BD;--lgrey:#D6DEE8;--amber:#FFB84D;--green:#3DD68C}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',system-ui,sans-serif;background:var(--navy);color:var(--white);
+line-height:1.55;-webkit-font-smoothing:antialiased;padding:0 0 60px;min-height:100vh}
+.topbar{height:6px;background:var(--teal)}
+.wrap{max-width:560px;margin:0 auto;padding:0 20px}
+header{padding:40px 0 26px;text-align:center}
+.eyebrow{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.16em;
+text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+h1{font-size:29px;font-weight:700;line-height:1.2;letter-spacing:-.01em}
+h1 .accent{color:var(--teal)}
+.sub{margin-top:12px;color:var(--grey);font-size:15px}
+.card{background:var(--navy-2);border-radius:8px;padding:26px 24px;margin-top:8px}
+label{display:block;font-size:14px;font-weight:500;margin-bottom:8px}
+.hint{display:block;font-weight:400;font-size:12.5px;color:var(--grey);margin-top:2px}
+input{width:100%;padding:15px 16px;background:var(--navy-3);
+border:1px solid rgba(255,255,255,.14);border-radius:5px;color:var(--white);
+font-family:'Roboto Mono',monospace;font-size:19px;letter-spacing:.06em;
+transition:border-color .15s,box-shadow .15s}
+input::placeholder{color:#5E7089;letter-spacing:normal;font-family:'Poppins',sans-serif;font-size:15px}
+input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,194,178,.16)}
+button{width:100%;padding:16px;margin-top:16px;background:var(--teal);color:var(--navy);
+border:none;border-radius:5px;font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;
+cursor:pointer;transition:background .15s,transform .08s}
+button:hover{background:#00D9C7}
+button:active{transform:translateY(1px)}
+button:disabled{background:#2A4460;color:#6C7F96;cursor:not-allowed}
+.btn-sec{background:transparent;color:var(--lgrey);border:1px solid rgba(255,255,255,.22);font-weight:500}
+.btn-sec:hover{background:transparent;border-color:var(--teal);color:var(--white)}
+#resultado{margin-top:22px;display:none}
+#resultado.visible{display:block;animation:sube .35s ease-out}
+@keyframes sube{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.res{border-radius:8px;padding:26px 24px;text-align:center}
+.res .ico{width:60px;height:60px;margin:0 auto 18px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;font-size:27px}
+.res h2{font-size:22px;font-weight:700;margin-bottom:12px;line-height:1.3}
+.res p{font-size:14.5px;color:var(--lgrey);margin-bottom:0}
+.ok{background:rgba(61,214,140,.10);border:1px solid rgba(61,214,140,.35)}
+.ok .ico{background:rgba(61,214,140,.16);border:2px solid var(--green);color:var(--green)}
+.no{background:var(--navy-2);border:1px solid rgba(255,255,255,.14)}
+.no .ico{background:rgba(155,169,189,.14);border:2px solid var(--grey);color:var(--grey)}
+.nf{background:rgba(255,184,77,.09);border:1px solid rgba(255,184,77,.35)}
+.nf .ico{background:rgba(255,184,77,.16);border:2px solid var(--amber);color:var(--amber)}
+.esp{background:rgba(0,194,178,.07);border:1px solid rgba(0,194,178,.30)}
+.esp .ico{background:rgba(0,194,178,.14);border:2px solid var(--teal);color:var(--teal)}
+.detalle{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);text-align:left}
+.detalle h3{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.14em;
+text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:14px}
+.dato{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;font-size:14px}
+.dato:last-child{margin-bottom:0}
+.dato .ic{width:20px;flex-shrink:0;text-align:center}
+.dato span{color:var(--lgrey)}
+.dato strong{font-weight:600;color:var(--white)}
+.error{display:none;margin-top:14px;padding:12px 14px;background:rgba(255,184,77,.12);
+border-left:3px solid var(--amber);border-radius:4px;font-size:13.5px}
+.error.visible{display:block}
+.pie{margin-top:24px;text-align:center;font-size:12.5px;color:var(--grey);line-height:1.6}
+@media (max-width:520px){header{padding:30px 0 20px}h1{font-size:24px}.card,.res{padding:22px 19px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Americas BPS · Campaña ETB</div>
+    <h1>Consulta el estado de tu <span class="accent">postulación</span></h1>
+    <p class="sub">Ingresa tu número de documento para conocer el resultado del proceso.</p>
+  </header>
+
+  <div class="card" id="buscador">
+    <label for="ced">Número de documento
+      <span class="hint">Sin puntos ni comas</span>
+    </label>
+    <input type="text" id="ced" inputmode="numeric" placeholder="Ej. 1012345678" autocomplete="off" maxlength="12">
+    <button id="btn">Consultar</button>
+    <div class="error" id="err"></div>
+  </div>
+
+  <div id="resultado"></div>
+
+  <p class="pie">
+    Gracias por participar en nuestro proceso de selección.
+  </p>
+
+</div>
+
+<script>
+const TABLA = {"35c5b5f54cc6553f":0,"434228a5909ea5e2":2,"0896588502d22da7":0,"debae79d0f9587b7":0,"1f2114c767bf9301":2,"c50db7e1cc2e9dea":2,"dff46f82702916ff":2,"457347431167c95e":0,"27fb56713537738c":0,"afd72925620aeffb":2,"89c61790d115e8b5":0,"a58e5c3b668765f5":0,"0dd07ceab71d7201":2,"7906e26c1650b144":0,"1634a53edc043c99":2,"b41d5fce7e14d417":2,"6424dfceb1b1e92a":2,"72dfb4dc985b2cc0":2,"11e6512a049f3b79":2,"6a5cda6f91ac04ec":0,"6f06a2bc8bfd47cd":2,"bd7aca1182c3cf90":1,"ff89c416b4530c3d":2,"be628b5140579091":0,"cd5b5e616a65972b":1,"8bb4fd55d62d54d0":2,"1c70179d83315660":2,"976aa16f40c287a8":2,"e3b3f88e4354f224":2,"934f250259fdccf1":2,"29eea0fcff8894c0":2,"273681ab2d9e69c4":0,"76f05e7878882df8":0,"ace1f77a5ea2494d":0,"316a305a3df91255":2,"fd4b2823dd5ec2d0":2,"9b06e0b4f35b6e26":2,"6e1fea35da6e1335":2,"ea61850131037206":2,"5e53cba413bc6fc4":0,"0668ce5e4054405e":0,"e09123def06d0d66":2,"f660a8b0a2368d07":2,"c38daca96fb03885":2,"ddcd28d1bbcbe213":2,"548a311c94b63141":0,"ec8187437de62fb4":2,"690d514d1e6a5cd6":2,"dde32f484cf11425":2,"cec18684935cd3be":2,"720635f3d7b27699":2,"fa1f453c62cf63bc":2,"77ef24fce992b056":0,"2e99037b0ace3bd9":1,"61a9538375da9e3d":2,"7f1f29cb6e3d7718":2,"0f5a2020935b04e4":2,"f251bc2000156fac":2,"53370e6b479d7ba9":0,"392a787d33dc8789":0,"f0f532492fdf4350":2,"2e730c1b3d38b0d0":2,"06b09eef8f2dfdbc":0,"5acb89911a173d72":2,"75303d9c82a5f1b8":2,"04fd7e740bc623b4":2,"7b650214893bed44":2,"5066a4ee99f395d9":2,"8aff648697a18fa7":2,"1485f3e0616fe2aa":0,"d3b79a179824733b":0,"4aec0d8ed73e33f7":0,"74d7e0182721369d":0,"bb109b370132aa24":0,"6ad8c8c4e2f2e070":0,"b8cebdaa7a256d6f":0,"8e73af0705649463":2,"ae0f11c56f1aa070":0,"a7ef207bdbd45970":2,"1a1616d589203729":0,"bb3292186e90a7e3":2,"abb1167e90fafc6e":0,"829bc2e09766aef5":1,"695386a5297950ec":0,"aabfe1516608bd8b":2,"214a223a9160e80f":0,"f34e38c5f9b2c80f":0,"c606211232f1849c":2,"a32afc0cb5db008f":0,"bc3146501f6a0c7a":0,"0e259d9150ed4bb0":0,"8f91e6a9347730f2":0,"3c251acd1a50a35a":0,"03da5febfd0d6505":2,"a52dba41a60e3d93":2,"a2826d421268d577":2,"dc46e15ffb6410c0":0,"157b8a7d0f96d26c":0,"bacc6feb8f6d0056":2,"2b3ef04128d2d41f":0,"3cd3eaa61e5614c7":0,"f1352ba5c7eff4ac":2,"8173a3d7b1eafa05":0,"2f073818cbb79bb5":0,"dcc735df7ba5fcd5":0,"c22c20a609fc1783":2,"445002bdff7e7cd7":2,"55e7918a87fefb98":2,"4ad75fae7f07bec2":2,"faf77a139c9dd306":2,"8e6ca92ef3229ed5":2,"1527484dab98d33e":0,"eeda7cbbdb9e50b8":2,"3a83f13e8948b59e":2,"ca1d5feea715fe78":0,"c3bb4ac68f7ab8aa":0,"471dbabde5a26f30":0,"1599bd6c44d01e95":0,"3e4c31c6a5fedcca":0,"0171e04867676f9f":2,"a069cb249e19b3c0":2,"3731e6b9aa4c4b3b":2,"b26b8c4a1f5680dd":2,"ba5ad21e6cceef11":2,"33c33bee3079f3d4":2,"3194e598baf71bca":2,"5ddd38e6d9db71ad":0,"8d74198677dbc43f":2,"566dba42b939c5e4":2,"e32a0d2ad3b3dca7":2,"8986848673516b27":0,"72e51d3ea37d589b":2,"226c01a47c7f07ea":1,"b2ea66e3a31f4507":2,"784c81e3a21a028a":0,"451185ed999852b0":0,"01791dd7223160cd":0,"78e4df5229a97c90":2,"26a188b78c7c30e5":0,"e650d360eb6bfb00":2,"8929e447081fddfd":2,"662bba93a9103c0c":0,"a0010022d626d1ac":0,"594397eb9939b4a3":2,"8aa5b6c000f007bb":2,"b14a601334cdd188":2,"b60c92685743e112":0,"af86d2d3a9347b6c":2,"5b1f0cd00fb7a787":2,"995d8e718849bb3e":2,"5d1eb23387e6b5e9":2,"f32c480587e8d4bc":1,"bb3e1ddfb411ee08":0,"7b11d6bf5eac7de8":2,"8ed42914784ac726":0,"2e47558c2cede8be":0,"f486509be6389c4a":0,"4b198952d20740bd":0,"3a0bac7974cbe0e4":0,"5519fdd14305ad2b":2,"5f558f825d9c3dce":0,"583b5c758465e5e5":0,"58c70a1bce8c7654":2,"78716bb476f79079":2,"5272879902347b9b":2,"08958a7c251fb2e6":2,"985530c69432ffd7":1,"a953f735d4eedec2":0,"b0675cda4383ccde":2,"b729180d6fcde6ba":0,"a44659e8ade4b833":2,"64afb2c8b34d9216":0,"4117a55809e103d4":0,"47269092dae97a9c":2,"9241bd4cee049f45":0,"29a5896d6285c52e":0,"91122668d1134f54":1,"32f7cb62a51ee8f5":0,"31cdb0c4b1511019":0,"4e2963a1e8ab25dc":2,"814359ca91ae77c9":0,"180c09e85f350d58":2,"c4ef695b0cf0420b":0,"dd85c076c8fc57f3":2,"f04fa2f69b71c381":0,"95a59d9684570167":2,"fe1899042bd78552":0,"90615a525408759d":0,"7f627422395ad734":0,"1d8eae6bee31579e":2,"9cebe95c70cdac42":0,"a5039c95f220e5f0":0,"8d42a628621b2d9d":2,"04238e363a5067ef":0,"a5ae9d5670abc401":0,"4e2a21d43f7e8c43":2,"ba1bd5f9dabb2449":2,"7bb77b2a0cc603cf":0,"fa364c870c1516a1":0,"82860c6f2f4a7fd8":0,"613e52181faaf9a3":0,"db4c9ab8c0b51d45":0,"bbd1ff6997633521":1,"e67ca14bcd88c343":2,"24d08cb8b112c3b6":2,"e110b5463b89021c":2,"e6adec28d76ab198":0,"f0d0b07cdf8ce904":0,"7610aeee699270bd":2,"f119fec56e2f67f2":0,"8af8fd3c20975439":2,"8a76589db2b91f48":0,"2000e6ddff8a6777":2,"9829b1f5ec3f7c9e":0,"b8faa5a7a4f11aba":0,"041f00836c90e978":0,"2a757d81aa0766cf":0,"155d1f439b0ec9cb":2,"d5abe9564459bc3f":0,"67337168271ad822":0,"f19fa0fd19f18750":2,"8e15803a461e847b":0,"2625d721c0e641f0":1,"2e57030f03e483da":0,"671e06ca3b2f799b":2,"b9ce40efb371180a":0,"5d6b4f14abf97f6b":2,"33bb6650d5196a1a":2,"dfe5d4b39b74a1d2":0,"57330b165fe4895a":2,"b3dca52b4b7fe113":2,"6669d6145332b358":0,"46d014be1962bdb9":0,"25a31aec50d0196f":0,"71d26a909848b074":0,"ed4653f2dab4c9c3":0,"0c9000867a52507b":0,"327bc82e07155895":2,"b2d611fc66b8a6e8":0,"bc238081cfabf7a1":0,"1edc262e84b7456f":2,"6d0ab74519c664d9":0,"19f27442293708d2":2,"9eb6323a7c1535b0":0,"6a44f023f57fb382":0,"bdad6183e703a4a9":1,"efd515fb51d3a285":0,"05d5d458c4af3a0f":2,"bf25c87c7bf83d7d":0,"d831806f7e944cb2":2,"3557aa7e1054cd57":2,"71b82446c2877949":0,"6804d6a275e3c3eb":0,"56c250276a121d55":2,"7e3d6da455c68d3c":2,"09f093892b2f7712":2,"74e2ddf932d08406":2,"bbb8d69ecc703e11":0,"55a9e43f2dae78fe":2,"43aa7a4ce9dffe6d":1,"3d357be9c7855708":2,"a39a3285e18473a0":0,"b1fb668f2800b070":0,"8db8b72670e49990":2,"b3f57f22e41bdb63":1,"a30548cd433ae6f6":1,"71c5490ce7c6d85c":0,"e290e82f326b57a5":1,"d84b9847a6204365":1,"b2ac971c6d5c5b45":1,"6d3fec8211e679ec":1,"2ecbf0550788dae1":1,"109966fca1ed2ae5":1,"8025ef8422c22035":0,"c7280378d53a9a29":1,"7e108f38b959ee52":1,"b61f43bf41351f2e":1,"752481359f6ed7a3":0,"c5904cebc766fa24":0,"d29882d41f0d1168":1,"6a14cdbcb6d60b6a":1,"0a98b50e216b9f72":1,"75de7db31e43dead":0,"122f4b63ef018245":0,"9785f31e15ef1bec":1,"623c35b5d636347f":0,"564ecdfac3ffb54a":0,"5263225655854f6a":1,"cfd78de09b339160":1,"2203284c67e58603":0,"d3b0c7e9de83c98a":0,"c49f7c26b0ace5b3":0,"5f9cf26d5d6603b8":0,"ec56d4a26ff1d5ac":0,"e918d071aab44cea":0,"70e1d721a5bdd86f":1,"5456e8105a6fc372":0,"e7fdaca541547e16":1,"5c708d4cb17cf40d":1,"3b525d09c84a395a":1,"44aaf8fb355ef42f":0,"024534753a7fd6b2":0,"51c7d6fb43fa8e94":0,"8edd8b9e60a8d793":0,"98c8456873547719":0,"ce45da557e4d3483":0,"df378ae565bbba5f":0,"3deb2ed0ed49f960":2,"2139fca19a9a3da2":0,"8909a0f7d05c67a8":0,"64b124067603b8f3":0,"193863c3220dcc71":0,"f9e428b57b07164b":0,"1d94c52ba173759e":0,"2264b036bd8cbe29":0,"b70df88504ccc8aa":0,"36a208f438e67e70":0,"086ad837a4b97313":0,"b98a79c67adcaf74":0,"2376eecedcea8a61":0,"68f454d77b33c9c0":0,"28cb9fa8a428747b":0,"6ab2bc7d39b82f5a":0,"22db0cee731c425a":0,"62fd7fefa974ec2a":0,"a23c7a9d3f523ae7":0,"75b3b354913343d7":0,"69bc6747bf0144a4":0,"04c2455a5b29dcb5":0,"ed60dacfbdb075a3":1,"a1f9ade3cc99611c":1,"b49dbdf275ec8601":1,"0a706e2ad43af156":0,"791c94216515afb6":2,"2d0925192b0663e6":2,"bfaadea610281768":2,"888ad3772cf823aa":2,"48420d9bf7331949":2,"c4ba3bc257f7a451":2,"9de931ce2d786eb0":1,"c54de3642e720fbe":0,"feebffe9b205cc75":1,"782528c37214218f":0,"9ee6d4b45d8c4c00":0,"ef262395e9d5d13f":0,"41879732eeeb9a21":0,"3160cf9202ad8466":1,"34065ceba2c7f973":1,"a9477af773c14901":0,"38f4261df416fb95":0,"8b5da50d13cc9529":0,"aa23392e7cc2871d":0,"9b53277cabfb6c35":0,"c307d11b9477811d":0,"2041b3c9b7b7ebe5":1,"750f78003e102336":1,"dd61f2bccfd6e55e":0,"9a6bf4412c2e8189":0,"75be7bbba5778f4e":1,"189ca70586a5829a":0,"e17a4e393b9b2a12":1,"9ffb366ee98939bc":0,"717f60ea5802cbf5":0,"a4f8e171222d5909":1,"944b9df22adfd022":0,"007c3263d61fcd19":0,"51b5b92373b0c523":0,"997e90ef29ad6339":0,"58175397b93bba83":1,"5c863c5be6a92a26":1,"264fb9edf5a9d555":0,"88da72df11636977":1,"77dd7b7997ba1d2c":0,"dde30f9ead1fc870":1,"75b4d9414e7b82b9":1,"f1f09438805abc52":1,"436573fd04cc263c":1,"652d8c5aad65c516":1,"e75166d4dfe3f62c":0,"53a4a8715127cd46":1,"ecbc659396490ff1":1,"5054a9339fea0112":0,"d0168e64527e309b":1,"0df6d65a46d7739c":1,"7b53bc97e8cc3a7f":1,"04e26c6515806e1d":1,"9706c1ce5d4d2ea3":0,"d4173c250fb72b39":1,"1b824ad4e3d5cc27":1,"b481f5bd999c7621":1,"a028a3e4fd71f30d":0,"41b14e45d9aab006":0,"6210e98969acc8fe":0,"ef1b31c5d5d94909":1,"65979bbdddece4cc":1,"ea0d1324cf408010":0,"b2f86870337beb95":0,"bd096153d97a8cfe":1,"05f41f347c78da3c":1,"83e52310f2042a15":0,"24373a43df1176ed":1,"7ecc7a43decaee8a":1,"c3b10c17c6c0a8ba":1,"ce6e603569356bc2":0,"493fbd1a54d84f26":0,"0f37698a930403bb":1,"fdda90c0472f4e94":1,"31248e6ec6a6e5c0":0,"e73038a3beb9a7e5":0,"f602576d8436feaf":0,"a4b339633af38bef":0,"d8e4878c1d881459":0,"87bdddb10f45d367":0,"f899f7b172b104f7":0,"86718683503857d2":0,"1562d2f86d8d3204":0,"6157894e6b490d53":1,"c62059edcfac5650":0,"de6030cf858d6876":0,"ef7fad04741d5122":1,"928234f65193af52":0,"5b9ecc1babef0bda":1,"f8b65cb3d8b5c5fc":1,"6aa70e9e0984f9b1":0,"f891505315f8b9b5":1,"502b0fabc23deffb":0,"c32c50619eca30d7":0,"eb3a237379278012":1,"6665cdce4e7646a7":1,"a4b399330c554967":1,"ed7d4b73ff4a91b4":0,"787c398efabdf3c0":0,"86d27c9845a5ed35":0,"a47f4e85e99f353a":0,"2833cc2f1a356bb0":1,"47777bc0795888a1":1,"e1d99d47f3a35cc6":0,"7317e35c06c8cc86":1,"33eac4cbac42d2fd":0,"11fff50e46a6a19e":0,"adb9bc3351a54a71":1,"d9f972e2cea3ed1d":1,"38ba25d92a4b31cb":1,"61c80477f81ebc27":1,"e3af688259b09e92":1,"b729f034873e1a5a":1,"884b4b92b2f0ed94":1,"58c3731e18696b65":1,"5efce1a688538f15":1,"563b34c79c9bd341":1,"6cc0ec7812a482a9":1,"fb2e89736cad1e0f":0,"38920635c4cc7570":1,"c5682045fa8fed8c":1,"ba036e52961d17bf":1,"c93a35f69aef12ac":0,"561393320962cf07":1,"b2da6b167ff017c6":0,"c847fd3680e9b48b":0,"66dfd435f0af98fb":0,"6125494f71aa9f7d":0,"a0e7e48f854f32f4":0,"068bd9eba40c8dc2":0,"3f8818ee7ed70391":0,"a8c42a0716bf6d59":0,"3356af45485ffc31":0,"ecb10f813b0d0ad8":0,"b659944b9759ffa7":0,"563c383b472e6a9a":0,"996418185f5601d3":0};
+const SALT = "abps-etb-2026";
+
+const input = document.getElementById('ced');
+const btn   = document.getElementById('btn');
+const err   = document.getElementById('err');
+const out   = document.getElementById('resultado');
+
+input.addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g,''); });
+input.addEventListener('keydown', e => { if (e.key === 'Enter') consultar(); });
+btn.addEventListener('click', consultar);
+
+async function hash(txt){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(SALT + txt));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function consultar(){
+  err.classList.remove('visible');
+  out.classList.remove('visible');
+  const ced = input.value.trim();
+
+  if (ced.length < 5) {
+    err.textContent = 'Escribe tu número de documento completo, sin puntos ni comas.';
+    err.classList.add('visible');
+    return;
+  }
+
+  btn.disabled = true; btn.textContent = 'Consultando…';
+  const h = await hash(ced);
+  const estado = TABLA[h];
+
+  setTimeout(() => {
+    btn.disabled = false; btn.textContent = 'Consultar';
+    if (estado === 1)      out.innerHTML = APTO;
+    else if (estado === 0) out.innerHTML = NOAPTO;
+    else if (estado === 2) out.innerHTML = NOCONFIRMO;
+    else                   out.innerHTML = NOREGISTRADO;
+    out.classList.add('visible');
+    out.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 450);
+}
+
+const APTO = `
+<div class="res ok">
+  <div class="ico">✓</div>
+  <h2>¡Felicitaciones! Continúas en el proceso</h2>
+  <p>Tu perfil fue aprobado para iniciar la capacitación de la campaña ETB.</p>
+  <div class="detalle">
+    <h3>Tu citación</h3>
+    <div class="dato"><span class="ic">📅</span><div><strong>Lunes 24 de agosto</strong> <span>· 8:00 a.m., sé puntual</span></div></div>
+    <div class="dato"><span class="ic">📍</span><div><strong>Sede Carvajal</strong><br><span>Av. El Dorado (Cl. 26) # 90-10, Bogotá</span></div></div>
+    <div class="dato"><span class="ic">🚇</span><div><span>A 2 minutos caminando del Portal Eldorado</span></div></div>
+    <div class="dato"><span class="ic">🏍️</span><div><span>Hay parqueadero para bicicleta y moto</span></div></div>
+    <div class="dato"><span class="ic">🪪</span><div><span>Trae <strong>cédula original en físico</strong> y un <strong>candado</strong></span></div></div>
+    <div class="dato"><span class="ic">⏰</span><div><span>La jornada va de 8:00 a.m. a 5:00 p.m.</span></div></div>
+  </div>
+</div>`;
+
+const NOAPTO = `
+<div class="res no">
+  <div class="ico">•</div>
+  <h2>En esta oportunidad no continúas en el proceso</h2>
+  <p>Gracias por participar en nuestra convocatoria y por el tiempo que le dedicaste.<br><br>
+  Los requisitos varían según cada campaña y cliente, así que <strong>conservamos tu hoja de vida</strong>
+  para tenerte en cuenta en próximas convocatorias que se ajusten mejor a tu perfil.<br><br>
+  Te deseamos muchos éxitos. 🙏</p>
+</div>`;
+
+const NOCONFIRMO = `
+<div class="res esp">
+  <div class="ico">◷</div>
+  <h2>No estás asignado a esta formación</h2>
+  <p>Tu perfil hace parte de nuestro proceso, pero <strong>no quedaste asignado(a) al grupo que inicia el lunes 24 de agosto</strong>, por lo que no puedes asistir a esta formación.<br><br>
+  Tu hoja de vida sigue activa en nuestra base de datos y <strong>te tendremos en cuenta para las próximas convocatorias</strong>.<br><br>
+  Gracias por tu interés. 🙏</p>
+</div>`;
+
+const NOREGISTRADO = `
+<div class="res nf">
+  <div class="ico">?</div>
+  <h2>Documento no registrado</h2>
+  <p>No encontramos este número de documento en nuestra base de datos, por lo que <strong>no estás habilitado(a) para asistir a la formación</strong>.<br><br>
+  Verifica que lo hayas escrito correctamente, sin puntos ni comas. Si el número está bien, puede ser que tu postulación en ContrAtando no se haya completado.</p>
+  <div class="detalle" style="text-align:center">
+    <button class="btn-sec" onclick="document.getElementById('resultado').classList.remove('visible');document.getElementById('ced').value='';document.getElementById('ced').focus();">Consultar otro documento</button>
+  </div>
+</div>`;
+</script>
+</body>
+</html>
