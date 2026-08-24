@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clínica de Ventas ETB — Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#0f1b2d;--dark2:#172338;--teal:#2ec4b6;--accent:#4361ee;--mid:#6c757d;--light:#f8f9fa;--border:#dee2e6;--green:#059669;--red:#dc2626;--orange:#d97706;--purple:#7c3aed;--up:#059669;--down:#dc2626;--same:#6c757d}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--light);color:#212529;line-height:1.5}
+.header{background:var(--dark);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.header h1{color:#fff;font-size:18px;font-weight:700}
+.header .badge{border:1px solid var(--mid);border-radius:20px;padding:4px 14px;color:var(--mid);font-size:10px;font-weight:600;letter-spacing:1px}
+.header .teal{color:var(--teal);font-size:10px;font-weight:600;letter-spacing:2px}
+.tabs{background:#fff;border-bottom:2px solid var(--border);display:flex;gap:0;overflow-x:auto}
+.tab{padding:12px 24px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--mid);transition:all 0.2s;white-space:nowrap}
+.tab:hover{color:var(--dark)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+.view{display:none}.view.active{display:block}
+
+/* Metrics */
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+.metric{background:#fff;border-radius:10px;padding:16px;text-align:center;border:1px solid var(--border)}
+.metric .value{font-size:30px;font-weight:800;line-height:1}
+.metric .label{font-size:10px;color:var(--mid);margin-top:3px;text-transform:uppercase;letter-spacing:0.5px}
+
+/* Tables */
+.section{background:#fff;border-radius:10px;padding:20px;margin-bottom:20px;border:1px solid var(--border)}
+.section h2{font-size:15px;font-weight:700;margin-bottom:2px}
+.section .sub{font-size:11px;color:var(--mid);margin-bottom:14px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--dark);color:#fff;padding:7px 8px;text-align:center;font-weight:600;font-size:10px;letter-spacing:0.3px}
+th:nth-child(1),th:nth-child(2),th:nth-child(3){text-align:left}
+td{padding:6px 8px;border-bottom:1px solid var(--border);text-align:center}
+td:nth-child(1){font-weight:700;color:var(--accent);width:28px}
+td:nth-child(2){text-align:left;font-weight:600;font-size:12px}
+td:nth-child(3){text-align:left;font-size:10px;color:var(--mid)}
+tr:nth-child(even){background:var(--light)}
+tr:hover{background:#edf2fb}
+.sc{font-weight:700}.s5,.s4{color:var(--green)}.s3{color:var(--orange)}.s2,.s1{color:var(--red)}
+
+/* Tags */
+.tag{display:inline-block;padding:2px 7px;border-radius:8px;font-size:9px;font-weight:600}
+.tag-v{background:#d1fae5;color:var(--green)}.tag-r{background:#fed7aa;color:var(--orange)}
+.tag-e{background:#e0e7ff;color:var(--accent)}
+
+/* Bars */
+.bars{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:16px 0}
+.bar-col{text-align:center}
+.bar-wrap{height:160px;display:flex;align-items:flex-end;justify-content:center}
+.bar{width:44px;border-radius:5px 5px 0 0;transition:height 0.6s}
+.bar-val{font-size:16px;font-weight:800;margin-bottom:3px}
+.bar-label{font-size:10px;font-weight:600;color:var(--dark);margin-top:4px}
+
+/* Insight box */
+.insight{background:var(--dark);border-radius:10px;padding:20px;margin-bottom:20px;color:#fff}
+.insight h2{color:var(--teal);font-size:16px;margin-bottom:6px}
+.insight p{color:#adb5bd;font-size:12px;line-height:1.5}
+.insight .boxes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.insight .box{background:var(--dark2);border:1px solid #2a3a52;border-radius:8px;padding:14px}
+.insight .box h3{font-size:11px;font-weight:700;margin-bottom:4px}
+.insight .box.tl h3{color:var(--teal)}.insight .box.or h3{color:var(--orange)}
+.insight .box p{font-size:10px}
+
+/* Experience */
+.exp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+.exp-card{border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.exp-head{padding:8px 12px;color:#fff;font-weight:700;font-size:11px;text-align:center}
+.exp-body{padding:12px;background:#fff;text-align:center}
+.exp-score{font-size:28px;font-weight:800;line-height:1}
+.exp-sub{font-size:9px;color:var(--mid);margin-top:2px}
+.exp-stats{font-size:10px;color:#555;margin-top:6px}
+
+/* Detail cards */
+.detail{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.dcard{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;transition:transform 0.2s}
+.dcard:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,0.06)}
+.dcard .top{display:flex;justify-content:space-between;align-items:center}
+.dcard .nm{font-weight:700;font-size:13px}
+.dcard .ts{font-size:22px;font-weight:800}
+.dcard .sr{display:flex;gap:6px;margin:6px 0;font-size:10px;font-weight:600}
+.dcard .ft{font-size:10px;color:var(--green);margin-top:4px}
+.dcard .br{font-size:10px;color:var(--orange);margin-top:2px}
+.dcard .mt{font-size:9px;color:var(--mid);margin-top:4px}
+
+/* ═══ EVOLUTION ═══ */
+.evo-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px}
+.evo-card .evo-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.evo-card .evo-name{font-weight:700;font-size:14px}
+.evo-card .evo-final{font-size:10px;color:var(--mid)}
+.evo-card .evo-final strong{font-size:20px;font-weight:800;margin-left:4px}
+.evo-table{width:100%;border-collapse:collapse;font-size:11px}
+.evo-table th{background:var(--light);color:var(--dark);font-size:9px;padding:5px 6px;border-bottom:1px solid var(--border)}
+.evo-table td{padding:5px 6px;border-bottom:1px solid #f0f0f0;text-align:center}
+.evo-table td:first-child{text-align:left;font-weight:600;color:var(--accent)}
+.evo-table td:last-child{text-align:left;font-size:10px;color:var(--mid)}
+.arrow-up{color:var(--up);font-weight:700}.arrow-down{color:var(--down);font-weight:700}.arrow-same{color:var(--same)}
+.delta{font-size:9px;font-weight:700;margin-left:2px}
+.sparkline{display:inline-flex;align-items:flex-end;gap:2px;height:20px;margin-left:6px}
+.sparkline .dot{width:8px;border-radius:2px;background:var(--accent)}
+.nota-final{display:inline-block;padding:3px 10px;border-radius:8px;font-weight:800;font-size:14px;color:#fff}
+
+.footer{text-align:center;padding:20px;color:var(--mid);font-size:10px;letter-spacing:1px}
+.live{background:var(--teal);color:#fff;font-size:9px;padding:2px 8px;border-radius:8px;font-weight:600}
+
+@media(max-width:768px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .bars{grid-template-columns:repeat(3,1fr)}
+  .exp-grid{grid-template-columns:repeat(2,1fr)}
+  .detail,.insight .boxes{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="teal">DESARROLLANDO ANDO · MODELO OPERATIVO DE VENTAS</div>
+    <h1>Clínica de Ventas — Dashboard ETB</h1>
+  </div>
+  <div style="text-align:right">
+    <div class="badge">AMÉRICAS BPS · EN SALA</div>
+    <div style="color:var(--mid);font-size:9px;margin-top:4px">
+      <span id="lastUpdate"></span> <span class="live">EN VIVO</span>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showView('resumen')">Resumen del grupo</div>
+  <div class="tab" onclick="showView('ranking')">Ranking</div>
+  <div class="tab" onclick="showView('evolucion')">Evolución por asesor</div>
+  <div class="tab" onclick="showView('experiencia')">Experiencia vs resultado</div>
+  <div class="tab" onclick="showView('individual')">Detalle individual</div>
+</div>
+
+<div class="container">
+  <div class="view active" id="v-resumen"></div>
+  <div class="view" id="v-ranking"></div>
+  <div class="view" id="v-evolucion"></div>
+  <div class="view" id="v-experiencia"></div>
+  <div class="view" id="v-individual"></div>
+</div>
+
+<div class="footer">
+  CONFIDENCIAL · AMÉRICAS BPS · DESARROLLANDO ANDO · 2026<br>
+  <span style="font-size:9px;color:#adb5bd">Retell webhook → Google Sheet → este dashboard (auto-refresh cada 5 min)</span>
+</div>
+
+<script>
+// ═══ DATA ═══
+// Estructura: cada persona puede tener múltiples intentos
+// intento = {fecha, p, e, c, ne, a, ce, t, res, dur, desc, fort, brecha}
+
+const ASESORES = [
+  {n:"Alejandro León",exp:"6m - 1 año",intentos:[
+    {fecha:"2026-08-21",p:3,e:2,c:3,ne:3,a:2,ce:2,t:2.5,res:"rechazo",dur:"4:12",desc:false,fort:"Se identificó bien.",brecha:"No exploró la situación del cliente."},
+    {fecha:"2026-08-23",p:4,e:4,c:4,ne:4,a:4,ce:3,t:3.8,res:"venta_aceptada",dur:"7:30",desc:true,fort:"Descubrió el descuento y lo usó como argumento.",brecha:"Mejorar recapitulación en el cierre."},
+    {fecha:"2026-08-24",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5.0,res:"venta_aceptada",dur:"9:52",desc:true,fort:"Explicó portabilidad y resolvió todas las objeciones con argumentos diferenciados.",brecha:"Podría profundizar más en beneficios personalizados según el uso del cliente."},
+  ]},
+  {n:"John Jairo Linares",exp:"> 1 año",intentos:[
+    {fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"10:15",desc:false,fort:"Buena apertura y manejo de objeciones.",brecha:"No descubrió el descuento."},
+    {fecha:"2026-08-24",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5.0,res:"venta_aceptada",dur:"8:56",desc:true,fort:"Explicó portabilidad y beneficios antes de presentar la oferta.",brecha:"Pedir confirmación explícita de aceptación antes de solicitar datos."},
+  ]},
+  {n:"Gustavo Zapata",exp:"> 1 año",intentos:[
+    {fecha:"2026-08-24",p:5,e:5,c:5,ne:5,a:3,ce:5,t:4.7,res:"venta_aceptada",dur:"10:03",desc:true,fort:"Exploró necesidades y explicó beneficios de forma clara y personalizada.",brecha:"Usar al menos tres argumentos distintos ante objeciones."},
+  ]},
+  {n:"Francys García",exp:"> 1 año",intentos:[
+    {fecha:"2026-08-24",p:5,e:3,c:5,ne:5,a:4,ce:5,t:4.5,res:"venta_aceptada",dur:"6:16",desc:false,fort:"Explicó el proceso de portabilidad y resolvió dudas.",brecha:"Indagar si el precio actual es promocional antes de presentar."},
+  ]},
+  {n:"Vanessa Alzate",exp:"< 6 meses",intentos:[
+    {fecha:"2026-08-22",p:3,e:2,c:3,ne:3,a:3,ce:2,t:2.7,res:"rechazo",dur:"5:40",desc:false,fort:"Buena disposición y tono amable.",brecha:"Explorar la situación del cliente antes de ofrecer."},
+    {fecha:"2026-08-24",p:4,e:4,c:4,ne:4,a:4,ce:4,t:4.0,res:"venta_aceptada",dur:"6:28",desc:true,fort:"Explicó beneficios y resolvió dudas sobre portabilidad.",brecha:"Mejorar naturalidad en el manejo de objeciones."},
+  ]},
+  {n:"Ghadyer Gómez",exp:"> 1 año",intentos:[
+    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"7:17",desc:false,fort:"Explicó beneficios y resolvió dudas sobre portabilidad.",brecha:"Indagar si el precio actual es promocional o tarifa plena."},
+  ]},
+  {n:"Andrés Nieto",exp:"> 1 año",intentos:[
+    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"11:03",desc:false,fort:"Explicó portabilidad y resolvió objeciones con argumentos diferenciados.",brecha:"Indagar si el precio actual es promocional antes de ofertar."},
+  ]},
+  {n:"David Muñoz",exp:"> 1 año",intentos:[
+    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"8:59",desc:false,fort:"Manejó objeciones con argumentos variados y explicó beneficios.",brecha:"Indagar si el precio actual es promocional antes de presentar."},
+  ]},
+  {n:"Andrés Torres",exp:"Sin exp.",intentos:[
+    {fecha:"2026-08-22",p:3,e:3,c:3,ne:3,a:3,ce:1,t:2.7,res:"rechazo",dur:"4:50",desc:false,fort:"Hizo preguntas antes de ofrecer.",brecha:"Intentar el cierre y recapitular condiciones."},
+    {fecha:"2026-08-24",p:4,e:4,c:4,ne:4,a:4,ce:2,t:3.7,res:"rechazo",dur:"6:57",desc:false,fort:"Exploró la situación y necesidades antes de ofrecer.",brecha:"Recapitular condiciones y obtener aceptación expresa."},
+  ]},
+  {n:"Brandon Rincón",exp:"6m - 1 año",intentos:[
+    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"7:59",desc:false,fort:"Explicó portabilidad y validó datos antes de avanzar.",brecha:"Profundizar en el origen del precio y descubrir si es promocional."},
+  ]},
+  {n:"Harold Romero",exp:"> 1 año",intentos:[
+    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"5:25",desc:false,fort:"Explicó portabilidad y beneficios del plan.",brecha:"Profundizar en el origen del precio y descubrir si es promocional."},
+  ]},
+  {n:"Morela Piña",exp:"> 1 año",intentos:[
+    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:4,ce:3,t:3.7,res:"rechazo",dur:"11:15",desc:false,fort:"Explicó portabilidad y resolvió dudas sobre permanencia.",brecha:"Indagar si el precio actual es promocional antes de argumentar."},
+  ]},
+  {n:"Germán Espinosa",exp:"> 1 año",intentos:[
+    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"8:25",desc:true,fort:"Explicó portabilidad y resolvió dudas sobre el número.",brecha:"Usar más argumentos diferenciados ante objeciones."},
+  ]},
+  {n:"Joseph Parra",exp:"6m - 1 año",intentos:[
+    {fecha:"2026-08-24",p:4,e:3,c:3,ne:3,a:3,ce:3,t:3.2,res:"rechazo",dur:"13:00",desc:false,fort:"Explicó portabilidad y ausencia de permanencia.",brecha:"Descubrir si el precio actual es promocional antes de presentar."},
+  ]},
+  {n:"Fredy Maldonado",exp:"> 1 año",intentos:[
+    {fecha:"2026-08-24",p:4,e:3,c:4,ne:3,a:3,ce:2,t:3.0,res:"rechazo",dur:"13:17",desc:true,fort:"Explicó portabilidad y beneficios del plan.",brecha:"Mejorar el cierre y personalizar argumentos ante objeciones."},
+  ]},
+  {n:"Cristian Cuervo",exp:"< 6 meses",intentos:[
+    {fecha:"2026-08-24",p:4,e:3,c:3,ne:3,a:2,ce:2,t:2.8,res:"rechazo",dur:"6:13",desc:false,fort:"Explicó portabilidad y resolvió la objeción del número.",brecha:"Conectar beneficios con necesidades específicas y argumentar con variedad."},
+  ]},
+];
+
+// ═══ HELPERS ═══
+const sc=(s)=>s>=5?'s5':s>=4?'s4':s>=3?'s3':'s2';
+const bc=(t)=>t>=4.5?'var(--green)':t>=3.5?'var(--accent)':t>=2.5?'var(--orange)':'var(--red)';
+const bn=(t)=>t>=4.5?'Experto':t>=3.5?'Buen vendedor':t>=2.5?'En desarrollo':'Reentrenar';
+const best=(a)=>a.intentos[a.intentos.length-1]; // último intento = mejor o más reciente
+const bestScore=(a)=>Math.max(...a.intentos.map(i=>i.t));
+const lastScore=(a)=>a.intentos[a.intentos.length-1].t;
+const avgScore=(a)=>(a.intentos.reduce((s,i)=>s+i.t,0)/a.intentos.length);
+const delta=(cur,prev)=>{
+  const d=cur-prev;
+  if(d>0) return `<span class="arrow-up">▲<span class="delta">+${d.toFixed(1)}</span></span>`;
+  if(d<0) return `<span class="arrow-down">▼<span class="delta">${d.toFixed(1)}</span></span>`;
+  return `<span class="arrow-same">●</span>`;
+};
+const notaFinal=(a)=>{
+  if(a.intentos.length===1) return a.intentos[0].t;
+  // Nota final: 40% mejor + 40% última + 20% promedio
+  const b=bestScore(a), l=lastScore(a), av=avgScore(a);
+  return Math.round((b*0.4+l*0.4+av*0.2)*10)/10;
+};
+const spark=(intentos)=>{
+  const max=5;
+  return `<span class="sparkline">${intentos.map(i=>`<span class="dot" style="height:${(i.t/max)*20}px;background:${bc(i.t)}"></span>`).join('')}</span>`;
+};
+const levels=[{k:'p',l:'Presentar'},{k:'e',l:'Explorar'},{k:'c',l:'Conectar'},{k:'ne',l:'Negociar'},{k:'a',l:'Argumentar'},{k:'ce',l:'Cerrar'}];
+
+// ═══ TABS ═══
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('v-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ═══ RENDER ═══
+function render(data){
+  const sorted=[...data].sort((a,b)=>notaFinal(b)-notaFinal(a));
+  const n=sorted.length;
+  const latest=sorted.map(a=>best(a));
+  const avgT=(k)=>(latest.reduce((s,d)=>s+d[k],0)/n).toFixed(1);
+  const ventas=latest.filter(d=>d.res==='venta_aceptada').length;
+  const desc=latest.filter(d=>d.desc).length;
+  const totalIntentos=data.reduce((s,a)=>s+a.intentos.length,0);
+
+  // ═══ RESUMEN ═══
+  document.getElementById('v-resumen').innerHTML=`
+    <div class="metrics">
+      <div class="metric"><div class="value" style="color:var(--accent)">${avgT('t')}</div><div class="label">Score promedio</div></div>
+      <div class="metric"><div class="value" style="color:var(--teal)">${n}</div><div class="label">Asesores</div></div>
+      <div class="metric"><div class="value" style="color:var(--green)">${ventas}</div><div class="label">Ventas</div></div>
+      <div class="metric"><div class="value" style="color:var(--orange)">${n-ventas}</div><div class="label">Rechazos</div></div>
+      <div class="metric"><div class="value" style="color:var(--purple)">${totalIntentos}</div><div class="label">Llamadas totales</div></div>
+    </div>
+    <div class="section">
+      <h2>Promedio por nivel</h2>
+      <div class="sub">Score promedio del último intento de cada asesor</div>
+      <div class="bars">${levels.map(lv=>{
+        const v=parseFloat(avgT(lv.k));
+        const h=v*32;
+        const col=v>=4?'var(--green)':v>=3.5?'var(--accent)':'var(--orange)';
+        return `<div class="bar-col"><div class="bar-val" style="color:${col}">${v}</div><div class="bar-wrap"><div class="bar" style="height:${h}px;background:${col}"></div></div><div class="bar-label">${lv.l}</div></div>`;
+      }).join('')}</div>
+    </div>
+    <div class="insight">
+      <h2>${n-desc} de ${n} asesores no descubrieron el descuento promocional</h2>
+      <p>El ${Math.round((n-desc)/n*100)}% del grupo compara su oferta contra un precio que no es real. No pueden usar el argumento más poderoso que tienen.</p>
+      <div class="boxes">
+        <div class="box tl"><h3>Lo que SÍ predice el resultado</h3><p>Descubrir el descuento. Los ${desc} que lo hicieron incluyen a los primeros del ranking.</p></div>
+        <div class="box or"><h3>Acción de formación</h3><p>Reforzar Nivel 2 (Explorar): ¿es tarifa plena? ¿tiene descuento? ¿desde cuándo? ¿cuándo se acaba?</p></div>
+      </div>
+    </div>`;
+
+  // ═══ RANKING ═══
+  document.getElementById('v-ranking').innerHTML=`
+    <div class="section">
+      <h2>Ranking — Nota final por asesor</h2>
+      <div class="sub">Nota final = 40% mejor intento + 40% último intento + 20% promedio · Banda: 4.5+ Experto · 3.5–4.4 Buen vendedor · 2.5–3.4 En desarrollo</div>
+      <div style="overflow-x:auto"><table><thead><tr>
+        <th>#</th><th>Asesor</th><th>Exp.</th>
+        ${levels.map(l=>`<th>${l.l}</th>`).join('')}
+        <th>Nota final</th><th>Intentos</th><th>Tendencia</th><th>Descuento</th><th>Resultado</th>
+      </tr></thead><tbody>
+      ${sorted.map((a,i)=>{
+        const d=best(a);
+        const nf=notaFinal(a);
+        return `<tr>
+          <td>${i+1}</td><td>${a.n}</td>
+          <td><span class="tag tag-e">${a.exp}</span></td>
+          ${levels.map(l=>`<td class="sc ${sc(d[l.k])}">${d[l.k]}</td>`).join('')}
+          <td><span class="sc" style="color:${bc(nf)};font-size:14px">${nf}</span></td>
+          <td>${a.intentos.length}</td>
+          <td>${spark(a.intentos)}</td>
+          <td>${d.desc?'✅':'—'}</td>
+          <td><span class="tag ${d.res==='venta_aceptada'?'tag-v':'tag-r'}">${d.res==='venta_aceptada'?'Venta':'Rechazo'}</span></td>
+        </tr>`;
+      }).join('')}
+      </tbody></table></div>
+    </div>`;
+
+  // ═══ EVOLUCIÓN ═══
+  const multiAttempt=sorted.filter(a=>a.intentos.length>1);
+  const singleAttempt=sorted.filter(a=>a.intentos.length===1);
+  document.getElementById('v-evolucion').innerHTML=`
+    <div class="section">
+      <h2>Evolución por asesor</h2>
+      <div class="sub">Asesores con múltiples intentos: cómo cambió su score en cada nivel entre llamadas</div>
+    </div>
+    ${multiAttempt.length===0?'<div class="section"><p style="color:var(--mid);text-align:center;padding:20px">Aún no hay asesores con más de un intento. Cuando repitan la clínica, aquí aparecerá su evolución.</p></div>':''}
+    ${multiAttempt.map(a=>{
+      const nf=notaFinal(a);
+      const intentos=a.intentos;
+      const first=intentos[0], last=intentos[intentos.length-1];
+      const mejoro=levels.filter(l=>last[l.k]>first[l.k]).map(l=>l.l);
+      const empeoro=levels.filter(l=>last[l.k]<first[l.k]).map(l=>l.l);
+      const igual=levels.filter(l=>last[l.k]===first[l.k]).map(l=>l.l);
+      
+      return `<div class="evo-card">
+        <div class="evo-header">
+          <div>
+            <span class="evo-name">${a.n}</span>
+            <span class="tag tag-e" style="margin-left:8px">${a.exp}</span>
+            <span style="margin-left:8px">${spark(intentos)}</span>
+          </div>
+          <div class="evo-final">Nota final: <strong style="color:${bc(nf)}">${nf}</strong>
+            <span class="tag" style="background:${bc(nf)};color:#fff;margin-left:6px">${bn(nf)}</span>
+          </div>
+        </div>
+        <table class="evo-table"><thead><tr>
+          <th style="text-align:left">Intento</th>
+          ${levels.map(l=>`<th>${l.l}</th>`).join('')}
+          <th>Total</th><th>Resultado</th><th style="text-align:left">Brecha principal</th>
+        </tr></thead><tbody>
+        ${intentos.map((int,idx)=>{
+          const prev=idx>0?intentos[idx-1]:null;
+          return `<tr>
+            <td>${int.fecha}</td>
+            ${levels.map(l=>`<td class="${sc(int[l.k])}">${int[l.k]} ${prev?delta(int[l.k],prev[l.k]):''}</td>`).join('')}
+            <td class="sc" style="color:${bc(int.t)}">${int.t} ${prev?delta(int.t,prev.t):''}</td>
+            <td><span class="tag ${int.res==='venta_aceptada'?'tag-v':'tag-r'}">${int.res==='venta_aceptada'?'Venta':'Rechazo'}</span></td>
+            <td>${int.brecha}</td>
+          </tr>`;
+        }).join('')}
+        </tbody></table>
+        <div style="margin-top:10px;font-size:11px">
+          ${mejoro.length?`<span style="color:var(--green)">▲ Mejoró en: <strong>${mejoro.join(', ')}</strong></span><br>`:''}
+          ${empeoro.length?`<span style="color:var(--red)">▼ Bajó en: <strong>${empeoro.join(', ')}</strong></span><br>`:''}
+          ${igual.length?`<span style="color:var(--mid)">● Igual en: ${igual.join(', ')}</span>`:''}
+        </div>
+      </div>`;
+    }).join('')}
+    ${singleAttempt.length?`
+    <div class="section">
+      <h2>Pendientes de segundo intento</h2>
+      <div class="sub">${singleAttempt.length} asesores con un solo intento — sin evolución disponible aún</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+        ${singleAttempt.map(a=>`<span style="background:var(--light);padding:4px 10px;border-radius:6px;font-size:11px;border:1px solid var(--border)">
+          ${a.n} <strong style="color:${bc(lastScore(a))}">${lastScore(a)}</strong>
+        </span>`).join('')}
+      </div>
+    </div>`:''}`;
+
+  // ═══ EXPERIENCIA ═══
+  const expGroups={};
+  sorted.forEach(a=>{if(!expGroups[a.exp])expGroups[a.exp]=[];expGroups[a.exp].push(a)});
+  const expOrder=["> 1 año","6m - 1 año","< 6 meses","Sin exp."];
+  const expColors=["var(--accent)","var(--teal)","var(--orange)","var(--purple)"];
+  document.getElementById('v-experiencia').innerHTML=`
+    <div class="section">
+      <h2>¿La experiencia predice el resultado?</h2>
+      <div class="sub">Comparación de nota final promedio por rango de experiencia declarada</div>
+      <div class="exp-grid">${expOrder.map((exp,i)=>{
+        const g=expGroups[exp]||[];if(!g.length)return'';
+        const ga=g.reduce((s,a)=>s+notaFinal(a),0)/g.length;
+        const gv=g.filter(a=>best(a).res==='venta_aceptada').length;
+        const gd=g.filter(a=>best(a).desc).length;
+        const bst=g.reduce((a,b)=>notaFinal(a)>notaFinal(b)?a:b);
+        const wst=g.reduce((a,b)=>notaFinal(a)<notaFinal(b)?a:b);
+        return `<div class="exp-card">
+          <div class="exp-head" style="background:${expColors[i]}">${exp} (${g.length})</div>
+          <div class="exp-body">
+            <div class="exp-score" style="color:${expColors[i]}">${ga.toFixed(1)}</div>
+            <div class="exp-sub">nota promedio</div>
+            <div class="exp-stats">${gv}/${g.length} ventas · ${gd}/${g.length} desc.</div>
+            <div style="font-size:9px;color:var(--green);margin-top:4px">Mejor: ${bst.n} ${notaFinal(bst)}</div>
+            ${g.length>1?`<div style="font-size:9px;color:var(--orange)">Menor: ${wst.n} ${notaFinal(wst)}</div>`:''}
+          </div></div>`;
+      }).join('')}</div>
+    </div>
+    <div class="insight">
+      <h2>Conclusión: la experiencia no predice el resultado</h2>
+      <p>El filtro debe ser la clínica de ventas, no la hoja de vida. La habilidad de explorar pesa más que los años.</p>
+    </div>`;
+
+  // ═══ INDIVIDUAL ═══
+  document.getElementById('v-individual').innerHTML=`
+    <div class="section">
+      <h2>Detalle individual</h2>
+      <div class="sub">Último intento · Virtudes, oportunidades de mejora y nota final</div>
+    </div>
+    <div class="detail">${sorted.map((a,i)=>{
+      const d=best(a);const nf=notaFinal(a);
+      return `<div class="dcard">
+        <div class="top">
+          <div><span style="color:var(--accent);font-weight:800;margin-right:4px">${i+1}</span><span class="nm">${a.n}</span></div>
+          <div class="ts" style="color:${bc(nf)}">${nf}</div>
+        </div>
+        <div style="font-size:10px;color:var(--mid)">${bn(nf)} · ${d.res==='venta_aceptada'?'✓ Venta':'✗ Rechazo'} · ${d.dur} · ${a.exp} ${d.desc?'· ✅':''}${a.intentos.length>1?' · '+a.intentos.length+' intentos '+spark(a.intentos):''}</div>
+        <div class="sr">${levels.map(l=>`<span style="color:${l.k==='e'&&d[l.k]<4?'var(--orange)':bc(d[l.k])}">${l.l.substring(0,3)}:${d[l.k]}</span>`).join('')}</div>
+        <div class="ft">✦ ${d.fort}</div>
+        <div class="br">△ ${d.brecha}</div>
+      </div>`;
+    }).join('')}</div>`;
+
+  document.getElementById('lastUpdate').textContent=new Date().toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'});
+}
+
+render(ASESORES);
+
+═══ AUTO-REFRESH desde Google Sheet ═══
+Descomentar cuando conectes:
+const SHEET_CSV = "https://docs.google.com/spreadsheets/d/1MAWA4zUE-2g_U_erGXhKoR_I_MaQDy72lUbYSKpsoW4/export?format=csv&gid=0";
+async function loadFromSheet(){...}
+setInterval(loadFromSheet, 300000);
+</script>
+</body>
+</html>
