@@ -132,21 +132,31 @@ tr:hover{background:#edf2fb}
   <div class="tab active" onclick="showView('resumen')">Resumen del grupo</div>
   <div class="tab" onclick="showView('ranking')">Ranking</div>
   <div class="tab" onclick="showView('evolucion')">Evolución por asesor</div>
-  <div class="tab" onclick="showView('experiencia')">Experiencia vs resultado</div>
+  
   <div class="tab" onclick="showView('individual')">Detalle individual</div>
+</div>
+
+<div style="background:#fff;border-bottom:1px solid var(--border);padding:10px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+  <span style="font-size:12px;font-weight:600;color:var(--dark)">Filtrar por fecha:</span>
+  <input type="date" id="filterFrom" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:Inter,sans-serif">
+  <span style="font-size:11px;color:var(--mid)">a</span>
+  <input type="date" id="filterTo" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:Inter,sans-serif">
+  <button onclick="applyFilter()" style="padding:6px 16px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">Aplicar</button>
+  <button onclick="clearFilter()" style="padding:6px 16px;background:var(--light);color:var(--dark);border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">Ver todo</button>
+  <span id="filterStatus" style="font-size:10px;color:var(--mid)"></span>
 </div>
 
 <div class="container">
   <div class="view active" id="v-resumen"></div>
   <div class="view" id="v-ranking"></div>
   <div class="view" id="v-evolucion"></div>
-  <div class="view" id="v-experiencia"></div>
+  
   <div class="view" id="v-individual"></div>
 </div>
 
 <div class="footer">
   CONFIDENCIAL · AMÉRICAS BPS · DESARROLLANDO ANDO · 2026<br>
-  <span style="font-size:9px;color:#adb5bd">Retell webhook → Google Sheet → este dashboard (auto-refresh cada 5 min)</span>
+  <span style="font-size:9px;color:#adb5bd">Uso restringido — Campaña ETB · Américas BPS</span>
 </div>
 
 <script>
@@ -156,57 +166,52 @@ tr:hover{background:#edf2fb}
 
 const ASESORES = [
   {n:"Alejandro León",exp:"6m - 1 año",intentos:[
-    {fecha:"2026-08-21",p:3,e:2,c:3,ne:3,a:2,ce:2,t:2.5,res:"rechazo",dur:"4:12",desc:false,fort:"Se identificó bien.",brecha:"No exploró la situación del cliente."},
-    {fecha:"2026-08-23",p:4,e:4,c:4,ne:4,a:4,ce:3,t:3.8,res:"venta_aceptada",dur:"7:30",desc:true,fort:"Descubrió el descuento y lo usó como argumento.",brecha:"Mejorar recapitulación en el cierre."},
-    {fecha:"2026-08-24",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5.0,res:"venta_aceptada",dur:"9:52",desc:true,fort:"Explicó portabilidad y resolvió todas las objeciones con argumentos diferenciados.",brecha:"Podría profundizar más en beneficios personalizados según el uso del cliente."},
+    {fecha:"2026-08-21",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5.0,res:"venta_aceptada",dur:"9:52",desc:true,completa:true,fort:"Explicó portabilidad y resolvió todas las objeciones con argumentos diferenciados.",brecha:"Podría profundizar más en beneficios personalizados según el uso del cliente."},
   ]},
   {n:"John Jairo Linares",exp:"> 1 año",intentos:[
-    {fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"10:15",desc:false,fort:"Buena apertura y manejo de objeciones.",brecha:"No descubrió el descuento."},
-    {fecha:"2026-08-24",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5.0,res:"venta_aceptada",dur:"8:56",desc:true,fort:"Explicó portabilidad y beneficios antes de presentar la oferta.",brecha:"Pedir confirmación explícita de aceptación antes de solicitar datos."},
+    {fecha:"2026-08-21",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5.0,res:"venta_aceptada",dur:"8:56",desc:true,completa:true,fort:"Explicó portabilidad y beneficios antes de presentar la oferta.",brecha:"Pedir confirmación explícita de aceptación antes de solicitar datos."},
   ]},
   {n:"Gustavo Zapata",exp:"> 1 año",intentos:[
-    {fecha:"2026-08-24",p:5,e:5,c:5,ne:5,a:3,ce:5,t:4.7,res:"venta_aceptada",dur:"10:03",desc:true,fort:"Exploró necesidades y explicó beneficios de forma clara y personalizada.",brecha:"Usar al menos tres argumentos distintos ante objeciones."},
+    {fecha:"2026-08-21",p:5,e:5,c:5,ne:5,a:3,ce:5,t:4.7,res:"venta_aceptada",dur:"10:03",desc:true,completa:true,fort:"Exploró necesidades y explicó beneficios de forma clara y personalizada.",brecha:"Usar al menos tres argumentos distintos ante objeciones."},
   ]},
   {n:"Francys García",exp:"> 1 año",intentos:[
-    {fecha:"2026-08-24",p:5,e:3,c:5,ne:5,a:4,ce:5,t:4.5,res:"venta_aceptada",dur:"6:16",desc:false,fort:"Explicó el proceso de portabilidad y resolvió dudas.",brecha:"Indagar si el precio actual es promocional antes de presentar."},
+    {fecha:"2026-08-21",p:5,e:3,c:5,ne:5,a:4,ce:5,t:4.5,res:"venta_aceptada",dur:"6:16",desc:false,completa:true,fort:"Explicó el proceso de portabilidad y resolvió dudas.",brecha:"Indagar si el precio actual es promocional antes de presentar."},
   ]},
   {n:"Vanessa Alzate",exp:"< 6 meses",intentos:[
-    {fecha:"2026-08-22",p:3,e:2,c:3,ne:3,a:3,ce:2,t:2.7,res:"rechazo",dur:"5:40",desc:false,fort:"Buena disposición y tono amable.",brecha:"Explorar la situación del cliente antes de ofrecer."},
-    {fecha:"2026-08-24",p:4,e:4,c:4,ne:4,a:4,ce:4,t:4.0,res:"venta_aceptada",dur:"6:28",desc:true,fort:"Explicó beneficios y resolvió dudas sobre portabilidad.",brecha:"Mejorar naturalidad en el manejo de objeciones."},
+    {fecha:"2026-08-21",p:4,e:4,c:4,ne:4,a:4,ce:4,t:4.0,res:"venta_aceptada",dur:"6:28",desc:true,completa:true,fort:"Explicó beneficios y resolvió dudas sobre portabilidad.",brecha:"Mejorar naturalidad en el manejo de objeciones."},
   ]},
   {n:"Ghadyer Gómez",exp:"> 1 año",intentos:[
-    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"7:17",desc:false,fort:"Explicó beneficios y resolvió dudas sobre portabilidad.",brecha:"Indagar si el precio actual es promocional o tarifa plena."},
+    {fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"7:17",desc:false,completa:true,completa:true,fort:"Explicó beneficios y resolvió dudas sobre portabilidad.",brecha:"Indagar si el precio actual es promocional o tarifa plena."},
   ]},
   {n:"Andrés Nieto",exp:"> 1 año",intentos:[
-    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"11:03",desc:false,fort:"Explicó portabilidad y resolvió objeciones con argumentos diferenciados.",brecha:"Indagar si el precio actual es promocional antes de ofertar."},
+    {fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"11:03",desc:false,completa:true,fort:"Explicó portabilidad y resolvió objeciones con argumentos diferenciados.",brecha:"Indagar si el precio actual es promocional antes de ofertar."},
   ]},
   {n:"David Muñoz",exp:"> 1 año",intentos:[
-    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"8:59",desc:false,fort:"Manejó objeciones con argumentos variados y explicó beneficios.",brecha:"Indagar si el precio actual es promocional antes de presentar."},
+    {fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"8:59",desc:false,completa:true,fort:"Manejó objeciones con argumentos variados y explicó beneficios.",brecha:"Indagar si el precio actual es promocional antes de presentar."},
   ]},
   {n:"Andrés Torres",exp:"Sin exp.",intentos:[
-    {fecha:"2026-08-22",p:3,e:3,c:3,ne:3,a:3,ce:1,t:2.7,res:"rechazo",dur:"4:50",desc:false,fort:"Hizo preguntas antes de ofrecer.",brecha:"Intentar el cierre y recapitular condiciones."},
-    {fecha:"2026-08-24",p:4,e:4,c:4,ne:4,a:4,ce:2,t:3.7,res:"rechazo",dur:"6:57",desc:false,fort:"Exploró la situación y necesidades antes de ofrecer.",brecha:"Recapitular condiciones y obtener aceptación expresa."},
+    {fecha:"2026-08-21",p:4,e:4,c:4,ne:4,a:4,ce:2,t:3.7,res:"rechazo",dur:"6:57",desc:false,completa:true,fort:"Exploró la situación y necesidades antes de ofrecer.",brecha:"Recapitular condiciones y obtener aceptación expresa."},
   ]},
   {n:"Brandon Rincón",exp:"6m - 1 año",intentos:[
-    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"7:59",desc:false,fort:"Explicó portabilidad y validó datos antes de avanzar.",brecha:"Profundizar en el origen del precio y descubrir si es promocional."},
+    {fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"7:59",desc:false,completa:true,fort:"Explicó portabilidad y validó datos antes de avanzar.",brecha:"Profundizar en el origen del precio y descubrir si es promocional."},
   ]},
   {n:"Harold Romero",exp:"> 1 año",intentos:[
-    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"5:25",desc:false,fort:"Explicó portabilidad y beneficios del plan.",brecha:"Profundizar en el origen del precio y descubrir si es promocional."},
+    {fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"5:25",desc:false,completa:true,fort:"Explicó portabilidad y beneficios del plan.",brecha:"Profundizar en el origen del precio y descubrir si es promocional."},
   ]},
   {n:"Morela Piña",exp:"> 1 año",intentos:[
-    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:4,ce:3,t:3.7,res:"rechazo",dur:"11:15",desc:false,fort:"Explicó portabilidad y resolvió dudas sobre permanencia.",brecha:"Indagar si el precio actual es promocional antes de argumentar."},
+    {fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:3,t:3.7,res:"rechazo",dur:"11:15",desc:false,completa:true,fort:"Explicó portabilidad y resolvió dudas sobre permanencia.",brecha:"Indagar si el precio actual es promocional antes de argumentar."},
   ]},
   {n:"Germán Espinosa",exp:"> 1 año",intentos:[
-    {fecha:"2026-08-24",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"8:25",desc:true,fort:"Explicó portabilidad y resolvió dudas sobre el número.",brecha:"Usar más argumentos diferenciados ante objeciones."},
+    {fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"8:25",desc:true,completa:true,fort:"Explicó portabilidad y resolvió dudas sobre el número.",brecha:"Usar más argumentos diferenciados ante objeciones."},
   ]},
   {n:"Joseph Parra",exp:"6m - 1 año",intentos:[
-    {fecha:"2026-08-24",p:4,e:3,c:3,ne:3,a:3,ce:3,t:3.2,res:"rechazo",dur:"13:00",desc:false,fort:"Explicó portabilidad y ausencia de permanencia.",brecha:"Descubrir si el precio actual es promocional antes de presentar."},
+    {fecha:"2026-08-21",p:4,e:3,c:3,ne:3,a:3,ce:3,t:3.2,res:"rechazo",dur:"13:00",desc:false,completa:true,fort:"Explicó portabilidad y ausencia de permanencia.",brecha:"Descubrir si el precio actual es promocional antes de presentar."},
   ]},
   {n:"Fredy Maldonado",exp:"> 1 año",intentos:[
-    {fecha:"2026-08-24",p:4,e:3,c:4,ne:3,a:3,ce:2,t:3.0,res:"rechazo",dur:"13:17",desc:true,fort:"Explicó portabilidad y beneficios del plan.",brecha:"Mejorar el cierre y personalizar argumentos ante objeciones."},
+    {fecha:"2026-08-21",p:4,e:3,c:4,ne:3,a:3,ce:2,t:3.0,res:"rechazo",dur:"13:17",desc:true,completa:true,fort:"Explicó portabilidad y beneficios del plan.",brecha:"Mejorar el cierre y personalizar argumentos ante objeciones."},
   ]},
   {n:"Cristian Cuervo",exp:"< 6 meses",intentos:[
-    {fecha:"2026-08-24",p:4,e:3,c:3,ne:3,a:2,ce:2,t:2.8,res:"rechazo",dur:"6:13",desc:false,fort:"Explicó portabilidad y resolvió la objeción del número.",brecha:"Conectar beneficios con necesidades específicas y argumentar con variedad."},
+    {fecha:"2026-08-21",p:4,e:3,c:3,ne:3,a:2,ce:2,t:2.8,res:"rechazo",dur:"6:13",desc:false,completa:true,fort:"Explicó portabilidad y resolvió la objeción del número.",brecha:"Conectar beneficios con necesidades específicas y argumentar con variedad."},
   ]},
 ];
 
@@ -290,7 +295,7 @@ function render(data){
       <div style="overflow-x:auto"><table><thead><tr>
         <th>#</th><th>Asesor</th><th>Exp.</th>
         ${levels.map(l=>`<th>${l.l}</th>`).join('')}
-        <th>Nota final</th><th>Intentos</th><th>Tendencia</th><th>Descuento</th><th>Resultado</th>
+        <th>Nota final</th><th>Intentos</th><th>Tendencia</th><th>Llamada</th><th>Descuento</th><th>Resultado</th>
       </tr></thead><tbody>
       ${sorted.map((a,i)=>{
         const d=best(a);
@@ -302,6 +307,7 @@ function render(data){
           <td><span class="sc" style="color:${bc(nf)};font-size:14px">${nf}</span></td>
           <td>${a.intentos.length}</td>
           <td>${spark(a.intentos)}</td>
+          <td>${d.completa?'<span class="tag" style="background:#d1fae5;color:var(--green)">Completa</span>':'<span class="tag" style="background:#fed7aa;color:var(--orange)">Incompleta</span>'}</td>
           <td>${d.desc?'✅':'—'}</td>
           <td><span class="tag ${d.res==='venta_aceptada'?'tag-v':'tag-r'}">${d.res==='venta_aceptada'?'Venta':'Rechazo'}</span></td>
         </tr>`;
@@ -340,7 +346,7 @@ function render(data){
         <table class="evo-table"><thead><tr>
           <th style="text-align:left">Intento</th>
           ${levels.map(l=>`<th>${l.l}</th>`).join('')}
-          <th>Total</th><th>Resultado</th><th style="text-align:left">Brecha principal</th>
+          <th>Total</th><th>Llamada</th><th>Resultado</th><th style="text-align:left">Brecha principal</th>
         </tr></thead><tbody>
         ${intentos.map((int,idx)=>{
           const prev=idx>0?intentos[idx-1]:null;
@@ -348,6 +354,7 @@ function render(data){
             <td>${int.fecha}</td>
             ${levels.map(l=>`<td class="${sc(int[l.k])}">${int[l.k]} ${prev?delta(int[l.k],prev[l.k]):''}</td>`).join('')}
             <td class="sc" style="color:${bc(int.t)}">${int.t} ${prev?delta(int.t,prev.t):''}</td>
+            <td style="font-size:10px;color:${int.completa?'var(--green)':'var(--orange)'}">${int.completa?'Completa':'Incompleta'}</td>
             <td><span class="tag ${int.res==='venta_aceptada'?'tag-v':'tag-r'}">${int.res==='venta_aceptada'?'Venta':'Rechazo'}</span></td>
             <td>${int.brecha}</td>
           </tr>`;
@@ -398,10 +405,7 @@ function render(data){
           </div></div>`;
       }).join('')}</div>
     </div>
-    <div class="insight">
-      <h2>Conclusión: la experiencia no predice el resultado</h2>
-      <p>El filtro debe ser la clínica de ventas, no la hoja de vida. La habilidad de explorar pesa más que los años.</p>
-    </div>`;
+
 
   // ═══ INDIVIDUAL ═══
   document.getElementById('v-individual').innerHTML=`
@@ -416,7 +420,7 @@ function render(data){
           <div><span style="color:var(--accent);font-weight:800;margin-right:4px">${i+1}</span><span class="nm">${a.n}</span></div>
           <div class="ts" style="color:${bc(nf)}">${nf}</div>
         </div>
-        <div style="font-size:10px;color:var(--mid)">${bn(nf)} · ${d.res==='venta_aceptada'?'✓ Venta':'✗ Rechazo'} · ${d.dur} · ${a.exp} ${d.desc?'· ✅':''}${a.intentos.length>1?' · '+a.intentos.length+' intentos '+spark(a.intentos):''}</div>
+        <div style="font-size:10px;color:var(--mid)">${bn(nf)} · ${d.res==='venta_aceptada'?'✓ Venta':'✗ Rechazo'} · ${d.dur} · ${a.exp} ${d.completa?'· ✓ Completa':'· ✗ Incompleta'} ${d.desc?'· ✅ Descuento':''}${a.intentos.length>1?' · '+a.intentos.length+' intentos '+spark(a.intentos):''}</div>
         <div class="sr">${levels.map(l=>`<span style="color:${l.k==='e'&&d[l.k]<4?'var(--orange)':bc(d[l.k])}">${l.l.substring(0,3)}:${d[l.k]}</span>`).join('')}</div>
         <div class="ft">✦ ${d.fort}</div>
         <div class="br">△ ${d.brecha}</div>
@@ -425,6 +429,60 @@ function render(data){
 
   document.getElementById('lastUpdate').textContent=new Date().toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'});
 }
+
+// ═══ FILTRO POR FECHA ═══
+let currentData = ASESORES;
+
+function filterByDate(data, from, to) {
+  if (!from && !to) return data;
+  return data.map(a => {
+    const filtered = a.intentos.filter(i => {
+      if (!i.fecha) return true;
+      const f = i.fecha;
+      if (from && f < from) return false;
+      if (to && f > to) return false;
+      return true;
+    });
+    if (filtered.length === 0) return null;
+    return { ...a, intentos: filtered };
+  }).filter(a => a !== null);
+}
+
+function applyFilter() {
+  const from = document.getElementById('filterFrom').value;
+  const to = document.getElementById('filterTo').value;
+  const filtered = filterByDate(ASESORES, from, to);
+  currentData = filtered;
+  render(filtered);
+
+  // Status message
+  const total = filtered.reduce((s, a) => s + a.intentos.length, 0);
+  let msg = '';
+  if (from && to) msg = `Mostrando llamadas del ${from} al ${to}`;
+  else if (from) msg = `Mostrando llamadas desde ${from}`;
+  else if (to) msg = `Mostrando llamadas hasta ${to}`;
+  msg += ` · ${filtered.length} asesores · ${total} llamadas`;
+  document.getElementById('filterStatus').textContent = msg;
+}
+
+function clearFilter() {
+  document.getElementById('filterFrom').value = '';
+  document.getElementById('filterTo').value = '';
+  currentData = ASESORES;
+  render(ASESORES);
+  document.getElementById('filterStatus').textContent = '';
+}
+
+// Set default dates
+(function() {
+  const dates = [];
+  ASESORES.forEach(a => a.intentos.forEach(i => { if(i.fecha) dates.push(i.fecha); }));
+  if (dates.length > 0) {
+    dates.sort();
+    document.getElementById('filterFrom').value = dates[0];
+    document.getElementById('filterTo').value = dates[dates.length - 1];
+  }
+})();
 
 render(ASESORES);
 
@@ -488,6 +546,7 @@ async function loadFromSheet() {
         dur: get("duracion"),
         desc: get("descuento") === "true" || get("descuento") === "TRUE" || get("descuento") === "1",
         fort: get("fortaleza"),
+        completa: get("completa") === "true" || get("completa") === "TRUE" || get("completa") === "Sí" || get("completa") === "1",
         brecha: get("brecha")
       });
     });
