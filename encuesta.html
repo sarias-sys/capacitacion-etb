@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuéntanos qué pasó — Americas BPS · Campaña ETB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1F3A;--navy-2:#132B4D;--navy-3:#0F2444;--teal:#00C2B2;--white:#FFF;
+--grey:#9BA9BD;--lgrey:#D6DEE8;--green:#3DD68C;--amber:#FFB84D}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',system-ui,sans-serif;background:var(--navy);color:var(--white);
+line-height:1.55;-webkit-font-smoothing:antialiased;padding:0 0 60px}
+.topbar{height:6px;background:var(--teal)}
+.wrap{max-width:600px;margin:0 auto;padding:0 20px}
+header{padding:38px 0 22px}
+.eyebrow{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.16em;
+text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+h1{font-size:28px;font-weight:700;line-height:1.2;letter-spacing:-.01em}
+h1 .accent{color:var(--teal)}
+.sub{margin-top:14px;color:var(--lgrey);font-size:15px}
+.tranqui{margin-top:18px;background:var(--navy-2);border-left:3px solid var(--teal);
+border-radius:6px;padding:16px 18px;font-size:14px;color:var(--lgrey)}
+.tranqui b{color:var(--white);font-weight:600}
+
+.grupo{margin-top:28px}
+.grupo h2{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.14em;
+text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:14px}
+.op{display:flex;gap:13px;align-items:flex-start;padding:15px 16px;margin-bottom:9px;
+background:var(--navy-2);border:1px solid rgba(255,255,255,.10);border-radius:6px;
+cursor:pointer;transition:border-color .15s,background .15s}
+.op:hover{border-color:rgba(0,194,178,.5)}
+.op:has(input:checked){border-color:var(--teal);background:rgba(0,194,178,.09)}
+.op input{appearance:none;-webkit-appearance:none;width:20px;height:20px;flex-shrink:0;
+margin-top:2px;border:2px solid var(--grey);border-radius:50%;cursor:pointer;position:relative}
+.op input:checked{border-color:var(--teal)}
+.op input:checked::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--teal)}
+.op input:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.op .txt strong{display:block;font-size:14.5px;font-weight:600;margin-bottom:2px}
+.op .txt span{font-size:12.5px;color:var(--grey);line-height:1.45}
+
+#otro{margin-top:10px;display:none}
+#otro.visible{display:block;animation:sube .25s ease-out}
+#condicional{display:none;margin-top:12px;background:rgba(0,194,178,.08);
+border:1px solid rgba(0,194,178,.32);border-radius:6px;padding:18px 19px}
+#condicional.visible{display:block;animation:sube .3s ease-out}
+#condicional .preg{font-size:15px;font-weight:600;line-height:1.45;margin-bottom:6px}
+#condicional .nota{font-size:12.5px;color:var(--grey);margin-bottom:14px;line-height:1.45}
+textarea{width:100%;padding:13px 14px;background:var(--navy-3);
+border:1px solid rgba(255,255,255,.14);border-radius:5px;color:var(--white);
+font-family:'Poppins',sans-serif;font-size:15px;min-height:92px;resize:vertical}
+textarea::placeholder{color:#5E7089}
+textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,194,178,.16)}
+
+.extra{margin-top:26px;background:var(--navy-2);border-radius:6px;padding:18px 19px}
+.extra p{font-size:14.5px;font-weight:600;margin-bottom:13px}
+.mini{display:flex;gap:9px;flex-wrap:wrap}
+.mini label{flex:1;min-width:120px;margin:0}
+.mini .op{padding:12px 13px;margin:0}
+.mini .op .txt strong{font-size:13.5px;margin:0}
+
+button{width:100%;padding:16px;margin-top:26px;background:var(--teal);color:var(--navy);
+border:none;border-radius:5px;font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;
+cursor:pointer;transition:background .15s,transform .08s}
+button:hover{background:#00D9C7}
+button:active{transform:translateY(1px)}
+button:disabled{background:#2A4460;color:#6C7F96;cursor:not-allowed}
+.error{display:none;margin-top:14px;padding:12px 14px;background:rgba(255,184,77,.12);
+border-left:3px solid var(--amber);border-radius:4px;font-size:13.5px}
+.error.visible{display:block}
+.pie{margin-top:22px;text-align:center;font-size:12.5px;color:var(--grey);line-height:1.6}
+
+#gracias{display:none;padding:60px 0 20px;text-align:center}
+#gracias.visible{display:block;animation:sube .4s ease-out}
+@keyframes sube{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.check{width:66px;height:66px;margin:0 auto 24px;border-radius:50%;
+background:rgba(61,214,140,.14);border:2px solid var(--green);
+display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--green)}
+#gracias h2{font-size:25px;font-weight:700;margin-bottom:14px}
+#gracias p{color:var(--lgrey);font-size:15.5px;max-width:430px;margin:0 auto}
+
+@media (max-width:520px){header{padding:28px 0 18px}h1{font-size:23px}
+.op{padding:13px 14px}.mini label{min-width:100%}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="wrap">
+
+<div id="vista">
+  <header>
+    <div class="eyebrow">Americas BPS · Campaña ETB</div>
+    <h1>Cuéntanos <span class="accent">qué pasó</span></h1>
+    <p class="sub">Te enviamos la citación para el inicio de la capacitación, pero no pudiste acompañarnos.
+      Queremos entender por qué, para mejorar nuestro proceso.</p>
+    <div class="tranqui">
+      <b>Tranquilo, no pasa nada.</b> Entendemos que surgen imprevistos.
+      Tu respuesta <b>no afecta tu postulación</b>, así que puedes ser totalmente sincero.
+      Toma menos de un minuto.
+    </div>
+  </header>
+
+  <div class="grupo">
+    <h2>Por las condiciones de la oferta</h2>
+
+    <label class="op"><input type="radio" name="motivo" value="No quería arriesgar 9 días sin contrato">
+      <span class="txt"><strong>No quería arriesgar los 9 días sin contrato</strong>
+      <span>Si no aprobaba, perdía el tiempo y el dinero invertido</span></span></label>
+
+    <div id="condicional">
+      <p class="preg">Si te firmáramos <strong>contrato desde el primer día</strong> de capacitación, ¿asistirías a una próxima citación?</p>
+      <p class="nota">Con sueldo y prestaciones desde el día 1, sin condicionar el pago a aprobar la formación.</p>
+      <label class="op"><input type="radio" name="condicional" value="Sí, asistiría">
+        <span class="txt"><strong>Sí, asistiría sin dudarlo</strong></span></label>
+      <label class="op"><input type="radio" name="condicional" value="Sí, pero dependería de otras cosas">
+        <span class="txt"><strong>Sí, pero dependería de otras cosas</strong>
+        <span>Horario, ubicación u otro factor</span></span></label>
+      <label class="op"><input type="radio" name="condicional" value="No, igual no asistiría">
+        <span class="txt"><strong>No, igual no asistiría</strong></span></label>
+    </div>
+
+    <label class="op"><input type="radio" name="motivo" value="No me alcanzaba para el transporte">
+      <span class="txt"><strong>No me alcanzaba para el transporte esos días</strong>
+      <span>Los pasajes y el almuerzo durante la formación</span></span></label>
+
+    <label class="op"><input type="radio" name="motivo" value="La capacitación es muy larga">
+      <span class="txt"><strong>La capacitación me pareció muy larga</strong>
+      <span>9 días de 8:00 a.m. a 5:00 p.m.</span></span></label>
+
+    <label class="op"><input type="radio" name="motivo" value="El horario o los turnos no me sirven">
+      <span class="txt"><strong>El horario o los turnos no me sirven</strong>
+      <span>Turnos rotativos, domingos o jornada completa</span></span></label>
+
+    <label class="op"><input type="radio" name="motivo" value="El salario no era lo que esperaba">
+      <span class="txt"><strong>El salario no era lo que esperaba</strong>
+      <span>Incluyendo el esquema de comisiones</span></span></label>
+
+    <label class="op"><input type="radio" name="motivo" value="Buscaba trabajo remoto">
+      <span class="txt"><strong>Buscaba un trabajo remoto o híbrido</strong>
+      <span>No me sirve que sea 100% presencial</span></span></label>
+  </div>
+
+  <div class="grupo">
+    <h2>Por algo que pasó ese día</h2>
+
+    <label class="op"><input type="radio" name="motivo" value="La sede me queda muy lejos">
+      <span class="txt"><strong>La sede me queda muy lejos</strong>
+      <span>Por la distancia desde donde vivo</span></span></label>
+
+    <label class="op"><input type="radio" name="motivo" value="No encontré la sede o llegué tarde">
+      <span class="txt"><strong>No encontré la sede o llegué tarde</strong>
+      <span>Tráfico, me perdí o un imprevisto en el camino</span></span></label>
+
+    <label class="op"><input type="radio" name="motivo" value="Emergencia de salud o familiar">
+      <span class="txt"><strong>Tuve una emergencia de salud o familiar</strong>
+      <span>Algo personal que no pude evitar</span></span></label>
+
+    <label class="op"><input type="radio" name="motivo" value="Problema con mi documento">
+      <span class="txt"><strong>Tuve un problema con mi documento</strong>
+      <span>No tenía la cédula original en físico</span></span></label>
+
+    <label class="op"><input type="radio" name="motivo" value="Conseguí otro trabajo">
+      <span class="txt"><strong>Conseguí otro trabajo</strong>
+      <span>Ya estoy vinculado en otro lugar</span></span></label>
+
+    <label class="op"><input type="radio" name="motivo" value="Otro motivo" id="rOtro">
+      <span class="txt"><strong>Otro motivo</strong>
+      <span>Cuéntanos con tus palabras</span></span></label>
+
+    <div id="otro">
+      <textarea id="txtOtro" placeholder="¿Qué ocurrió? Escríbelo aquí…"></textarea>
+    </div>
+  </div>
+
+  <div class="extra">
+    <p>Una última cosa: ¿te interesaría un próximo grupo?</p>
+    <div class="mini">
+      <label class="op"><input type="radio" name="interes" value="Sí">
+        <span class="txt"><strong>Sí, avísenme</strong></span></label>
+      <label class="op"><input type="radio" name="interes" value="No">
+        <span class="txt"><strong>No, gracias</strong></span></label>
+    </div>
+  </div>
+
+  <button id="enviar">Enviar mi respuesta</button>
+  <div class="error" id="err"></div>
+
+  <p class="pie">Americas BPS · Gracias por ayudarnos a mejorar</p>
+</div>
+
+<div id="gracias">
+  <div class="check">✓</div>
+  <h2>¡Gracias por contarnos!</h2>
+  <p>Tu respuesta nos ayuda a mejorar el proceso para quienes vienen después.
+     Te deseamos mucho éxito. 🙏</p>
+</div>
+
+</div>
+
+<script>
+// Pega aquí la URL de tu Apps Script. Si la dejas vacía, las respuestas
+// se guardan en el navegador; descárgalas con descargarRespuestas()
+const ENDPOINT = "";
+
+const rOtro  = document.getElementById('rOtro');
+const cond   = document.getElementById('condicional');
+const cajaOtro = document.getElementById('otro');
+const err    = document.getElementById('err');
+const boton  = document.getElementById('enviar');
+
+document.querySelectorAll('input[name="motivo"]').forEach(r => {
+  r.addEventListener('change', () => {
+    cajaOtro.classList.toggle('visible', rOtro.checked);
+    if (rOtro.checked) document.getElementById('txtOtro').focus();
+    const esRiesgo = r.value === 'No quería arriesgar 9 días sin contrato' && r.checked;
+    cond.classList.toggle('visible', esRiesgo);
+    if (!esRiesgo) document.querySelectorAll('input[name="condicional"]').forEach(x => x.checked = false);
+    err.classList.remove('visible');
+  });
+});
+
+boton.addEventListener('click', async () => {
+  err.classList.remove('visible');
+  const sel = document.querySelector('input[name="motivo"]:checked');
+  const otro = document.getElementById('txtOtro').value.trim();
+  const interes = document.querySelector('input[name="interes"]:checked');
+  const condSel = document.querySelector('input[name="condicional"]:checked');
+
+  if (!sel) {
+    err.textContent = 'Selecciona el motivo que más se acerque a tu caso.';
+    err.classList.add('visible');
+    window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'});
+    return;
+  }
+  if (sel.value === 'No quería arriesgar 9 días sin contrato' && !condSel) {
+    err.textContent = 'Respóndenos la pregunta sobre el contrato desde el primer día.';
+    err.classList.add('visible');
+    cond.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  if (sel.value === 'Otro motivo' && otro.length < 5) {
+    err.textContent = 'Cuéntanos brevemente qué ocurrió.';
+    err.classList.add('visible');
+    return;
+  }
+
+  const datos = {
+    motivo: sel.value,
+    detalle: otro,
+    si_contrato_dia_1: condSel ? condSel.value : '',
+    interes_proximo_grupo: interes ? interes.value : '',
+    fecha: new Date().toISOString()
+  };
+
+  boton.disabled = true; boton.textContent = 'Enviando…';
+  try {
+    if (ENDPOINT) {
+      await fetch(ENDPOINT, {method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'application/json'}, body: JSON.stringify(datos)});
+    } else {
+      const prev = JSON.parse(localStorage.getItem('encuesta_etb') || '[]');
+      prev.push(datos);
+      localStorage.setItem('encuesta_etb', JSON.stringify(prev));
+    }
+    document.getElementById('vista').style.display = 'none';
+    document.getElementById('gracias').classList.add('visible');
+    window.scrollTo({top:0, behavior:'smooth'});
+  } catch (e) {
+    boton.disabled = false; boton.textContent = 'Enviar mi respuesta';
+    err.textContent = 'No pudimos registrar tu respuesta. Intenta de nuevo en unos segundos.';
+    err.classList.add('visible');
+  }
+});
+
+function descargarRespuestas(){
+  const d = JSON.parse(localStorage.getItem('encuesta_etb') || '[]');
+  if (!d.length) return console.log('No hay respuestas.');
+  const cols = ['fecha','motivo','detalle','si_contrato_dia_1','interes_proximo_grupo'];
+  const csv = [cols.join(';')].concat(d.map(r => cols.map(c => `"${r[c]||''}"`).join(';'))).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'}));
+  a.download = 'encuesta_inasistencia_etb.csv';
+  a.click();
+}
+window.descargarRespuestas = descargarRespuestas;
+</script>
+</body>
+</html>
