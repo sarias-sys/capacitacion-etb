@@ -7,325 +7,468 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--dark:#0f1b2d;--dark2:#172338;--teal:#2ec4b6;--accent:#4361ee;--mid:#6c757d;--light:#f8f9fa;--border:#dee2e6;--green:#059669;--red:#dc2626;--orange:#d97706;--purple:#7c3aed}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--light);color:#212529;line-height:1.5}
-.header{background:var(--dark);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.header h1{color:#fff;font-size:18px;font-weight:700}
-.header .badge{border:1px solid var(--mid);border-radius:20px;padding:4px 14px;color:var(--mid);font-size:10px;font-weight:600;letter-spacing:1px}
-.header .teal{color:var(--teal);font-size:10px;font-weight:600;letter-spacing:2px}
-.tabs{background:#fff;border-bottom:2px solid var(--border);display:flex;gap:0;overflow-x:auto}
-.tab{padding:12px 24px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--mid);transition:all 0.2s;white-space:nowrap}
-.tab:hover{color:var(--dark)}.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.container{max-width:1200px;margin:0 auto;padding:24px}
-.view{display:none}.view.active{display:block}
-.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
-.metric{background:#fff;border-radius:10px;padding:16px;text-align:center;border:1px solid var(--border)}
-.metric .value{font-size:30px;font-weight:800;line-height:1}
-.metric .label{font-size:10px;color:var(--mid);margin-top:3px;text-transform:uppercase;letter-spacing:0.5px}
-.section{background:#fff;border-radius:10px;padding:20px;margin-bottom:20px;border:1px solid var(--border)}
-.section h2{font-size:15px;font-weight:700;margin-bottom:2px}
-.section .sub{font-size:11px;color:var(--mid);margin-bottom:14px}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{background:var(--dark);color:#fff;padding:7px 8px;text-align:center;font-weight:600;font-size:10px}
-th:nth-child(1),th:nth-child(2),th:nth-child(3){text-align:left}
-td{padding:6px 8px;border-bottom:1px solid var(--border);text-align:center}
-td:nth-child(1){font-weight:700;color:var(--accent);width:28px}
-td:nth-child(2){text-align:left;font-weight:600}
-td:nth-child(3){text-align:left;font-size:10px;color:var(--mid)}
-tr:nth-child(even){background:var(--light)}tr:hover{background:#edf2fb}
-.sc{font-weight:700}.s5,.s4{color:var(--green)}.s3{color:var(--orange)}.s2,.s1{color:var(--red)}
-.tag{display:inline-block;padding:2px 7px;border-radius:8px;font-size:9px;font-weight:600}
-.tag-v{background:#d1fae5;color:var(--green)}.tag-r{background:#fed7aa;color:var(--orange)}.tag-e{background:#e0e7ff;color:var(--accent)}
-.bars{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:16px 0}
-.bar-col{text-align:center}.bar-wrap{height:160px;display:flex;align-items:flex-end;justify-content:center}
-.bar{width:44px;border-radius:5px 5px 0 0;transition:height 0.6s}
-.bar-val{font-size:16px;font-weight:800;margin-bottom:3px}.bar-label{font-size:10px;font-weight:600;color:var(--dark);margin-top:4px}
-.insight{background:var(--dark);border-radius:10px;padding:20px;margin-bottom:20px;color:#fff}
-.insight h2{color:var(--teal);font-size:16px;margin-bottom:6px}
-.insight p{color:#adb5bd;font-size:12px;line-height:1.5}
-.insight .boxes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.insight .box{background:var(--dark2);border:1px solid #2a3a52;border-radius:8px;padding:14px}
-.insight .box h3{font-size:11px;font-weight:700;margin-bottom:4px}
-.insight .box.tl h3{color:var(--teal)}.insight .box.or h3{color:var(--orange)}
-.insight .box p{font-size:10px}
-.detail{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
-.dcard{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;transition:transform 0.2s}
-.dcard:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,0.06)}
-.dcard .top{display:flex;justify-content:space-between;align-items:center}
-.dcard .nm{font-weight:700;font-size:13px}.dcard .ts{font-size:22px;font-weight:800}
-.dcard .sr{display:flex;gap:6px;margin:6px 0;font-size:10px;font-weight:600}
-.dcard .ft{font-size:10px;color:var(--green);margin-top:4px}.dcard .br{font-size:10px;color:var(--orange);margin-top:2px}
-.evo-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px}
-.evo-card .evo-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.evo-card .evo-name{font-weight:700;font-size:14px}
-.evo-table{width:100%;border-collapse:collapse;font-size:11px}
-.evo-table th{background:var(--light);color:var(--dark);font-size:9px;padding:5px 6px;border-bottom:1px solid var(--border)}
-.evo-table td{padding:5px 6px;border-bottom:1px solid #f0f0f0;text-align:center}
-.evo-table td:first-child{text-align:left;font-weight:600;color:var(--accent)}
-.evo-table td:last-child{text-align:left;font-size:10px;color:var(--mid)}
-.arrow-up{color:var(--green);font-weight:700}.arrow-down{color:var(--red);font-weight:700}.arrow-same{color:var(--mid)}
-.delta{font-size:9px;font-weight:700;margin-left:2px}
-.sparkline{display:inline-flex;align-items:flex-end;gap:2px;height:20px;margin-left:6px}
-.sparkline .dot{width:8px;border-radius:2px;background:var(--accent)}
-.footer{text-align:center;padding:20px;color:var(--mid);font-size:10px;letter-spacing:1px}
-.live{background:var(--teal);color:#fff;font-size:9px;padding:2px 8px;border-radius:8px;font-weight:600}
-@media(max-width:768px){.metrics{grid-template-columns:repeat(2,1fr)}.bars{grid-template-columns:repeat(3,1fr)}.detail,.insight .boxes{grid-template-columns:1fr}}
+:root{--dk:#0f1b2d;--dk2:#172338;--tl:#2ec4b6;--ac:#4361ee;--md:#6c757d;--lt:#f8f9fa;--bd:#dee2e6;--gn:#059669;--rd:#dc2626;--or:#d97706;--pr:#7c3aed}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--lt);color:#212529;line-height:1.5}
+.hd{background:var(--dk);padding:18px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.hd h1{color:#fff;font-size:17px;font-weight:700}.hd .tl{color:var(--tl);font-size:10px;font-weight:600;letter-spacing:2px}
+.hd .bg{border:1px solid var(--md);border-radius:20px;padding:3px 12px;color:var(--md);font-size:9px;font-weight:600;letter-spacing:1px}
+.lv{background:var(--tl);color:#fff;font-size:9px;padding:2px 8px;border-radius:8px;font-weight:600}
+.tabs{background:#fff;border-bottom:2px solid var(--bd);display:flex;overflow-x:auto}
+.tab{padding:11px 18px;font-size:11px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--md);white-space:nowrap}
+.tab:hover{color:var(--dk)}.tab.active{color:var(--ac);border-bottom-color:var(--ac)}
+.fb{background:#fff;border-bottom:1px solid var(--bd);padding:8px 32px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fb input,.fb button{padding:5px 10px;border:1px solid var(--bd);border-radius:5px;font-size:11px;font-family:Inter,sans-serif}
+.fb .ba{background:var(--ac);color:#fff;border-color:var(--ac);cursor:pointer}
+.fb button{cursor:pointer}
+.ct{max-width:1200px;margin:0 auto;padding:20px 20px 40px}
+.vw{display:none}.vw.active{display:block}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:18px}
+.mc{background:#fff;border-radius:8px;padding:16px 12px;text-align:center;border:1px solid var(--bd)}
+.mc .v{font-size:24px;font-weight:800;line-height:1.1}.mc .l{font-size:8px;color:var(--md);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;line-height:1.2}
+.se{background:#fff;border-radius:8px;padding:18px;margin-bottom:18px;border:1px solid var(--bd)}
+.se h2{font-size:14px;font-weight:700;margin-bottom:3px;line-height:1.3}.se .su{font-size:10px;color:var(--md);margin-bottom:12px;line-height:1.4}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:var(--dk);color:#fff;padding:7px 5px;text-align:center;font-weight:600;font-size:8px;white-space:nowrap}
+td{padding:6px 5px;border-bottom:1px solid var(--bd);text-align:center;font-size:10px}
+tr:nth-child(even){background:var(--lt)}tr:hover{background:#edf2fb}
+.sc{font-weight:700}.s4{color:var(--gn)}.s3{color:var(--or)}.s2{color:var(--rd)}
+.tg{display:inline-block;padding:2px 6px;border-radius:6px;font-size:8px;font-weight:600}
+.tv{background:#d1fae5;color:var(--gn)}.tr{background:#fed7aa;color:var(--or)}.te{background:#e0e7ff;color:var(--ac)}
+.bars{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}
+.bc{text-align:center}.bw{height:130px;display:flex;align-items:flex-end;justify-content:center}
+.b{width:38px;border-radius:4px 4px 0 0}.bv{font-size:13px;font-weight:800;margin-bottom:4px}.bl{font-size:8px;font-weight:600;margin-top:5px;line-height:1.2}
+.ins{background:var(--dk);border-radius:8px;padding:18px;margin-bottom:20px;color:#fff}
+.ins h2{color:var(--tl);font-size:14px;margin-bottom:6px;line-height:1.3}.ins p{color:#adb5bd;font-size:11px;line-height:1.5}
+.ins .bx{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.ins .b1{background:var(--dk2);border:1px solid #2a3a52;border-radius:6px;padding:10px}
+.ins .b1 h3{font-size:10px;font-weight:700;margin-bottom:5px;line-height:1.3}.ins .b1 p{font-size:9px;line-height:1.4}
+.ins .b1.t h3{color:var(--tl)}.ins .b1.o h3{color:var(--or)}
+.al{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;margin-bottom:16px}
+.al h3{color:var(--rd);font-size:12px;font-weight:700;margin-bottom:4px}
+.ai{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #fecaca;font-size:10px;gap:8px}
+.ai:last-child{border:none}
+.dtl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.dc{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:12px}
+.dc .tp{display:flex;justify-content:space-between;align-items:center}
+.dc .nm{font-weight:700;font-size:12px}.dc .ts{font-size:20px;font-weight:800}
+.dc .sr{display:flex;gap:6px;margin:6px 0;font-size:9px;font-weight:600;flex-wrap:wrap}
+.dc .ft{font-size:9px;color:var(--gn);margin-top:3px}.dc .br{font-size:9px;color:var(--or);margin-top:1px}
+.cmp{margin-top:8px;padding:8px;background:var(--lt);border-radius:6px;border:1px solid var(--bd)}
+.cmp-row{display:flex;justify-content:space-between;align-items:center;font-size:9px;padding:3px 0;gap:4px}
+.cmp-bar{height:5px;border-radius:3px;margin:2px 4px}
+.ec{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:12px}
+.ec .eh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.et{width:100%;border-collapse:collapse;font-size:10px}
+.et th{background:var(--lt);color:var(--dk);font-size:8px;padding:5px 4px;white-space:nowrap}
+.et td{padding:4px 5px;border-bottom:1px solid #f0f0f0;text-align:center}
+.au{color:var(--gn);font-weight:700;font-size:9px}.ad{color:var(--rd);font-weight:700;font-size:9px}
+.sp{display:inline-flex;align-items:flex-end;gap:2px;height:16px}.sp .d{width:6px;border-radius:2px}
+/* Presencial evaluation */
+.pres-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.pres-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:14px}
+.pres-card .pc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.pres-card .pc-name{font-weight:700;font-size:13px}
+.pres-card .pc-ia{font-size:10px;color:var(--md)}
+.rub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.rub-item{padding:8px 6px;background:var(--lt);border-radius:5px;border:1px solid var(--bd);text-align:center}
+.rub-item label{display:block;font-size:8px;font-weight:600;color:var(--dk);margin-bottom:3px;line-height:1.3}
+.rub-item .wt{font-size:7px;color:var(--md)}
+.rub-item select{width:100%;padding:4px;border:1px solid var(--bd);border-radius:3px;font-size:11px;font-family:Inter,sans-serif;text-align:center;font-weight:700}
+.pres-actions{display:flex;gap:8px;align-items:center;margin-top:8px}
+.pres-actions button{padding:5px 14px;background:var(--pr);color:#fff;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer}
+.pres-result{display:flex;gap:12px;align-items:center;margin-top:10px;padding:10px;background:#f3f0ff;border-radius:6px;flex-wrap:wrap}
+.pres-result .pr-score{font-size:24px;font-weight:800;color:var(--pr)}
+.pres-result .pr-detail{font-size:9px;color:var(--md)}
+.band-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.band-card{border-radius:8px;padding:16px 12px;text-align:center;color:#fff}
+.band-card .bv2{font-size:26px;font-weight:800;line-height:1.1}.band-card .bl2{font-size:8px;margin-top:6px;opacity:.9;line-height:1.3}
+.footer{text-align:center;padding:24px 20px;color:var(--md);font-size:9px;letter-spacing:1px;margin-top:10px}
+@media(max-width:768px){.mg{grid-template-columns:repeat(2,1fr)}.bars,.ins .bx,.band-grid{grid-template-columns:repeat(2,1fr)}.dtl{grid-template-columns:1fr}.rub-grid{grid-template-columns:repeat(2,1fr)}}
+
+.info-card{background:#fff;border-radius:8px;padding:18px 20px 20px;margin-bottom:18px;border:1px solid var(--bd);border-left:4px solid var(--ac)}
+.info-card.warn{border-left-color:var(--or)}
+.info-card.ok{border-left-color:var(--gn)}
+.info-card.teal{border-left-color:var(--tl)}
+.info-card h2{font-size:13px;font-weight:700;margin-bottom:4px;line-height:1.4}
+.info-card .sub{font-size:10px;color:var(--md);margin-bottom:0;line-height:1.4}
+.info-card .right{text-align:right}
+.info-card .big{font-size:26px;font-weight:800;line-height:1.2}
+.info-card .small{font-size:9px;color:var(--md);margin-top:2px}
+.info-row{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.progress{background:var(--bd);height:8px;border-radius:4px;margin-top:10px;overflow:hidden}
+.progress-fill{height:8px;border-radius:4px;transition:width 0.5s}
+.impact-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px;margin-bottom:8px;text-align:center}
+.impact-grid .val{font-size:26px;font-weight:800;line-height:1.2}
+.impact-grid .lbl{font-size:10px;color:var(--md);margin-top:4px;line-height:1.3}
+.copy-bar{text-align:center;margin-bottom:16px}
+.copy-bar button{padding:8px 20px;background:var(--dk);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
-<div class="header">
-  <div><div class="teal">DESARROLLANDO ANDO · MODELO OPERATIVO DE VENTAS</div><h1>Clínica de Ventas — Dashboard ETB</h1></div>
-  <div style="text-align:right"><div class="badge">AMÉRICAS BPS · EN SALA</div><div style="color:var(--mid);font-size:9px;margin-top:4px"><span id="lastUpdate"></span> <span class="live">EN VIVO</span></div></div>
-</div>
+<div class="hd"><div><div class="tl">DESARROLLANDO ANDO · MODELO OPERATIVO DE VENTAS</div><h1>Clínica de Ventas — Dashboard ETB</h1></div><div style="text-align:right"><div class="bg">AMÉRICAS BPS · EN SALA</div><div style="color:var(--md);font-size:9px;margin-top:3px"><span id="lu"></span> <span class="lv">EN VIVO</span></div></div></div>
 <div class="tabs">
-  <div class="tab active" onclick="showView('resumen',this)">Resumen del grupo</div>
-  <div class="tab" onclick="showView('ranking',this)">Ranking</div>
-  <div class="tab" onclick="showView('evolucion',this)">Evolución por asesor</div>
-  <div class="tab" onclick="showView('individual',this)">Detalle individual</div>
+  <div class="tab active" onclick="sv('res',this)">Resumen</div>
+  <div class="tab" onclick="sv('rank',this)">Ranking</div>
+  <div class="tab" onclick="sv('evo',this)">Evolución</div>
+  <div class="tab" onclick="sv('ind',this)">Detalle individual</div>
+  <div class="tab" onclick="sv('pres',this)">Evaluación presencial</div>
+  <div class="tab" onclick="sv('exec',this)">Resumen ejecutivo</div>
+  <div class="tab" onclick="sv('rpres',this)">Resumen presencial</div>
 </div>
-<div style="background:#fff;border-bottom:1px solid var(--border);padding:10px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-  <span style="font-size:12px;font-weight:600;color:var(--dark)">Filtrar por fecha:</span>
-  <input type="date" id="filterFrom" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:Inter,sans-serif">
-  <span style="font-size:11px;color:var(--mid)">a</span>
-  <input type="date" id="filterTo" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:Inter,sans-serif">
-  <button onclick="applyFilter()" style="padding:6px 16px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">Aplicar</button>
-  <button onclick="clearFilter()" style="padding:6px 16px;background:var(--light);color:var(--dark);border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">Ver todo</button>
-  <span id="filterStatus" style="font-size:10px;color:var(--mid)"></span>
+<div class="fb"><span style="font-size:11px;font-weight:600">Filtrar:</span><input type="date" id="fF"><span style="font-size:10px;color:var(--md)">a</span><input type="date" id="fT"><span style="font-size:10px;color:var(--md);margin-left:6px">|</span><select id="fA" style="padding:5px 10px;border:1px solid var(--bd);border-radius:5px;font-size:11px;font-family:Inter,sans-serif"><option value="">Todos los asesores</option></select><button class="ba" onclick="af()">Aplicar</button><button onclick="cf()">Ver todo</button><span id="fs" style="font-size:9px;color:var(--md)"></span></div>
+<div class="ct">
+  <div class="vw active" id="v-res"></div>
+  <div class="vw" id="v-rank"></div>
+  <div class="vw" id="v-evo"></div>
+  <div class="vw" id="v-ind"></div>
+  <div class="vw" id="v-pres"></div>
+  <div class="vw" id="v-exec"></div>
+  <div class="vw" id="v-rpres"></div>
 </div>
-<div class="container">
-  <div class="view active" id="v-resumen"></div>
-  <div class="view" id="v-ranking"></div>
-  <div class="view" id="v-evolucion"></div>
-  <div class="view" id="v-individual"></div>
-</div>
-<div class="footer">CONFIDENCIAL · AMÉRICAS BPS · DESARROLLANDO ANDO · 2026<br><span style="font-size:9px;color:#adb5bd">Uso restringido — Campaña ETB · Américas BPS</span></div>
+<div class="footer">CONFIDENCIAL · AMÉRICAS BPS · DESARROLLANDO ANDO · 2026<br>Uso restringido — Campaña ETB · Américas BPS</div>
 
 <script>
-// ═══ DATA ═══
-var ASESORES = [
-  {n:"Alejandro León",exp:"6m - 1 año",intentos:[{fecha:"2026-08-21",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5.0,res:"venta_aceptada",dur:"9:52",desc:true,completa:true,fort:"Explicó portabilidad y resolvió todas las objeciones con argumentos diferenciados.",brecha:"Podría profundizar más en beneficios personalizados según el uso del cliente."}]},
-  {n:"John Jairo Linares",exp:"> 1 año",intentos:[{fecha:"2026-08-21",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5.0,res:"venta_aceptada",dur:"8:56",desc:true,completa:true,fort:"Explicó portabilidad y beneficios antes de presentar la oferta.",brecha:"Pedir confirmación explícita de aceptación antes de solicitar datos."}]},
-  {n:"Gustavo Zapata",exp:"> 1 año",intentos:[{fecha:"2026-08-21",p:5,e:5,c:5,ne:5,a:3,ce:5,t:4.7,res:"venta_aceptada",dur:"10:03",desc:true,completa:true,fort:"Exploró necesidades y explicó beneficios de forma clara y personalizada.",brecha:"Usar al menos tres argumentos distintos ante objeciones."}]},
-  {n:"Francys García",exp:"> 1 año",intentos:[{fecha:"2026-08-21",p:5,e:3,c:5,ne:5,a:4,ce:5,t:4.5,res:"venta_aceptada",dur:"6:16",desc:false,completa:true,fort:"Explicó el proceso de portabilidad y resolvió dudas.",brecha:"Indagar si el precio actual es promocional antes de presentar."}]},
-  {n:"Vanessa Alzate",exp:"< 6 meses",intentos:[{fecha:"2026-08-21",p:4,e:4,c:4,ne:4,a:4,ce:4,t:4.0,res:"venta_aceptada",dur:"6:28",desc:true,completa:true,fort:"Explicó beneficios y resolvió dudas sobre portabilidad.",brecha:"Mejorar naturalidad en el manejo de objeciones."}]},
-  {n:"Ghadyer Gómez",exp:"> 1 año",intentos:[{fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"7:17",desc:false,completa:true,fort:"Explicó beneficios y resolvió dudas sobre portabilidad.",brecha:"Indagar si el precio actual es promocional o tarifa plena."}]},
-  {n:"Andrés Nieto",exp:"> 1 año",intentos:[{fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"11:03",desc:false,completa:true,fort:"Explicó portabilidad y resolvió objeciones con argumentos diferenciados.",brecha:"Indagar si el precio actual es promocional antes de ofertar."}]},
-  {n:"David Muñoz",exp:"> 1 año",intentos:[{fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,res:"venta_aceptada",dur:"8:59",desc:false,completa:true,fort:"Manejó objeciones con argumentos variados y explicó beneficios.",brecha:"Indagar si el precio actual es promocional antes de presentar."}]},
-  {n:"Andrés Torres",exp:"Sin exp.",intentos:[{fecha:"2026-08-21",p:4,e:4,c:4,ne:4,a:4,ce:2,t:3.7,res:"rechazo",dur:"6:57",desc:false,completa:true,fort:"Exploró la situación y necesidades antes de ofrecer.",brecha:"Recapitular condiciones y obtener aceptación expresa."}]},
-  {n:"Brandon Rincón",exp:"6m - 1 año",intentos:[{fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"7:59",desc:false,completa:true,fort:"Explicó portabilidad y validó datos antes de avanzar.",brecha:"Profundizar en el origen del precio y descubrir si es promocional."}]},
-  {n:"Harold Romero",exp:"> 1 año",intentos:[{fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"5:25",desc:false,completa:true,fort:"Explicó portabilidad y beneficios del plan.",brecha:"Profundizar en el origen del precio y descubrir si es promocional."}]},
-  {n:"Morela Piña",exp:"> 1 año",intentos:[{fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:3,t:3.7,res:"rechazo",dur:"11:15",desc:false,completa:true,fort:"Explicó portabilidad y resolvió dudas sobre permanencia.",brecha:"Indagar si el precio actual es promocional antes de argumentar."}]},
-  {n:"Germán Espinosa",exp:"> 1 año",intentos:[{fecha:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,res:"venta_aceptada",dur:"8:25",desc:true,completa:true,fort:"Explicó portabilidad y resolvió dudas sobre el número.",brecha:"Usar más argumentos diferenciados ante objeciones."}]},
-  {n:"Joseph Parra",exp:"6m - 1 año",intentos:[{fecha:"2026-08-21",p:4,e:3,c:3,ne:3,a:3,ce:3,t:3.2,res:"rechazo",dur:"13:00",desc:false,completa:true,fort:"Explicó portabilidad y ausencia de permanencia.",brecha:"Descubrir si el precio actual es promocional antes de presentar."}]},
-  {n:"Fredy Maldonado",exp:"> 1 año",intentos:[{fecha:"2026-08-21",p:4,e:3,c:4,ne:3,a:3,ce:2,t:3.0,res:"rechazo",dur:"13:17",desc:true,completa:true,fort:"Explicó portabilidad y beneficios del plan.",brecha:"Mejorar el cierre y personalizar argumentos ante objeciones."}]},
-  {n:"Cristian Cuervo",exp:"< 6 meses",intentos:[{fecha:"2026-08-21",p:4,e:3,c:3,ne:3,a:2,ce:2,t:2.8,res:"rechazo",dur:"6:13",desc:false,completa:true,fort:"Explicó portabilidad y resolvió la objeción del número.",brecha:"Conectar beneficios con necesidades específicas y argumentar con variedad."}]},
+var A=[
+{n:"Alejandro León",exp:"6m - 1 año",i:[{f:"2026-08-21",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5,r:"venta_aceptada",d:"9:52",ds:true,co:true,ft:"Explicó portabilidad y resolvió objeciones con argumentos diferenciados.",br:"Profundizar en beneficios personalizados según uso del cliente."}]},
+{n:"John Jairo Linares",exp:"> 1 año",i:[{f:"2026-08-21",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5,r:"venta_aceptada",d:"8:56",ds:true,co:true,ft:"Explicó portabilidad y beneficios antes de presentar oferta.",br:"Pedir confirmación explícita antes de solicitar datos."}]},
+{n:"Gustavo Zapata",exp:"> 1 año",i:[{f:"2026-08-21",p:5,e:5,c:5,ne:5,a:3,ce:5,t:4.7,r:"venta_aceptada",d:"10:03",ds:true,co:true,ft:"Exploró necesidades y explicó beneficios personalizados.",br:"Usar al menos tres argumentos distintos ante objeciones."}]},
+{n:"Francys García",exp:"> 1 año",i:[{f:"2026-08-21",p:5,e:3,c:5,ne:5,a:4,ce:5,t:4.5,r:"venta_aceptada",d:"6:16",ds:false,co:true,ft:"Explicó portabilidad y resolvió dudas.",br:"Indagar si el precio actual es promocional."}]},
+{n:"Vanessa Alzate",exp:"< 6 meses",i:[{f:"2026-08-21",p:4,e:4,c:4,ne:4,a:4,ce:4,t:4,r:"venta_aceptada",d:"6:28",ds:true,co:true,ft:"Explicó beneficios y portabilidad.",br:"Mejorar naturalidad en manejo de objeciones."}]},
+{n:"Ghadyer Gómez",exp:"> 1 año",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,r:"venta_aceptada",d:"7:17",ds:false,co:true,ft:"Explicó beneficios y portabilidad.",br:"Indagar si el precio es promocional."}]},
+{n:"Andrés Nieto",exp:"> 1 año",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,r:"venta_aceptada",d:"11:03",ds:false,co:true,ft:"Explicó portabilidad con argumentos diferenciados.",br:"Indagar si el precio es promocional."}]},
+{n:"David Muñoz",exp:"> 1 año",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,r:"venta_aceptada",d:"8:59",ds:false,co:true,ft:"Manejó objeciones con argumentos variados.",br:"Indagar si el precio es promocional."}]},
+{n:"Andrés Torres",exp:"Sin exp.",i:[{f:"2026-08-21",p:4,e:4,c:4,ne:4,a:4,ce:2,t:3.7,r:"rechazo",d:"6:57",ds:false,co:true,ft:"Exploró situación antes de ofrecer.",br:"Recapitular condiciones y obtener aceptación expresa."}]},
+{n:"Brandon Rincón",exp:"6m - 1 año",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,r:"venta_aceptada",d:"7:59",ds:false,co:true,ft:"Explicó portabilidad y validó datos.",br:"Descubrir si el precio es promocional."}]},
+{n:"Harold Romero",exp:"> 1 año",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,r:"venta_aceptada",d:"5:25",ds:false,co:true,ft:"Explicó portabilidad y beneficios.",br:"Descubrir si el precio es promocional."}]},
+{n:"Morela Piña",exp:"> 1 año",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:3,t:3.7,r:"rechazo",d:"11:15",ds:false,co:true,ft:"Explicó portabilidad y permanencia.",br:"Indagar si el precio es promocional."}]},
+{n:"Germán Espinosa",exp:"> 1 año",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,r:"venta_aceptada",d:"8:25",ds:true,co:true,ft:"Explicó portabilidad y resolvió dudas.",br:"Más argumentos diferenciados."}]},
+{n:"Joseph Parra",exp:"6m - 1 año",i:[{f:"2026-08-21",p:4,e:3,c:3,ne:3,a:3,ce:3,t:3.2,r:"rechazo",d:"13:00",ds:false,co:true,ft:"Explicó portabilidad y ausencia de permanencia.",br:"Descubrir si el precio es promocional."}]},
+{n:"Fredy Maldonado",exp:"> 1 año",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:3,a:3,ce:2,t:3,r:"rechazo",d:"13:17",ds:true,co:true,ft:"Explicó portabilidad y beneficios.",br:"Mejorar cierre y personalizar argumentos."}]},
+{n:"Cristian Cuervo",exp:"< 6 meses",i:[{f:"2026-08-21",p:4,e:3,c:3,ne:3,a:2,ce:2,t:2.8,r:"rechazo",d:"6:13",ds:false,co:true,ft:"Explicó portabilidad y resolvió objeción del número.",br:"Conectar beneficios con necesidades y argumentar con variedad."}]}
 ];
 
-// ═══ HELPERS ═══
-var sc=function(s){return s>=5?'s5':s>=4?'s4':s>=3?'s3':'s2';};
-var bc=function(t){return t>=4.5?'var(--green)':t>=3.5?'var(--accent)':t>=2.5?'var(--orange)':'var(--red)';};
+// Rúbricas presenciales
+var RB=[
+  {id:"ini",l:"Inicio de llamada",w:10},
+  {id:"per",l:"Personalización",w:20},
+  {id:"son",l:"Preguntas de sondeo",w:20},
+  {id:"emp",l:"Empatía comercial",w:10},
+  {id:"ges",l:"Gestión comercial",w:5},
+  {id:"imp",l:"Implementación de venta",w:5},
+  {id:"obj",l:"Manejo de objeciones",w:10},
+  {id:"cie",l:"Cierre de venta",w:10}
+];
+// Recomendaciones por rúbrica débil
+var REC={
+  ini:{opp:"Los asesores no logran captar la atención en los primeros 10 segundos.",acc:"Practicar apertura en 3 pasos: nombre + empresa + gancho con pregunta. Grabar y escuchar sus propios inicios."},
+  per:{opp:"Las llamadas suenan genéricas, sin adaptar el discurso al cliente específico.",acc:"Ejercicio: antes de presentar, resumir en una frase lo que el cliente le contó. Si no puede, no preguntó suficiente."},
+  son:{opp:"No se hacen preguntas abiertas ni se indaga la situación real del cliente.",acc:"Taller de las 4 preguntas: ¿qué operador? ¿cuánto paga? ¿es tarifa plena o promo? ¿para qué usa el celular? No ofrecer hasta tener las 4."},
+  emp:{opp:"El asesor no valida lo que el cliente dice antes de argumentar.",acc:"Regla del eco: antes de responder una objeción, repetir con sus palabras lo que el cliente dijo. Si no lo hace, el cliente siente que no lo escuchan."},
+  ges:{opp:"No se lleva la conversación con estructura ni se controlan los tiempos.",acc:"Usar la guía de los 6 niveles como checklist mental. Practicar transiciones entre fases."},
+  imp:{opp:"La oferta se presenta como lista de características sin conectar con la necesidad del cliente.",acc:"Ejercicio CVB: cada característica se traduce en beneficio + se conecta con algo que el cliente dijo. Prohibido listar sin explicar."},
+  obj:{opp:"Ante la primera objeción el asesor se rinde o repite el mismo argumento.",acc:"Banco de 3 argumentos por objeción. Regla: nunca repetir el mismo argumento. Si se queda sin argumentos, preguntar al cliente qué necesitaría para decidir."},
+  cie:{opp:"No se intenta cerrar o se da la venta por hecha sin aceptación expresa.",acc:"Practicar el cierre en 3 pasos: recapitular condiciones, pedir el sí explícito, y solo entonces pedir datos diciendo para qué."}
+};
+var TW=RB.reduce(function(s,r){return s+r.w;},0); // 90
+
+var NP=JSON.parse(localStorage.getItem("np2")||"{}");
+function gn(nm){return NP[nm]||null;}
+function calcPres(scores){
+  var sum=0;
+  RB.forEach(function(r){var s=scores[r.id]||0;sum+=(s/5)*r.w;});
+  return Math.round(sum*10)/10;
+}
+var META_PRES=80;
+function savePres(nm){
+  var scores={};var allFilled=true;
+  RB.forEach(function(r){var el=document.getElementById("r-"+r.id+"-"+nm);var v=el?parseInt(el.value):0;if(!v)allFilled=false;scores[r.id]=v;});
+  if(!allFilled){alert("Complete todas las rúbricas (1 a 5)");return;}
+  var total=calcPres(scores);
+  NP[nm]={scores:scores,total:total,fecha:new Date().toLocaleDateString("es-CO")};
+  localStorage.setItem("np2",JSON.stringify(NP));
+  render(A);
+}
+
+var PEND=["Carolina Cortés","Kirenia Massip","Misael Balcazar","Jorge Barinas","Darío Dueñas","Nicoll Pineda"];
+var TOTAL_SALA=22;
+
+// Helpers
+var sc=function(s){return s>=4?'s4':s>=3?'s3':'s2';};
+var bc=function(t){return t>=4.5?'var(--gn)':t>=3.5?'var(--ac)':t>=2.5?'var(--or)':'var(--rd)';};
 var bn=function(t){return t>=4.5?'Experto':t>=3.5?'Buen vendedor':t>=2.5?'En desarrollo':'Reentrenar';};
-var best=function(a){return a.intentos[a.intentos.length-1];};
-var bestScore=function(a){return Math.max.apply(null,a.intentos.map(function(i){return i.t;}));};
-var lastScore=function(a){return a.intentos[a.intentos.length-1].t;};
-var notaFinal=function(a){
-  if(a.intentos.length===1) return a.intentos[0].t;
-  var b=bestScore(a),l=lastScore(a),av=a.intentos.reduce(function(s,i){return s+i.t;},0)/a.intentos.length;
-  return Math.round((b*0.4+l*0.4+av*0.2)*10)/10;
-};
-var delta=function(cur,prev){
-  var d=cur-prev;
-  if(d>0) return '<span class="arrow-up">▲<span class="delta">+'+d.toFixed(1)+'</span></span>';
-  if(d<0) return '<span class="arrow-down">▼<span class="delta">'+d.toFixed(1)+'</span></span>';
-  return '<span class="arrow-same">●</span>';
-};
-var spark=function(intentos){
-  return '<span class="sparkline">'+intentos.map(function(i){return '<span class="dot" style="height:'+(i.t/5*20)+'px;background:'+bc(i.t)+'"></span>';}).join('')+'</span>';
-};
-var levels=[{k:'p',l:'Presentar'},{k:'e',l:'Explorar'},{k:'c',l:'Conectar'},{k:'ne',l:'Negociar'},{k:'a',l:'Argumentar'},{k:'ce',l:'Cerrar'}];
+var bt=function(x){return x.i[x.i.length-1];};
+var nf=function(x){if(x.i.length===1)return x.i[0].t;var b=Math.max.apply(null,x.i.map(function(z){return z.t;})),l=x.i[x.i.length-1].t,av=x.i.reduce(function(s,z){return s+z.t;},0)/x.i.length;return Math.round((b*.4+l*.4+av*.2)*10)/10;};
+var nc=function(x){var ia=nf(x);var np=gn(x.n);if(!np)return ia;var pNorm=np.total/90*5;return Math.round((ia*.6+pNorm*.4)*10)/10;};
+var presColor=function(p){return p>=80?'var(--gn)':p>=60?'var(--ac)':p>=40?'var(--or)':'var(--rd)';};
+var presBand=function(p){return p>=80?'Aprobado':p>=60?'Cerca':'En desarrollo';};
+var dl=function(c,p){var d=c-p;if(d>0)return '<span class="au">▲+'+d.toFixed(1)+'</span>';if(d<0)return '<span class="ad">▼'+d.toFixed(1)+'</span>';return '<span style="color:var(--md)">●</span>';};
+var sp=function(ii){return '<span class="sp">'+ii.map(function(z){return '<span class="d" style="height:'+(z.t/5*16)+'px;background:'+bc(z.t)+'"></span>';}).join('')+'</span>';};
+var LV=[{k:'p',l:'Presentar'},{k:'e',l:'Explorar'},{k:'c',l:'Conectar'},{k:'ne',l:'Negociar'},{k:'a',l:'Argumentar'},{k:'ce',l:'Cerrar'}];
 
-// ═══ TABS ═══
-function showView(id,el){
-  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
-  document.getElementById('v-'+id).classList.add('active');
-  if(el) el.classList.add('active');
-}
+function sv(id,el){document.querySelectorAll('.vw').forEach(function(v){v.classList.remove('active');});document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});document.getElementById('v-'+id).classList.add('active');if(el)el.classList.add('active');}
 
-// ═══ RENDER ═══
 function render(data){
-  var sorted=data.slice().sort(function(a,b){return notaFinal(b)-notaFinal(a);});
-  var n=sorted.length;
-  if(n===0){document.getElementById('v-resumen').innerHTML='<div class="section"><p style="text-align:center;color:var(--mid);padding:40px">No hay datos para el rango seleccionado.</p></div>';return;}
-  var latest=sorted.map(best);
-  var avgT=function(k){return (latest.reduce(function(s,d){return s+d[k];},0)/n).toFixed(1);};
-  var ventas=latest.filter(function(d){return d.res==='venta_aceptada';}).length;
-  var desc=latest.filter(function(d){return d.desc;}).length;
-  var totalIntentos=data.reduce(function(s,a){return s+a.intentos.length;},0);
+  var so=data.slice().sort(function(a,b){return nc(b)-nc(a);});
+  var n=so.length;if(!n){document.getElementById('v-res').innerHTML='<div class="se"><p style="text-align:center;color:var(--md);padding:30px">No hay datos.</p></div>';return;}
+  var lt=so.map(bt);
+  var av=function(k){return(lt.reduce(function(s,d){return s+d[k];},0)/n).toFixed(1);};
+  var vt=lt.filter(function(d){return d.r==='venta_aceptada';}).length;
+  var ds=lt.filter(function(d){return d.ds;}).length;
+  var cp=so.filter(function(a){return gn(a.n);}).length;
+  var avgP=cp>0?(so.reduce(function(s,a){var np=gn(a.n);return s+(np?np.total:0);},0)/cp).toFixed(1):0;
+  var alertas=so.filter(function(a){var d=bt(a);return d.t<3||d.p<=2||d.e<=2||d.c<=2||d.ne<=2||d.a<=2||d.ce<=2;});
 
-  // RESUMEN
-  document.getElementById('v-resumen').innerHTML=
-    '<div class="metrics">'+
-    '<div class="metric"><div class="value" style="color:var(--accent)">'+avgT('t')+'</div><div class="label">Score promedio</div></div>'+
-    '<div class="metric"><div class="value" style="color:var(--teal)">'+n+'</div><div class="label">Asesores</div></div>'+
-    '<div class="metric"><div class="value" style="color:var(--green)">'+ventas+'</div><div class="label">Ventas</div></div>'+
-    '<div class="metric"><div class="value" style="color:var(--orange)">'+(n-ventas)+'</div><div class="label">Rechazos</div></div>'+
-    '<div class="metric"><div class="value" style="color:var(--purple)">'+totalIntentos+'</div><div class="label">Llamadas totales</div></div>'+
-    '</div>'+
-    '<div class="section"><h2>Promedio por nivel</h2><div class="sub">Score promedio del último intento de cada asesor</div>'+
-    '<div class="bars">'+levels.map(function(lv){
-      var v=parseFloat(avgT(lv.k));var h=v*32;
-      var col=v>=4?'var(--green)':v>=3.5?'var(--accent)':'var(--orange)';
-      return '<div class="bar-col"><div class="bar-val" style="color:'+col+'">'+v+'</div><div class="bar-wrap"><div class="bar" style="height:'+h+'px;background:'+col+'"></div></div><div class="bar-label">'+lv.l+'</div></div>';
-    }).join('')+'</div></div>'+
-    '<div class="insight"><h2>'+(n-desc)+' de '+n+' asesores no descubrieron el descuento promocional</h2>'+
-    '<p>El '+Math.round((n-desc)/n*100)+'% del grupo compara su oferta contra un precio que no es real.</p>'+
-    '<div class="boxes"><div class="box tl"><h3>Lo que SÍ predice el resultado</h3><p>Descubrir el descuento. Los '+desc+' que lo hicieron incluyen a los primeros del ranking.</p></div>'+
-    '<div class="box or"><h3>Acción de formación</h3><p>Reforzar Nivel 2 (Explorar): ¿es tarifa plena? ¿tiene descuento? ¿desde cuándo? ¿cuándo se acaba?</p></div></div></div>';
+  // ═══ RESUMEN ═══
+  var h='<div class="mg"><div class="mc"><div class="v" style="color:var(--ac)">'+av('t')+'</div><div class="l">Score IA</div></div>';
+  if(cp)h+='<div class="mc"><div class="v" style="color:var(--pr)">'+avgP+'</div><div class="l">Score presencial</div></div>';
+  h+='<div class="mc"><div class="v" style="color:var(--tl)">'+n+'</div><div class="l">Asesores</div></div><div class="mc"><div class="v" style="color:var(--gn)">'+vt+'</div><div class="l">Ventas</div></div><div class="mc"><div class="v" style="color:var(--or)">'+(n-vt)+'</div><div class="l">Rechazos</div></div></div>';
+  if(alertas.length){h+='<div class="al"><h3>⚠ Requieren atención ('+alertas.length+')</h3>';alertas.forEach(function(a){var d=bt(a);var nb=LV.filter(function(l){return d[l.k]<=2;}).map(function(l){return l.l+':'+d[l.k];});h+='<div class="ai"><div><strong>'+a.n+'</strong></div><div><span class="sc" style="color:var(--rd)">'+d.t+'</span>'+(nb.length?' <span style="font-size:8px;color:var(--rd)">'+nb.join(' · ')+'</span>':'')+'</div></div>';});h+='</div>';}
+  // Pendientes
+  h+='<div class="info-card warn"><div class="info-row"><div><h2>'+n+' de '+TOTAL_SALA+' evaluados con clínica IA</h2><div class="sub">'+(TOTAL_SALA-n)+' pendientes: '+PEND.join(', ')+'</div></div><div class="right"><div class="big" style="color:'+(n/TOTAL_SALA>=0.8?'var(--gn)':'var(--or)')+'">'+Math.round(n/TOTAL_SALA*100)+'%</div><div class="small">cobertura</div></div></div></div>';
 
-  // RANKING
-  document.getElementById('v-ranking').innerHTML=
-    '<div class="section"><h2>Ranking — Nota final por asesor</h2>'+
-    '<div class="sub">Nota final = 40% mejor + 40% último + 20% promedio · Banda: 4.5+ Experto · 3.5–4.4 Buen vendedor · 2.5–3.4 En desarrollo</div>'+
-    '<div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Asesor</th><th>Exp.</th>'+
-    levels.map(function(l){return '<th>'+l.l+'</th>';}).join('')+
-    '<th>Nota final</th><th>Intentos</th><th>Tendencia</th><th>Llamada</th><th>Descuento</th><th>Resultado</th></tr></thead><tbody>'+
-    sorted.map(function(a,i){
-      var d=best(a);var nf=notaFinal(a);
-      return '<tr><td>'+(i+1)+'</td><td>'+a.n+'</td><td><span class="tag tag-e">'+a.exp+'</span></td>'+
-      levels.map(function(l){return '<td class="sc '+sc(d[l.k])+'">'+d[l.k]+'</td>';}).join('')+
-      '<td><span class="sc" style="color:'+bc(nf)+';font-size:14px">'+nf+'</span></td>'+
-      '<td>'+a.intentos.length+'</td><td>'+spark(a.intentos)+'</td>'+
-      '<td>'+(d.completa?'<span class="tag" style="background:#d1fae5;color:var(--green)">Completa</span>':'<span class="tag" style="background:#fed7aa;color:var(--orange)">Incompleta</span>')+'</td>'+
-      '<td>'+(d.desc?'✅':'—')+'</td>'+
-      '<td><span class="tag '+(d.res==='venta_aceptada'?'tag-v':'tag-r')+'">'+(d.res==='venta_aceptada'?'Venta':'Rechazo')+'</span></td></tr>';
-    }).join('')+'</tbody></table></div></div>';
+  // Meta de grupo
+  var pctBueno=so.filter(function(a){return nf(a)>=3.5;}).length;
+  var pctMeta=Math.round(pctBueno/n*100);
+  h+='<div class="info-card '+(pctMeta>=80?'ok':'')+'"><div class="info-row"><div><h2>Meta: 80% del grupo en Buen vendedor (3.5+)</h2><div class="sub">'+pctBueno+' de '+n+' asesores están en 3.5 o más</div></div><div class="right"><div class="big" style="color:'+(pctMeta>=80?'var(--gn)':'var(--or)')+'">'+pctMeta+'%</div><div class="small">'+(pctMeta>=80?'✓ Meta alcanzada':'faltan '+(Math.ceil(n*0.8)-pctBueno)+' más')+'</div></div></div><div class="progress"><div class="progress-fill" style="width:'+Math.min(pctMeta,100)+'%;background:'+(pctMeta>=80?'var(--gn)':'var(--ac)')+'"></div></div></div>';
 
-  // EVOLUCIÓN
-  var multi=sorted.filter(function(a){return a.intentos.length>1;});
-  var single=sorted.filter(function(a){return a.intentos.length===1;});
-  var evoHtml='<div class="section"><h2>Evolución por asesor</h2><div class="sub">Asesores con múltiples intentos: cómo cambió su score entre llamadas</div></div>';
-  if(multi.length===0){
-    evoHtml+='<div class="section"><p style="color:var(--mid);text-align:center;padding:20px">Aún no hay asesores con más de un intento. Cuando repitan la clínica, aquí aparecerá su evolución.</p></div>';
+  // Impacto del descuento
+  var conDesc=so.filter(function(a){return bt(a).ds;});
+  var sinDesc=so.filter(function(a){return !bt(a).ds;});
+  var avgCon=conDesc.length?(conDesc.reduce(function(s,a){return s+nf(a);},0)/conDesc.length).toFixed(1):0;
+  var avgSin=sinDesc.length?(sinDesc.reduce(function(s,a){return s+nf(a);},0)/sinDesc.length).toFixed(1):0;
+  if(conDesc.length&&sinDesc.length){
+    h+='<div class="info-card teal"><h2>Impacto del descubrimiento del descuento</h2><div class="impact-grid"><div><div class="val" style="color:var(--gn)">'+avgCon+'</div><div class="lbl">Promedio de los '+conDesc.length+' que descubrieron</div></div><div><div class="val" style="color:var(--or)">'+avgSin+'</div><div class="lbl">Promedio de los '+sinDesc.length+' que no descubrieron</div></div></div><div style="font-size:10px;color:var(--tl);margin-top:10px;font-weight:600">Diferencia: '+(parseFloat(avgCon)-parseFloat(avgSin)).toFixed(1)+' puntos. Descubrir el descuento sube el score un '+(Math.round((parseFloat(avgCon)-parseFloat(avgSin))/parseFloat(avgSin)*100))+'%.</div></div>';
   }
-  multi.forEach(function(a){
-    var nf=notaFinal(a);var ints=a.intentos;var first=ints[0];var last=ints[ints.length-1];
-    var mejoro=levels.filter(function(l){return last[l.k]>first[l.k];}).map(function(l){return l.l;});
-    var empeoro=levels.filter(function(l){return last[l.k]<first[l.k];}).map(function(l){return l.l;});
-    evoHtml+='<div class="evo-card"><div class="evo-header"><div><span class="evo-name">'+a.n+'</span> <span class="tag tag-e">'+a.exp+'</span> '+spark(ints)+'</div>'+
-    '<div style="font-size:10px;color:var(--mid)">Nota final: <strong style="font-size:20px;color:'+bc(nf)+'">'+nf+'</strong> <span class="tag" style="background:'+bc(nf)+';color:#fff">'+bn(nf)+'</span></div></div>'+
-    '<table class="evo-table"><thead><tr><th style="text-align:left">Fecha</th>'+levels.map(function(l){return '<th>'+l.l+'</th>';}).join('')+
-    '<th>Total</th><th>Llamada</th><th>Resultado</th><th style="text-align:left">Brecha</th></tr></thead><tbody>'+
-    ints.map(function(int,idx){
-      var prev=idx>0?ints[idx-1]:null;
-      return '<tr><td>'+int.fecha+'</td>'+levels.map(function(l){return '<td class="'+sc(int[l.k])+'">'+int[l.k]+(prev?' '+delta(int[l.k],prev[l.k]):'')+'</td>';}).join('')+
-      '<td class="sc" style="color:'+bc(int.t)+'">'+int.t+(prev?' '+delta(int.t,prev.t):'')+'</td>'+
-      '<td style="font-size:10px;color:'+(int.completa?'var(--green)':'var(--orange)')+'">'+(int.completa?'Completa':'Incompleta')+'</td>'+
-      '<td><span class="tag '+(int.res==='venta_aceptada'?'tag-v':'tag-r')+'">'+(int.res==='venta_aceptada'?'Venta':'Rechazo')+'</span></td>'+
-      '<td>'+int.brecha+'</td></tr>';
-    }).join('')+'</tbody></table>'+
-    '<div style="margin-top:10px;font-size:11px">'+
-    (mejoro.length?'<span style="color:var(--green)">▲ Mejoró en: <strong>'+mejoro.join(', ')+'</strong></span><br>':'')+
-    (empeoro.length?'<span style="color:var(--red)">▼ Bajó en: <strong>'+empeoro.join(', ')+'</strong></span>':'')+
-    '</div></div>';
-  });
-  if(single.length){
-    evoHtml+='<div class="section"><h2>Pendientes de segundo intento</h2><div class="sub">'+single.length+' asesores con un solo intento</div>'+
-    '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">'+single.map(function(a){
-      return '<span style="background:var(--light);padding:4px 10px;border-radius:6px;font-size:11px;border:1px solid var(--border)">'+a.n+' <strong style="color:'+bc(lastScore(a))+'">'+lastScore(a)+'</strong></span>';
-    }).join('')+'</div></div>';
-  }
-  document.getElementById('v-evolucion').innerHTML=evoHtml;
 
-  // INDIVIDUAL
-  document.getElementById('v-individual').innerHTML=
-    '<div class="section"><h2>Detalle individual</h2><div class="sub">Último intento · Virtudes, oportunidades de mejora y nota final</div></div>'+
-    '<div class="detail">'+sorted.map(function(a,i){
-      var d=best(a);var nf=notaFinal(a);
-      return '<div class="dcard"><div class="top"><div><span style="color:var(--accent);font-weight:800;margin-right:4px">'+(i+1)+'</span><span class="nm">'+a.n+'</span></div>'+
-      '<div class="ts" style="color:'+bc(nf)+'">'+nf+'</div></div>'+
-      '<div style="font-size:10px;color:var(--mid)">'+bn(nf)+' · '+(d.res==='venta_aceptada'?'✓ Venta':'✗ Rechazo')+' · '+d.dur+' · '+a.exp+
-      (d.completa?' · ✓ Completa':' · ✗ Incompleta')+(d.desc?' · ✅ Descuento':'')+
-      (a.intentos.length>1?' · '+a.intentos.length+' intentos '+spark(a.intentos):'')+'</div>'+
-      '<div class="sr">'+levels.map(function(l){return '<span style="color:'+(d[l.k]>=4?'var(--green)':d[l.k]>=3?'var(--accent)':'var(--orange)')+'">'+l.l.substring(0,3)+':'+d[l.k]+'</span>';}).join('')+'</div>'+
-      '<div class="ft">✦ '+d.fort+'</div><div class="br">△ '+d.brecha+'</div></div>';
-    }).join('')+'</div>';
+  // Botón copiar
+  h+='<div class="copy-bar"><button onclick="copySummary()">📋 Copiar resumen para WhatsApp</button> <span id="copyOk" style="font-size:10px;color:var(--gn);display:none">✓ Copiado</span></div>';
 
-  document.getElementById('lastUpdate').textContent=new Date().toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'});
-}
+  h+='<div class="se"><h2>Promedio por nivel</h2><div class="su">Score promedio del último intento</div><div class="bars">'+LV.map(function(l){var v=parseFloat(av(l.k));var ht=v*26;var cl=v>=4?'var(--gn)':v>=3.5?'var(--ac)':'var(--or)';return '<div class="bc"><div class="bv" style="color:'+cl+'">'+v+'</div><div class="bw"><div class="b" style="height:'+ht+'px;background:'+cl+'"></div></div><div class="bl">'+l.l+'</div></div>';}).join('')+'</div></div>';
 
-// ═══ FILTRO POR FECHA ═══
-function filterByDate(data,from,to){
-  if(!from&&!to) return data;
-  return data.map(function(a){
-    var filtered=a.intentos.filter(function(i){
-      if(!i.fecha) return true;
-      if(from&&i.fecha<from) return false;
-      if(to&&i.fecha>to) return false;
-      return true;
+  h+='<div class="ins"><h2>'+(n-ds)+' de '+n+' no descubrieron el descuento</h2><p>El '+Math.round((n-ds)/n*100)+'% compara contra un precio que no es real.</p><div class="bx"><div class="b1 t"><h3>Lo que SÍ predice</h3><p>Descubrir el descuento. Los '+ds+' que lo hicieron están en el top.</p></div><div class="b1 o"><h3>Acción</h3><p>Reforzar Explorar: ¿tarifa plena? ¿descuento? ¿cuándo se acaba?</p></div></div></div>';
+  document.getElementById('v-res').innerHTML=h;
+
+  // ═══ RANKING ═══
+  h='<div class="se"><h2>Ranking — Nota combinada</h2><div class="su">Combinada = 60% IA + 40% Presencial · Banda: 4.5+ Experto · 3.5–4.4 Cerca (60-79%)</div><div style="overflow-x:auto"><table><thead><tr><th>#</th><th style="text-align:left">Asesor</th><th>Exp.</th>'+LV.map(function(l){return '<th>'+l.l+'</th>';}).join('')+'<th>IA</th><th>Presencial</th><th>Combinada</th><th>Desc.</th><th>Resultado</th></tr></thead><tbody>';
+  so.forEach(function(a,i){var d=bt(a);var ia=nf(a);var np=gn(a.n);var cb=nc(a);
+    h+='<tr><td style="font-weight:700;color:var(--ac)">'+(i+1)+'</td><td style="text-align:left;font-weight:600">'+a.n+'</td><td><span class="tg te">'+a.exp+'</span></td>';
+    LV.forEach(function(l){h+='<td class="sc '+sc(d[l.k])+'">'+d[l.k]+'</td>';});
+    h+='<td><span class="sc" style="color:'+bc(ia)+'">'+ia+'</span></td>';
+    h+='<td>'+(np?'<span class="sc" style="color:'+bc(np.total)+'">'+np.total+'%</span>':'—')+'</td>';
+    h+='<td><span class="sc" style="color:'+bc(cb)+';font-size:13px">'+cb+'</span></td>';
+    h+='<td>'+(d.ds?'✅':'—')+'</td>';
+    h+='<td><span class="tg '+(d.r==='venta_aceptada'?'tv':'tr')+'">'+(d.r==='venta_aceptada'?'Venta':'Rechazo')+'</span></td></tr>';});
+  h+='</tbody></table></div></div>';
+  document.getElementById('v-rank').innerHTML=h;
+
+  // ═══ EVOLUCIÓN ═══
+  var mu=so.filter(function(a){return a.i.length>1;}),si=so.filter(function(a){return a.i.length===1;});
+  h='<div class="se"><h2>Evolución por asesor</h2><div class="su">Cambio entre intentos</div></div>';
+  if(!mu.length)h+='<div class="se"><p style="color:var(--md);text-align:center;padding:18px">Aún no hay asesores con más de un intento.</p></div>';
+  mu.forEach(function(a){var fn=nf(a);var ii=a.i;var fi=ii[0],la=ii[ii.length-1];var mj=LV.filter(function(l){return la[l.k]>fi[l.k];}).map(function(l){return l.l;});var em=LV.filter(function(l){return la[l.k]<fi[l.k];}).map(function(l){return l.l;});
+    h+='<div class="ec"><div class="eh"><div><strong>'+a.n+'</strong> <span class="tg te">'+a.exp+'</span> '+sp(ii)+'</div><div style="font-size:10px;color:var(--md)">Nota: <strong style="font-size:18px;color:'+bc(fn)+'">'+fn+'</strong></div></div>';
+    h+='<table class="et"><thead><tr><th style="text-align:left">Fecha</th>'+LV.map(function(l){return '<th>'+l.l+'</th>';}).join('')+'<th>Total</th><th>Resultado</th></tr></thead><tbody>';
+    ii.forEach(function(z,idx){var pv=idx>0?ii[idx-1]:null;h+='<tr><td style="text-align:left;font-weight:600;color:var(--ac)">'+z.f+'</td>';LV.forEach(function(l){h+='<td class="'+sc(z[l.k])+'">'+z[l.k]+(pv?' '+dl(z[l.k],pv[l.k]):'')+'</td>';});h+='<td class="sc" style="color:'+bc(z.t)+'">'+z.t+(pv?' '+dl(z.t,pv.t):'')+'</td><td><span class="tg '+(z.r==='venta_aceptada'?'tv':'tr')+'">'+(z.r==='venta_aceptada'?'V':'R')+'</span></td></tr>';});
+    h+='</tbody></table>';if(mj.length||em.length)h+='<div style="margin-top:6px;font-size:9px">'+(mj.length?'<span class="au">▲ '+mj.join(', ')+'</span> ':'')+(em.length?'<span class="ad">▼ '+em.join(', ')+'</span>':'')+'</div>';h+='</div>';});
+  if(si.length)h+='<div class="se"><h2>Pendientes ('+si.length+')</h2><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px">'+si.map(function(a){return '<span style="background:var(--lt);padding:3px 8px;border-radius:4px;font-size:10px;border:1px solid var(--bd)">'+a.n+' <strong style="color:'+bc(nf(a))+'">'+nf(a)+'</strong></span>';}).join('')+'</div></div>';
+  document.getElementById('v-evo').innerHTML=h;
+
+  // ═══ INDIVIDUAL (con comparativo IA vs Presencial) ═══
+  h='<div class="se"><h2>Detalle individual</h2><div class="su">Nota combinada = 60% IA + 40% Presencial</div></div><div class="dtl">';
+  so.forEach(function(a,i){var d=bt(a);var ia=nf(a);var np=gn(a.n);var cb=nc(a);
+    h+='<div class="dc"><div class="tp"><div><span style="color:var(--ac);font-weight:800;margin-right:3px">'+(i+1)+'</span><span class="nm">'+a.n+'</span></div><div class="ts" style="color:'+bc(cb)+'">'+cb+'</div></div>';
+    h+='<div style="font-size:9px;color:var(--md)">'+bn(cb)+' · '+(d.r==='venta_aceptada'?'✓ Venta':'✗ Rechazo')+' · '+d.d+' · '+a.exp+(d.ds?' · ✅ Desc.':'')+'</div>';
+    h+='<div class="sr">'+LV.map(function(l){return '<span style="color:'+(d[l.k]>=4?'var(--gn)':d[l.k]>=3?'var(--ac)':'var(--or)')+'">'+l.l.substring(0,3)+':'+d[l.k]+'</span>';}).join('')+'</div>';
+    h+='<div class="ft">✦ '+d.ft+'</div><div class="br">△ '+d.br+'</div>';
+    // Comparativo IA vs Presencial
+    if(np){
+      h+='<div class="cmp"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:10px;font-weight:700">IA: <span style="color:'+bc(ia)+'">'+ia+'</span></span><span style="font-size:10px;font-weight:700;color:var(--pr)">Presencial: '+np.total+'</span><span style="font-size:10px;font-weight:700">Combinada: <span style="color:'+bc(cb)+'">'+cb+'</span></span></div>';
+      h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px">';
+      // IA bars
+      h+='<div style="font-size:8px;font-weight:600;color:var(--ac);text-align:center;margin-bottom:2px">Clínica IA</div>';
+      h+='<div style="font-size:8px;font-weight:600;color:var(--pr);text-align:center;margin-bottom:2px">Presencial</div>';
+      LV.forEach(function(l){
+        h+='<div class="cmp-row"><span>'+l.l.substring(0,3)+'</span><div class="cmp-bar" style="width:'+(d[l.k]/5*100)+'%;background:'+bc(d[l.k])+'"></div><span class="sc '+sc(d[l.k])+'">'+d[l.k]+'</span></div>';
+      });
+      var rubMap={ini:'Inicio',per:'Person.',son:'Sondeo',emp:'Empatía',ges:'Gestión',imp:'Implem.',obj:'Objeción',cie:'Cierre'};
+      RB.forEach(function(r){var v=np.scores[r.id]||0;
+        h+='<div class="cmp-row"><span>'+rubMap[r.id]+'</span><div class="cmp-bar" style="width:'+(v/5*100)+'%;background:var(--pr)"></div><span class="sc" style="color:var(--pr)">'+v+'</span></div>';
+      });
+      h+='</div><div style="font-size:8px;color:var(--md);margin-top:4px">Evaluado el '+np.fecha+'</div></div>';
+    }else{
+      h+='<div style="margin-top:6px;font-size:9px;color:var(--md);font-style:italic">Sin evaluación presencial — completarla en la pestaña "Evaluación presencial"</div>';
+    }
+    h+='</div>';});
+  h+='</div>';
+  document.getElementById('v-ind').innerHTML=h;
+
+  // ═══ EVALUACIÓN PRESENCIAL ═══
+  var sinEval=so.filter(function(a){return !gn(a.n);});
+  var conEval=so.filter(function(a){return gn(a.n);});
+  h='<div class="se"><h2>Evaluación presencial — Rúbrica de 8 dimensiones</h2><div class="su">Califique cada dimensión de 1 a 5. Nota = porcentaje ponderado (máx 90%). Meta: superar 80%. Se guarda en este navegador.</div><div style="display:flex;gap:12px;margin-top:8px"><span style="font-size:10px;padding:4px 10px;border-radius:4px;background:#fed7aa;color:var(--or);font-weight:600">'+sinEval.length+' sin evaluar</span><span style="font-size:10px;padding:4px 10px;border-radius:4px;background:#d1fae5;color:var(--gn);font-weight:600">'+conEval.length+' evaluados</span></div></div><div class="pres-grid">';
+  // Sin evaluar primero
+  var presOrder=sinEval.concat(conEval);
+  presOrder.forEach(function(a){var np=gn(a.n);var ia=nf(a);var sN=a.n.replace(/'/g,"\\'");
+    h+='<div class="pres-card"><div class="pc-top"><div><span class="pc-name">'+a.n+'</span> <span class="tg te">'+a.exp+'</span></div><div class="pc-ia">Nota IA: <strong style="color:'+bc(ia)+'">'+ia+'</strong></div></div>';
+    h+='<div class="rub-grid">';
+    RB.forEach(function(r){var val=np&&np.scores?np.scores[r.id]||0:0;
+      h+='<div class="rub-item"><label>'+r.l+'</label><div class="wt">Peso: '+r.w+'%</div><select id="r-'+r.id+'-'+a.n+'">';
+      h+='<option value="0">—</option>';
+      for(var j=1;j<=5;j++)h+='<option value="'+j+'"'+(val===j?' selected':'')+'>'+j+'</option>';
+      h+='</select></div>';
     });
-    if(filtered.length===0) return null;
-    return {n:a.n,exp:a.exp,intentos:filtered};
-  }).filter(function(a){return a!==null;});
-}
-function applyFilter(){
-  var from=document.getElementById('filterFrom').value;
-  var to=document.getElementById('filterTo').value;
-  var filtered=filterByDate(ASESORES,from,to);
-  render(filtered);
-  var total=filtered.reduce(function(s,a){return s+a.intentos.length;},0);
-  var msg='';
-  if(from&&to) msg='Mostrando del '+from+' al '+to;
-  else if(from) msg='Desde '+from;
-  else if(to) msg='Hasta '+to;
-  msg+=' · '+filtered.length+' asesores · '+total+' llamadas';
-  document.getElementById('filterStatus').textContent=msg;
-}
-function clearFilter(){
-  document.getElementById('filterFrom').value='';
-  document.getElementById('filterTo').value='';
-  render(ASESORES);
-  document.getElementById('filterStatus').textContent='';
+    h+='</div>';
+    h+='<div class="pres-actions"><button onclick="savePres(\''+sN+'\')">'+(np?'Actualizar':'Guardar')+'</button>';
+    if(np){
+      h+='<div class="pres-result"><div class="pr-score">'+np.total+'%</div><div><div style="font-size:10px;font-weight:600;color:'+(np.total>=80?'var(--gn)':'var(--or)')+'">'+(np.total>=80?'✓ Aprobado (meta 80%)':'✗ Por debajo de la meta (80%)')+'</div><div class="pr-detail">Evaluado: '+np.fecha+' · IA: '+ia+' · Combinada: '+nc(a)+'</div></div></div>';
+    }
+    h+='</div></div>';
+  });
+  h+='</div>';
+  document.getElementById('v-pres').innerHTML=h;
+
+  // ═══ RESUMEN EJECUTIVO ═══
+  var exp=so.filter(function(a){return nc(a)>=4.5;}).length;
+  var bue=so.filter(function(a){var c=nc(a);return c>=3.5&&c<4.5;}).length;
+  var des=so.filter(function(a){var c=nc(a);return c>=2.5&&c<3.5;}).length;
+  var ree=so.filter(function(a){return nc(a)<2.5;}).length;
+  h='<div class="se"><h2>Resumen ejecutivo — Campaña ETB</h2><div class="su">Vista agregada sin detalle individual</div></div>';
+  h+='<div class="mg">';
+  h+='<div class="mc"><div class="v" style="color:var(--ac)">'+av('t')+'</div><div class="l">Score IA</div></div>';
+  if(cp)h+='<div class="mc"><div class="v" style="color:var(--pr)">'+avgP+'</div><div class="l">Presencial</div></div>';
+  h+='<div class="mc"><div class="v" style="color:var(--tl)">'+n+'</div><div class="l">Evaluados</div></div>';
+  h+='<div class="mc"><div class="v" style="color:var(--gn)">'+Math.round(vt/n*100)+'%</div><div class="l">Cierre</div></div>';
+  h+='<div class="mc"><div class="v" style="color:var(--or)">'+Math.round(ds/n*100)+'%</div><div class="l">Desc. descubierto</div></div>';
+  h+='</div>';
+  h+='<div class="se"><h2>Distribución por banda</h2><div class="band-grid"><div class="band-card" style="background:var(--gn)"><div class="bv2">'+exp+'</div><div class="bl2">Aprobado (80%+)</div></div><div class="band-card" style="background:var(--ac)"><div class="bv2">'+bue+'</div><div class="bl2">Buen vendedor (3.5–4.4)</div></div><div class="band-card" style="background:var(--or)"><div class="bv2">'+des+'</div><div class="bl2">En desarrollo (2.5–3.4)</div></div><div class="band-card" style="background:var(--rd)"><div class="bv2">'+ree+'</div><div class="bl2">Reentrenar (&lt;2.5)</div></div></div></div>';
+  // Pendientes
+  h+='<div class="se" style="border-left:3px solid var(--or)"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2>'+n+' de '+TOTAL_SALA+' evaluados</h2><div class="su">'+(TOTAL_SALA-n)+' pendientes: '+PEND.join(', ')+'</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:800;color:'+(n/TOTAL_SALA>=0.8?'var(--gn)':'var(--or)')+'">'+Math.round(n/TOTAL_SALA*100)+'%</div><div style="font-size:9px;color:var(--md)">cobertura</div></div></div></div>';
+  // Meta de grupo
+  var pctBueno=so.filter(function(a){return nf(a)>=3.5;}).length;
+  var pctMeta=Math.round(pctBueno/n*100);
+  h+='<div class="se" style="border-left:3px solid '+(pctMeta>=80?'var(--gn)':'var(--ac)')+'"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2>Meta del grupo: 80% en Buen vendedor (3.5+)</h2><div class="su">'+pctBueno+' de '+n+' asesores están en 3.5 o más</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:800;color:'+(pctMeta>=80?'var(--gn)':'var(--or)')+'">'+pctMeta+'%</div><div style="font-size:9px;color:var(--md)">'+(pctMeta>=80?'✓ Meta alcanzada':'faltan '+(Math.ceil(n*0.8)-pctBueno)+' más')+'</div></div></div><div style="background:var(--bd);height:8px;border-radius:4px;margin-top:8px"><div style="background:'+(pctMeta>=80?'var(--gn)':'var(--ac)');+';height:8px;border-radius:4px;width:'+Math.min(pctMeta,100)+'%"></div></div></div>';
+  // Impacto del descuento
+  var conDesc=so.filter(function(a){return bt(a).ds;});
+  var sinDesc=so.filter(function(a){return !bt(a).ds;});
+  var avgCon=conDesc.length?(conDesc.reduce(function(s,a){return s+nf(a);},0)/conDesc.length).toFixed(1):0;
+  var avgSin=sinDesc.length?(sinDesc.reduce(function(s,a){return s+nf(a);},0)/sinDesc.length).toFixed(1):0;
+  if(conDesc.length&&sinDesc.length){
+    h+='<div class="se" style="border-left:3px solid var(--tl)"><h2>Impacto del descubrimiento del descuento</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;text-align:center"><div><div style="font-size:28px;font-weight:800;color:var(--gn)">'+avgCon+'</div><div style="font-size:10px;color:var(--md)">Promedio de los '+conDesc.length+' que descubrieron</div></div><div><div style="font-size:28px;font-weight:800;color:var(--or)">'+avgSin+'</div><div style="font-size:10px;color:var(--md)">Promedio de los '+sinDesc.length+' que no descubrieron</div></div></div><div style="font-size:10px;color:var(--tl);margin-top:6px;font-weight:600">Diferencia: '+(parseFloat(avgCon)-parseFloat(avgSin)).toFixed(1)+' puntos. Descubrir el descuento sube el score un '+(Math.round((parseFloat(avgCon)-parseFloat(avgSin))/parseFloat(avgSin)*100))+'%.</div></div>';
+  }
+  h+='<div class="se"><h2>Promedio por nivel</h2><div class="bars">'+LV.map(function(l){var v=parseFloat(av(l.k));var ht=v*26;var cl=v>=4?'var(--gn)':v>=3.5?'var(--ac)':'var(--or)';return '<div class="bc"><div class="bv" style="color:'+cl+'">'+v+'</div><div class="bw"><div class="b" style="height:'+ht+'px;background:'+cl+'"></div></div><div class="bl">'+l.l+'</div></div>';}).join('')+'</div></div>';
+  h+='<div class="ins"><h2>Hallazgo: el sondeo es la brecha crítica</h2><p>El '+Math.round((n-ds)/n*100)+'% no descubrió que el precio del cliente es promocional. Sin ese dato, el argumento de venta más poderoso no se puede usar.</p></div>';
+  h+='<div class="se" style="background:var(--lt)"><p style="font-size:9px;color:var(--md);text-align:center">Generado automáticamente · Método de 6 niveles Desarrollando Ando · Uso restringido Campaña ETB</p></div>';
+  document.getElementById('v-exec').innerHTML=h;
+
+  // ═══ RESUMEN PRESENCIAL ═══
+  var evP=so.filter(function(a){return gn(a.n);});
+  var nP=evP.length;
+  if(nP>0){
+    var avgPT=(evP.reduce(function(s,a){return s+gn(a.n).total;},0)/nP).toFixed(1);
+    var aprobados=evP.filter(function(a){return gn(a.n).total>=80;}).length;
+    var avgIA2=(evP.reduce(function(s,a){return s+nf(a);},0)/nP).toFixed(1);
+    var avgCB=(evP.reduce(function(s,a){return s+nc(a);},0)/nP).toFixed(1);
+    // Promedios por rúbrica
+    var rubAvg={};RB.forEach(function(r){var sum=0;evP.forEach(function(a){var np=gn(a.n);if(np&&np.scores)sum+=np.scores[r.id]||0;});rubAvg[r.id]=(sum/nP).toFixed(1);});
+    // Rúbrica más alta y más baja
+    var rubArr=RB.map(function(r){return{id:r.id,l:r.l,w:r.w,avg:parseFloat(rubAvg[r.id])};});
+    rubArr.sort(function(a,b){return b.avg-a.avg;});
+    var rubTop=rubArr[0],rubBot=rubArr[rubArr.length-1];
+    // Bandas presencial
+    var pExp=evP.filter(function(a){return gn(a.n).total>=80;}).length;
+    var pBue=evP.filter(function(a){var t=gn(a.n).total;return t>=60&&t<80;}).length;
+    var pDes=evP.filter(function(a){var t=gn(a.n).total;return t>=40&&t<60;}).length;
+    var pRee=evP.filter(function(a){return gn(a.n).total<40;}).length;
+
+    h='<div class="se"><h2>Resumen presencial — Campaña ETB</h2><div class="su">Resultados agregados de la evaluación presencial con rúbrica de 8 dimensiones. '+nP+' de '+n+' asesores evaluados.</div></div>';
+    // Métricas
+    h+='<div class="mg"><div class="mc"><div class="v" style="color:var(--pr)">'+avgPT+'</div><div class="l">Score presencial</div></div><div class="mc"><div class="v" style="color:var(--ac)">'+avgIA2+'</div><div class="l">Score IA (mismos)</div></div><div class="mc"><div class="v" style="color:var(--tl)">'+avgCB+'</div><div class="l">Score combinado</div></div><div class="mc"><div class="v" style="color:var(--gn)">'+nP+'</div><div class="l">Evaluados</div></div></div>';
+    // Bandas
+    h+='<div class="se"><h2>Distribución por banda — Presencial</h2><div class="band-grid"><div class="band-card" style="background:var(--gn)"><div class="bv2">'+pExp+'</div><div class="bl2">Aprobado (80%+)</div></div><div class="band-card" style="background:var(--ac)"><div class="bv2">'+pBue+'</div><div class="bl2">Cerca (60-79%)</div></div><div class="band-card" style="background:var(--or)"><div class="bv2">'+pDes+'</div><div class="bl2">En desarrollo</div></div><div class="band-card" style="background:var(--rd)"><div class="bv2">'+pRee+'</div><div class="bl2">Reentrenar</div></div></div></div>';
+    // Barras por rúbrica
+    h+='<div class="se"><h2>Promedio por rúbrica presencial</h2><div class="su">Score promedio de cada dimensión evaluada por el formador</div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0">';
+    RB.forEach(function(r){var v=parseFloat(rubAvg[r.id]);var cl=v>=4?'var(--gn)':v>=3.5?'var(--ac)':'var(--or)';
+      h+='<div style="text-align:center;padding:10px;background:var(--lt);border-radius:6px;border:1px solid var(--bd)"><div style="font-size:20px;font-weight:800;color:'+cl+'">'+v+'</div><div style="font-size:9px;font-weight:600;color:var(--dk)">'+r.l+'</div><div style="font-size:8px;color:var(--md)">Peso: '+r.w+'%</div></div>';
+    });
+    h+='</div></div>';
+    // Comparativo IA vs Presencial grupo
+    h+='<div class="ins"><h2>Comparativo: IA vs Presencial</h2><p>Promedio del grupo en ambas evaluaciones para los '+nP+' asesores que tienen ambas notas.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px"><div style="text-align:center"><div style="font-size:36px;font-weight:800;color:var(--ac)">'+avgIA2+'</div><div style="font-size:10px;color:#adb5bd">Clínica IA</div></div><div style="text-align:center"><div style="font-size:36px;font-weight:800;color:var(--pr)">'+avgPT+'</div><div style="font-size:10px;color:#adb5bd">Presencial</div></div></div>';
+    var diff=Math.abs(parseFloat(avgIA2)-parseFloat(avgPT));
+    var diffDir=parseFloat(avgIA2)>parseFloat(avgPT)?'La IA califica más alto':'La presencial califica más alto';
+    if(diff<0.3)diffDir='Las dos evaluaciones están alineadas';
+    h+='<div style="text-align:center;margin-top:10px;font-size:11px;color:var(--tl)"><strong>Diferencia: '+diff.toFixed(1)+' puntos.</strong> '+diffDir+'.</div></div>';
+    // Hallazgos
+    h+='<div class="se"><h2>Hallazgos presenciales</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
+    h+='<div style="padding:10px;background:#d1fae5;border-radius:6px"><div style="font-size:10px;font-weight:700;color:var(--gn)">Rúbrica más fuerte</div><div style="font-size:14px;font-weight:800;color:var(--gn)">'+rubTop.l+' ('+rubTop.avg+')</div><div style="font-size:9px;color:var(--md)">Peso: '+rubTop.w+'%</div></div>';
+    h+='<div style="padding:10px;background:#fed7aa;border-radius:6px"><div style="font-size:10px;font-weight:700;color:var(--or)">Rúbrica más débil</div><div style="font-size:14px;font-weight:800;color:var(--or)">'+rubBot.l+' ('+rubBot.avg+')</div><div style="font-size:9px;color:var(--md)">Peso: '+rubBot.w+'%</div></div>';
+    h+='</div></div>';
+    // Oportunidad de mejora y acciones
+    var rec=REC[rubBot.id]||{opp:"",acc:""};
+    h+='<div class="ins"><h2>Oportunidad de mejora: '+rubBot.l+'</h2><p style="margin-bottom:10px">'+rec.opp+'</p><div class="bx"><div class="b1 o"><h3>Qué está pasando</h3><p>El grupo promedió <strong>'+rubBot.avg+'</strong> de 5.0 en esta dimensión (peso '+rubBot.w+'%). Es la rúbrica que más arrastra la nota presencial hacia abajo.</p></div><div class="b1 t"><h3>Acción recomendada</h3><p>'+rec.acc+'</p></div></div></div>';
+    // Ranking presencial (sin nombres, solo posición y notas)
+    h+='<div class="se"><h2>Ranking presencial</h2><div class="su">Ordenado por nota presencial</div><div style="overflow-x:auto"><table><thead><tr><th>#</th><th style="text-align:left">Asesor</th>';
+    RB.forEach(function(r){h+='<th>'+r.l.split(' ')[0]+'</th>';});
+    h+='<th>Presencial</th><th>IA</th><th>Combinada</th></tr></thead><tbody>';
+    evP.sort(function(a,b){return gn(b.n).total-gn(a.n).total;});
+    evP.forEach(function(a,i){var np=gn(a.n);var ia=nf(a);var cb=nc(a);
+      h+='<tr><td style="font-weight:700;color:var(--ac)">'+(i+1)+'</td><td style="text-align:left;font-weight:600">'+a.n+'</td>';
+      RB.forEach(function(r){var v=np.scores[r.id]||0;h+='<td class="sc '+sc(v)+'">'+v+'</td>';});
+      h+='<td><span class="sc" style="color:'+(np.total>=80?'var(--gn)':'var(--or)')+';font-size:13px">'+np.total+'%</span></td>';
+      h+='<td><span class="sc" style="color:'+bc(ia)+'">'+ia+'</span></td>';
+      h+='<td><span class="sc" style="color:'+bc(cb)+';font-size:13px">'+cb+'</span></td></tr>';
+    });
+    h+='</tbody></table></div></div>';
+    h+='<div class="se" style="background:var(--lt)"><p style="font-size:9px;color:var(--md);text-align:center">Evaluación presencial · Rúbrica de 8 dimensiones · Uso restringido Campaña ETB</p></div>';
+  }else{
+    h='<div class="se"><p style="text-align:center;color:var(--md);padding:30px">Aún no hay evaluaciones presenciales. Complete las evaluaciones en la pestaña "Evaluación presencial".</p></div>';
+  }
+  document.getElementById('v-rpres').innerHTML=h;
+
+    document.getElementById('lu').textContent=new Date().toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'});
 }
 
-// Set default dates
+// Copiar resumen
+function copySummary(){
+  var so2=A.slice().sort(function(a,b){return nc(b)-nc(a);});
+  var n2=so2.length;var lt2=so2.map(bt);
+  var av2=(lt2.reduce(function(s,d){return s+d.t;},0)/n2).toFixed(1);
+  var vt2=lt2.filter(function(d){return d.r==='venta_aceptada';}).length;
+  var ds2=lt2.filter(function(d){return d.ds;}).length;
+  var bu2=so2.filter(function(a){return nf(a)>=3.5;}).length;
+  var top3=so2.slice(0,3).map(function(a){return a.n+' '+nf(a);}).join(', ');
+  var txt='*Clínica ETB — '+lt2[0].f+'*\n';
+  txt+=n2+' de '+TOTAL_SALA+' evaluados · Promedio: '+av2+'\n';
+  txt+=vt2+' ventas · '+(n2-vt2)+' rechazos\n';
+  txt+=bu2+'/'+n2+' en Buen vendedor (3.5+) → '+Math.round(bu2/n2*100)+'%\n';
+  txt+='Descubrieron descuento: '+ds2+'/'+n2+'\n';
+  txt+='Top 3: '+top3+'\n';
+  txt+='Brecha: Explorar ('+((lt2.reduce(function(s,d){return s+d.e;},0)/n2).toFixed(1))+')\n';
+  if(PEND.length)txt+='Pendientes: '+PEND.join(', ');
+  navigator.clipboard.writeText(txt).then(function(){var ok=document.getElementById('copyOk');if(ok){ok.style.display='inline';setTimeout(function(){ok.style.display='none';},2000);}});
+}
+
+// Filtro
+function fbd(d,fr,to){if(!fr&&!to)return d;return d.map(function(a){var f=a.i.filter(function(z){if(!z.f)return true;if(fr&&z.f<fr)return false;if(to&&z.f>to)return false;return true;});if(!f.length)return null;return{n:a.n,exp:a.exp,i:f};}).filter(function(a){return a;});}
+function af(){var f=document.getElementById('fF').value,t=document.getElementById('fT').value,aN=document.getElementById('fA').value;var d=fbd(A,f,t);if(aN)d=d.filter(function(a){return a.n===aN;});render(d);var tot=d.reduce(function(s,a){return s+a.i.length;},0);document.getElementById('fs').textContent=d.length+' asesor'+(d.length!==1?'es':'')+' · '+tot+' llamada'+(tot!==1?'s':'');}
+function cf(){document.getElementById('fF').value='';document.getElementById('fT').value='';document.getElementById('fA').value='';render(A);document.getElementById('fs').textContent='';}
+(function(){var dd=[];A.forEach(function(a){a.i.forEach(function(z){if(z.f)dd.push(z.f);});});if(dd.length){dd.sort();document.getElementById('fF').value=dd[0];document.getElementById('fT').value=dd[dd.length-1];}})();
+render(A);
+
+// Populate asesor dropdown
 (function(){
-  var dates=[];
-  ASESORES.forEach(function(a){a.intentos.forEach(function(i){if(i.fecha)dates.push(i.fecha);});});
-  if(dates.length>0){dates.sort();document.getElementById('filterFrom').value=dates[0];document.getElementById('filterTo').value=dates[dates.length-1];}
+  var sel=document.getElementById('fA');
+  var names=A.map(function(a){return a.n;}).sort();
+  names.forEach(function(n){
+    var opt=document.createElement('option');
+    opt.value=n;opt.textContent=n;
+    sel.appendChild(opt);
+  });
 })();
 
-// Render initial
-render(ASESORES);
-
-// ═══ AUTO-REFRESH desde Google Sheet ═══
-var SHEET_CSV="https://docs.google.com/spreadsheets/d/1MAWA4zUE-2g_U_erGXhKoR_I_MaQDy72lUbYSKpsoW4/export?format=csv&gid=0";
-
-function loadFromSheet(){
-  fetch(SHEET_CSV).then(function(res){
-    if(!res.ok) throw new Error("Status "+res.status);
-    return res.text();
-  }).then(function(text){
-    var lines=text.split("\n").filter(function(r){return r.trim();});
-    if(lines.length<2) return;
-    var headers=lines[0].split(",").map(function(h){return h.replace(/"/g,"").trim().toLowerCase();});
-    var people={};
-    lines.slice(1).forEach(function(line){
-      var vals=[];var cur="";var inQ=false;
-      for(var i=0;i<line.length;i++){var ch=line[i];if(ch==='"'){inQ=!inQ;}else if(ch===','&&!inQ){vals.push(cur.trim());cur="";}else{cur+=ch;}}
-      vals.push(cur.trim());
-      var get=function(name){var idx=headers.indexOf(name);return idx>=0&&idx<vals.length?vals[idx]:"";};
-      var cedula=get("cedula");if(!cedula||cedula==="cedula") return;
-      if(!people[cedula]){people[cedula]={n:get("nombre"),exp:get("experiencia")||"N/D",intentos:[]};}
-      var t=parseFloat(get("total"));if(isNaN(t)||t===0) return;
-      people[cedula].intentos.push({fecha:get("fecha"),p:parseInt(get("presentar"))||0,e:parseInt(get("explorar"))||0,c:parseInt(get("conectar"))||0,ne:parseInt(get("negociar"))||0,a:parseInt(get("argumentar"))||0,ce:parseInt(get("cerrar"))||0,t:t,res:get("resultado"),dur:get("duracion"),desc:get("descuento")==="true"||get("descuento")==="TRUE",completa:get("completa")==="true"||get("completa")==="TRUE"||get("completa")==="Sí",fort:get("fortaleza"),brecha:get("brecha")});
-    });
-    var newData=[];for(var k in people){if(people[k].intentos.length>0)newData.push(people[k]);}
-    if(newData.length>0){ASESORES=newData;render(newData);}
-  }).catch(function(e){console.log("Usando datos locales. "+e.message);});
-}
-setTimeout(loadFromSheet,2000);
-setInterval(loadFromSheet,300000);
+// Auto-refresh Sheet
+var SH="https://docs.google.com/spreadsheets/d/1MAWA4zUE-2g_U_erGXhKoR_I_MaQDy72lUbYSKpsoW4/export?format=csv&gid=0";
+function lfs(){fetch(SH).then(function(r){if(!r.ok)throw new Error(r.status);return r.text();}).then(function(tx){var ls=tx.split("\n").filter(function(r){return r.trim();});if(ls.length<2)return;var hd=ls[0].split(",").map(function(h){return h.replace(/"/g,"").trim().toLowerCase();});var pp={};ls.slice(1).forEach(function(ln){var v=[],c="",q=false;for(var j=0;j<ln.length;j++){var ch=ln[j];if(ch==='"')q=!q;else if(ch===','&&!q){v.push(c.trim());c="";}else c+=ch;}v.push(c.trim());var g=function(nm){var x=hd.indexOf(nm);return x>=0&&x<v.length?v[x]:"";};var cc=g("cedula");if(!cc||cc==="cedula")return;if(!pp[cc])pp[cc]={n:g("nombre"),exp:g("experiencia")||"N/D",i:[]};var t=parseFloat(g("total"));if(isNaN(t)||!t)return;pp[cc].i.push({f:g("fecha"),p:parseInt(g("presentar"))||0,e:parseInt(g("explorar"))||0,c:parseInt(g("conectar"))||0,ne:parseInt(g("negociar"))||0,a:parseInt(g("argumentar"))||0,ce:parseInt(g("cerrar"))||0,t:t,r:g("resultado"),d:g("duracion"),ds:g("descuento")==="true"||g("descuento")==="TRUE",co:g("completa")==="true"||g("completa")==="TRUE",ft:g("fortaleza"),br:g("brecha")});});var nd=[];for(var k in pp)if(pp[k].i.length)nd.push(pp[k]);if(nd.length){A=nd;render(nd);}}).catch(function(e){console.log("Datos locales. "+e.message);});}
+setTimeout(lfs,2000);setInterval(lfs,300000);
 </script>
 </body>
 </html>
