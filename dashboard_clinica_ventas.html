@@ -107,13 +107,13 @@ tr:nth-child(even){background:var(--lt)}tr:hover{background:#edf2fb}
 <body>
 <div class="hd"><div><div class="tl">DESARROLLANDO ANDO · MODELO OPERATIVO DE VENTAS</div><h1>Clínica de Ventas — Dashboard ETB</h1></div><div style="text-align:right"><div class="bg">AMÉRICAS BPS · EN SALA</div><div style="color:var(--md);font-size:9px;margin-top:3px"><span id="lu"></span> <span class="lv">EN VIVO</span></div></div></div>
 <div class="tabs">
-  <div class="tab active" onclick="sv('res',this)">Resumen</div>
+  <div class="tab active" onclick="sv('res',this)">Resumen general</div>
   <div class="tab" onclick="sv('rank',this)">Ranking</div>
+  <div class="tab" onclick="sv('exec',this)">Ejecutivo IA</div>
   <div class="tab" onclick="sv('evo',this)">Evolución</div>
   <div class="tab" onclick="sv('ind',this)">Detalle individual</div>
-  <div class="tab" onclick="sv('pres',this)">Evaluación presencial</div>
-  <div class="tab" onclick="sv('exec',this)">Resumen ejecutivo</div>
-  <div class="tab" onclick="sv('rpres',this)">Resumen presencial</div>
+  <div class="tab" onclick="sv('pres',this)">Evaluar presencial</div>
+  <div class="tab" onclick="sv('rpres',this)">Ejecutivo presencial</div>
 </div>
 <div class="fb"><span style="font-size:11px;font-weight:600">Filtrar:</span><input type="date" id="fF"><span style="font-size:10px;color:var(--md)">a</span><input type="date" id="fT"><span style="font-size:10px;color:var(--md);margin-left:6px">|</span><select id="fA" style="padding:5px 10px;border:1px solid var(--bd);border-radius:5px;font-size:11px;font-family:Inter,sans-serif"><option value="">Todos los asesores</option></select><button class="ba" onclick="af()">Aplicar</button><button onclick="cf()">Ver todo</button><span id="fs" style="font-size:9px;color:var(--md)"></span></div>
 <div class="ct">
@@ -243,13 +243,13 @@ function render(data){
   // Botón copiar
   h+='<div class="copy-bar"><button onclick="copySummary()">📋 Copiar resumen para WhatsApp</button> <span id="copyOk" style="font-size:10px;color:var(--gn);display:none">✓ Copiado</span></div>';
 
-  h+='<div class="se"><h2>Promedio por nivel</h2><div class="su">Score promedio del último intento</div><div class="bars">'+LV.map(function(l){var v=parseFloat(av(l.k));var ht=v*26;var cl=v>=4?'var(--gn)':v>=3.5?'var(--ac)':'var(--or)';return '<div class="bc"><div class="bv" style="color:'+cl+'">'+v+'</div><div class="bw"><div class="b" style="height:'+ht+'px;background:'+cl+'"></div></div><div class="bl">'+l.l+'</div></div>';}).join('')+'</div></div>';
+  h+='<div class="se"><h2>Promedio por nivel — Clínica IA</h2><div class="su">Score 1-5 por cada fase del método de venta</div><div class="bars">'+LV.map(function(l){var v=parseFloat(av(l.k));var ht=v*26;var cl=v>=4?'var(--gn)':v>=3.5?'var(--ac)':'var(--or)';return '<div class="bc"><div class="bv" style="color:'+cl+'">'+v+'</div><div class="bw"><div class="b" style="height:'+ht+'px;background:'+cl+'"></div></div><div class="bl">'+l.l+'</div></div>';}).join('')+'</div></div>';
 
   h+='<div class="ins"><h2>'+(n-ds)+' de '+n+' no descubrieron el descuento</h2><p>El '+Math.round((n-ds)/n*100)+'% compara contra un precio que no es real.</p><div class="bx"><div class="b1 t"><h3>Lo que SÍ predice</h3><p>Descubrir el descuento. Los '+ds+' que lo hicieron están en el top.</p></div><div class="b1 o"><h3>Acción</h3><p>Reforzar Explorar: ¿tarifa plena? ¿descuento? ¿cuándo se acaba?</p></div></div></div>';
   document.getElementById('v-res').innerHTML=h;
 
   // ═══ RANKING ═══
-  h='<div class="se"><h2>Ranking — Nota combinada</h2><div class="su">Combinada = 60% IA + 40% Presencial · Banda: 4.5+ Experto · 3.5–4.4 Cerca (60-79%)</div><div style="overflow-x:auto"><table><thead><tr><th>#</th><th style="text-align:left">Asesor</th><th>Exp.</th>'+LV.map(function(l){return '<th>'+l.l+'</th>';}).join('')+'<th>IA</th><th>Presencial</th><th>Combinada</th><th>Desc.</th><th>Resultado</th></tr></thead><tbody>';
+  h='<div class="se"><h2>Ranking — Nota combinada</h2><div class="su">Combinada = 60% IA + 40% Presencial · Banda: 4.5+ Experto · 3.5–4.4 Buen vendedor · 2.5–3.4 En desarrollo</div><div style="overflow-x:auto"><table><thead><tr><th>#</th><th style="text-align:left">Asesor</th><th>Exp.</th>'+LV.map(function(l){return '<th>'+l.l+'</th>';}).join('')+'<th>IA</th><th>Presencial</th><th>Combinada</th><th>Desc.</th><th>Resultado</th></tr></thead><tbody>';
   so.forEach(function(a,i){var d=bt(a);var ia=nf(a);var np=gn(a.n);var cb=nc(a);
     h+='<tr><td style="font-weight:700;color:var(--ac)">'+(i+1)+'</td><td style="text-align:left;font-weight:600">'+a.n+'</td><td><span class="tg te">'+a.exp+'</span></td>';
     LV.forEach(function(l){h+='<td class="sc '+sc(d[l.k])+'">'+d[l.k]+'</td>';});
@@ -263,7 +263,7 @@ function render(data){
 
   // ═══ EVOLUCIÓN ═══
   var mu=so.filter(function(a){return a.i.length>1;}),si=so.filter(function(a){return a.i.length===1;});
-  h='<div class="se"><h2>Evolución por asesor</h2><div class="su">Cambio entre intentos</div></div>';
+  h='<div class="se"><h2>Evolución por asesor</h2><div class="su">Comparación entre intentos de clínica IA · Muestra mejoras y retrocesos por nivel</div></div>';
   if(!mu.length)h+='<div class="se"><p style="color:var(--md);text-align:center;padding:18px">Aún no hay asesores con más de un intento.</p></div>';
   mu.forEach(function(a){var fn=nf(a);var ii=a.i;var fi=ii[0],la=ii[ii.length-1];var mj=LV.filter(function(l){return la[l.k]>fi[l.k];}).map(function(l){return l.l;});var em=LV.filter(function(l){return la[l.k]<fi[l.k];}).map(function(l){return l.l;});
     h+='<div class="ec"><div class="eh"><div><strong>'+a.n+'</strong> <span class="tg te">'+a.exp+'</span> '+sp(ii)+'</div><div style="font-size:10px;color:var(--md)">Nota: <strong style="font-size:18px;color:'+bc(fn)+'">'+fn+'</strong></div></div>';
@@ -274,7 +274,7 @@ function render(data){
   document.getElementById('v-evo').innerHTML=h;
 
   // ═══ INDIVIDUAL (con comparativo IA vs Presencial) ═══
-  h='<div class="se"><h2>Detalle individual</h2><div class="su">Nota combinada = 60% IA + 40% Presencial</div></div><div class="dtl">';
+  h='<div class="se"><h2>Detalle individual</h2><div class="su">Virtudes, oportunidades de mejora y comparativo IA vs Presencial por asesor</div></div><div class="dtl">';
   so.forEach(function(a,i){var d=bt(a);var ia=nf(a);var np=gn(a.n);var cb=nc(a);
     h+='<div class="dc"><div class="tp"><div><span style="color:var(--ac);font-weight:800;margin-right:3px">'+(i+1)+'</span><span class="nm">'+a.n+'</span></div><div class="ts" style="color:'+bc(cb)+'">'+cb+'</div></div>';
     h+='<div style="font-size:9px;color:var(--md)">'+bn(cb)+' · '+(d.r==='venta_aceptada'?'✓ Venta':'✗ Rechazo')+' · '+d.d+' · '+a.exp+(d.ds?' · ✅ Desc.':'')+'</div>';
@@ -305,7 +305,7 @@ function render(data){
   // ═══ EVALUACIÓN PRESENCIAL ═══
   var sinEval=so.filter(function(a){return !gn(a.n);});
   var conEval=so.filter(function(a){return gn(a.n);});
-  h='<div class="se"><h2>Evaluación presencial — Rúbrica de 8 dimensiones</h2><div class="su">Califique cada dimensión de 1 a 5. Nota = porcentaje ponderado (máx 90%). Meta: superar 80%. Se guarda en este navegador.</div><div style="display:flex;gap:12px;margin-top:8px"><span style="font-size:10px;padding:4px 10px;border-radius:4px;background:#fed7aa;color:var(--or);font-weight:600">'+sinEval.length+' sin evaluar</span><span style="font-size:10px;padding:4px 10px;border-radius:4px;background:#d1fae5;color:var(--gn);font-weight:600">'+conEval.length+' evaluados</span></div></div><div class="pres-grid">';
+  h='<div class="se"><h2>Evaluación presencial — Rúbrica de 8 dimensiones</h2><div class="su">Califique cada dimensión de 1 a 5. La nota se calcula con los pesos asignados (máximo 90%). La meta es superar el 80%. Los datos se guardan en este navegador.</div><div style="display:flex;gap:12px;margin-top:8px"><span style="font-size:10px;padding:4px 10px;border-radius:4px;background:#fed7aa;color:var(--or);font-weight:600">'+sinEval.length+' sin evaluar</span><span style="font-size:10px;padding:4px 10px;border-radius:4px;background:#d1fae5;color:var(--gn);font-weight:600">'+conEval.length+' evaluados</span></div></div><div class="pres-grid">';
   // Sin evaluar primero
   var presOrder=sinEval.concat(conEval);
   presOrder.forEach(function(a){var np=gn(a.n);var ia=nf(a);var sN=a.n.replace(/'/g,"\\'");
@@ -332,7 +332,7 @@ function render(data){
   var bue=so.filter(function(a){var c=nc(a);return c>=3.5&&c<4.5;}).length;
   var des=so.filter(function(a){var c=nc(a);return c>=2.5&&c<3.5;}).length;
   var ree=so.filter(function(a){return nc(a)<2.5;}).length;
-  h='<div class="se"><h2>Resumen ejecutivo — Campaña ETB</h2><div class="su">Vista agregada sin detalle individual</div></div>';
+  h='<div class="se"><h2>Resumen ejecutivo — Clínica IA</h2><div class="su">Resultados agregados de la evaluación con inteligencia artificial · Sin detalle individual</div></div>';
   h+='<div class="mg">';
   h+='<div class="mc"><div class="v" style="color:var(--ac)">'+av('t')+'</div><div class="l">Score IA</div></div>';
   if(cp)h+='<div class="mc"><div class="v" style="color:var(--pr)">'+avgP+'</div><div class="l">Presencial</div></div>';
@@ -340,13 +340,19 @@ function render(data){
   h+='<div class="mc"><div class="v" style="color:var(--gn)">'+Math.round(vt/n*100)+'%</div><div class="l">Cierre</div></div>';
   h+='<div class="mc"><div class="v" style="color:var(--or)">'+Math.round(ds/n*100)+'%</div><div class="l">Desc. descubierto</div></div>';
   h+='</div>';
-  h+='<div class="se"><h2>Distribución por banda</h2><div class="band-grid"><div class="band-card" style="background:var(--gn)"><div class="bv2">'+exp+'</div><div class="bl2">Aprobado (80%+)</div></div><div class="band-card" style="background:var(--ac)"><div class="bv2">'+bue+'</div><div class="bl2">Buen vendedor (3.5–4.4)</div></div><div class="band-card" style="background:var(--or)"><div class="bv2">'+des+'</div><div class="bl2">En desarrollo (2.5–3.4)</div></div><div class="band-card" style="background:var(--rd)"><div class="bv2">'+ree+'</div><div class="bl2">Reentrenar (&lt;2.5)</div></div></div></div>';
+  h+='<div class="se"><h2>Distribución por banda — Clínica IA</h2><div class="su">Escala 1 a 5 sobre los 6 niveles del método de venta</div>';
+  h+='<div class="band-grid">';
+  h+='<div class="band-card" style="background:var(--gn)"><div class="bv2">'+exp+'</div><div class="bl2">Experto</div><div class="bl2">4.5+</div></div>';
+  h+='<div class="band-card" style="background:var(--ac)"><div class="bv2">'+bue+'</div><div class="bl2">Buen vendedor</div><div class="bl2">3.5 – 4.4</div></div>';
+  h+='<div class="band-card" style="background:var(--or)"><div class="bv2">'+des+'</div><div class="bl2">En desarrollo</div><div class="bl2">2.5 – 3.4</div></div>';
+  h+='<div class="band-card" style="background:var(--rd)"><div class="bv2">'+ree+'</div><div class="bl2">Reentrenar</div><div class="bl2">&lt;2.5</div></div>';
+  h+='</div></div>';
   // Pendientes
-  h+='<div class="se" style="border-left:3px solid var(--or)"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2>'+n+' de '+TOTAL_SALA+' evaluados</h2><div class="su">'+(TOTAL_SALA-n)+' pendientes: '+PEND.join(', ')+'</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:800;color:'+(n/TOTAL_SALA>=0.8?'var(--gn)':'var(--or)')+'">'+Math.round(n/TOTAL_SALA*100)+'%</div><div style="font-size:9px;color:var(--md)">cobertura</div></div></div></div>';
+  h+='<div class="info-card warn"><div class="info-row"><div><h2>'+n+' de '+TOTAL_SALA+' evaluados</h2><div class="su">'+(TOTAL_SALA-n)+' pendientes: '+PEND.join(', ')+'</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:800;color:'+(n/TOTAL_SALA>=0.8?'var(--gn)':'var(--or)')+'">'+Math.round(n/TOTAL_SALA*100)+'%</div><div style="font-size:9px;color:var(--md)">cobertura</div></div></div></div>';
   // Meta de grupo
   var pctBueno=so.filter(function(a){return nf(a)>=3.5;}).length;
   var pctMeta=Math.round(pctBueno/n*100);
-  h+='<div class="se" style="border-left:3px solid '+(pctMeta>=80?'var(--gn)':'var(--ac)')+'"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2>Meta del grupo: 80% en Buen vendedor (3.5+)</h2><div class="su">'+pctBueno+' de '+n+' asesores están en 3.5 o más</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:800;color:'+(pctMeta>=80?'var(--gn)':'var(--or)')+'">'+pctMeta+'%</div><div style="font-size:9px;color:var(--md)">'+(pctMeta>=80?'✓ Meta alcanzada':'faltan '+(Math.ceil(n*0.8)-pctBueno)+' más')+'</div></div></div><div style="background:var(--bd);height:8px;border-radius:4px;margin-top:8px"><div style="background:'+(pctMeta>=80?'var(--gn)':'var(--ac)');+';height:8px;border-radius:4px;width:'+Math.min(pctMeta,100)+'%"></div></div></div>';
+  h+='<div class="info-card '+(pctMeta>=80?'ok':'')+'"><div class="info-row"><div><h2>Meta: 80% en Buen vendedor (3.5+)</h2><div class="su">'+pctBueno+' de '+n+' asesores están en 3.5 o más</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:800;color:'+(pctMeta>=80?'var(--gn)':'var(--or)')+'">'+pctMeta+'%</div><div style="font-size:9px;color:var(--md)">'+(pctMeta>=80?'✓ Meta alcanzada':'faltan '+(Math.ceil(n*0.8)-pctBueno)+' más')+'</div></div></div><div style="background:var(--bd);height:8px;border-radius:4px;margin-top:8px"><div style="background:'+(pctMeta>=80?'var(--gn)':'var(--ac)');+';height:8px;border-radius:4px;width:'+Math.min(pctMeta,100)+'%"></div></div></div>';
   // Impacto del descuento
   var conDesc=so.filter(function(a){return bt(a).ds;});
   var sinDesc=so.filter(function(a){return !bt(a).ds;});
@@ -356,7 +362,16 @@ function render(data){
     h+='<div class="se" style="border-left:3px solid var(--tl)"><h2>Impacto del descubrimiento del descuento</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;text-align:center"><div><div style="font-size:28px;font-weight:800;color:var(--gn)">'+avgCon+'</div><div style="font-size:10px;color:var(--md)">Promedio de los '+conDesc.length+' que descubrieron</div></div><div><div style="font-size:28px;font-weight:800;color:var(--or)">'+avgSin+'</div><div style="font-size:10px;color:var(--md)">Promedio de los '+sinDesc.length+' que no descubrieron</div></div></div><div style="font-size:10px;color:var(--tl);margin-top:6px;font-weight:600">Diferencia: '+(parseFloat(avgCon)-parseFloat(avgSin)).toFixed(1)+' puntos. Descubrir el descuento sube el score un '+(Math.round((parseFloat(avgCon)-parseFloat(avgSin))/parseFloat(avgSin)*100))+'%.</div></div>';
   }
   h+='<div class="se"><h2>Promedio por nivel</h2><div class="bars">'+LV.map(function(l){var v=parseFloat(av(l.k));var ht=v*26;var cl=v>=4?'var(--gn)':v>=3.5?'var(--ac)':'var(--or)';return '<div class="bc"><div class="bv" style="color:'+cl+'">'+v+'</div><div class="bw"><div class="b" style="height:'+ht+'px;background:'+cl+'"></div></div><div class="bl">'+l.l+'</div></div>';}).join('')+'</div></div>';
-  h+='<div class="ins"><h2>Hallazgo: el sondeo es la brecha crítica</h2><p>El '+Math.round((n-ds)/n*100)+'% no descubrió que el precio del cliente es promocional. Sin ese dato, el argumento de venta más poderoso no se puede usar.</p></div>';
+  // Fortaleza y brecha del grupo IA
+  var lvAvgs=LV.map(function(l){return{l:l.l,k:l.k,v:parseFloat(av(l.k))};});
+  lvAvgs.sort(function(a,b){return b.v-a.v;});
+  var lvTop=lvAvgs[0],lvBot=lvAvgs[lvAvgs.length-1];
+  h+='<div class="se"><h2>Fortaleza y brecha del grupo</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">';
+  h+='<div style="padding:14px;background:#ecfdf5;border-radius:8px;border:1px solid #a7f3d0"><div style="font-size:10px;font-weight:700;color:var(--gn)">✦ Fortaleza: '+lvTop.l+' ('+lvTop.v+')</div><div style="font-size:10px;color:var(--md);margin-top:4px;line-height:1.4">El grupo domina esta fase. Mantener con feedback individual a los que estén por debajo de 4.</div></div>';
+  h+='<div style="padding:14px;background:#fff7ed;border-radius:8px;border:1px solid #fed7aa"><div style="font-size:10px;font-weight:700;color:var(--or)">△ Brecha: '+lvBot.l+' ('+lvBot.v+')</div><div style="font-size:10px;color:var(--md);margin-top:4px;line-height:1.4">El grupo necesita refuerzo en esta fase. Taller focalizado + repetir clínica después.</div></div>';
+  h+='</div></div>';
+  h+='<div class="ins"><h2>Hallazgo principal</h2><p>El '+Math.round((n-ds)/n*100)+'% no descubrió que el precio del cliente es promocional. Sin ese dato, el argumento de venta más poderoso no se puede usar.</p>';
+  h+='<div class="bx"><div class="b1 t"><h3>Plan de acción</h3><p>1. Taller de sondeo: las 4 preguntas clave.<br>2. Repetir clínica IA enfocada en Explorar.<br>3. Re-medir en 1 semana.</p></div><div class="b1 o"><h3>Meta</h3><p>Subir Explorar de '+lvAvgs.filter(function(l){return l.k==="e";})[0].v+' a 4.0+ en la próxima medición. Que el 80% descubra el descuento.</p></div></div></div>';
   h+='<div class="se" style="background:var(--lt)"><p style="font-size:9px;color:var(--md);text-align:center">Generado automáticamente · Método de 6 niveles Desarrollando Ando · Uso restringido Campaña ETB</p></div>';
   document.getElementById('v-exec').innerHTML=h;
 
@@ -380,7 +395,7 @@ function render(data){
     var pDes=evP.filter(function(a){var t=gn(a.n).total;return t>=40&&t<60;}).length;
     var pRee=evP.filter(function(a){return gn(a.n).total<40;}).length;
 
-    h='<div class="se"><h2>Resumen presencial — Campaña ETB</h2><div class="su">Resultados agregados de la evaluación presencial con rúbrica de 8 dimensiones. '+nP+' de '+n+' asesores evaluados.</div></div>';
+    h='<div class="se"><h2>Resumen ejecutivo — Clínica presencial</h2><div class="su">Resultados agregados de la evaluación presencial con rúbrica de 8 dimensiones. '+nP+' de '+n+' asesores evaluados.</div></div>';
     // Métricas
     h+='<div class="mg"><div class="mc"><div class="v" style="color:var(--pr)">'+avgPT+'</div><div class="l">Score presencial</div></div><div class="mc"><div class="v" style="color:var(--ac)">'+avgIA2+'</div><div class="l">Score IA (mismos)</div></div><div class="mc"><div class="v" style="color:var(--tl)">'+avgCB+'</div><div class="l">Score combinado</div></div><div class="mc"><div class="v" style="color:var(--gn)">'+nP+'</div><div class="l">Evaluados</div></div></div>';
     // Bandas
