@@ -21,10 +21,10 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--lt);color:#212529
 .fb .ba{background:var(--ac);color:#fff;border-color:var(--ac);cursor:pointer}
 .fb button{cursor:pointer}
 .ct{max-width:1200px;margin:0 auto;padding:20px 20px 40px}
-.vw{display:none}.vw.active{display:block}
+.vw{display:none;padding-bottom:20px}.vw.active{display:block}
 .mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:18px}
 .mc{background:#fff;border-radius:8px;padding:16px 12px;text-align:center;border:1px solid var(--bd)}
-.mc .v{font-size:24px;font-weight:800;line-height:1.1}.mc .l{font-size:8px;color:var(--md);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;line-height:1.2}
+.mc .v{font-size:22px;font-weight:800;line-height:1.2}.mc .l{font-size:8px;color:var(--md);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;line-height:1.2}
 .se{background:#fff;border-radius:8px;padding:18px;margin-bottom:18px;border:1px solid var(--bd)}
 .se h2{font-size:14px;font-weight:700;margin-bottom:3px;line-height:1.3}.se .su{font-size:10px;color:var(--md);margin-bottom:12px;line-height:1.4}
 table{width:100%;border-collapse:collapse;font-size:11px}
@@ -82,7 +82,7 @@ tr:nth-child(even){background:var(--lt)}tr:hover{background:#edf2fb}
 .band-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
 .band-card{border-radius:8px;padding:16px 12px;text-align:center;color:#fff}
 .band-card .bv2{font-size:26px;font-weight:800;line-height:1.1}.band-card .bl2{font-size:8px;margin-top:6px;opacity:.9;line-height:1.3}
-.footer{text-align:center;padding:24px 20px;color:var(--md);font-size:9px;letter-spacing:1px;margin-top:10px}
+.footer{text-align:center;padding:24px 20px;color:var(--md);font-size:9px;letter-spacing:1px;margin-top:20px;position:relative;z-index:1;background:#fff}
 @media(max-width:768px){.mg{grid-template-columns:repeat(2,1fr)}.bars,.ins .bx,.band-grid{grid-template-columns:repeat(2,1fr)}.dtl{grid-template-columns:1fr}.rub-grid{grid-template-columns:repeat(2,1fr)}}
 
 .info-card{background:#fff;border-radius:8px;padding:18px 20px 20px;margin-bottom:18px;border:1px solid var(--bd);border-left:4px solid var(--ac)}
@@ -119,27 +119,21 @@ tr:nth-child(even){background:var(--lt)}tr:hover{background:#edf2fb}
 </style>
 </head>
 <body>
-<div class="hd"><div><div class="tl">DESARROLLANDO ANDO · MODELO OPERATIVO DE VENTAS</div><h1>Clínica de Ventas — Dashboard ETB</h1></div><div style="text-align:right"><div class="bg">AMÉRICAS BPS · EN SALA</div><div style="color:var(--md);font-size:9px;margin-top:3px"><span id="lu"></span> <span class="lv">EN VIVO</span></div></div></div>
+<div class="hd"><div><div class="tl">DESARROLLANDO ANDO · MODELO OPERATIVO DE VENTAS</div><h1>Clínica de Ventas — Dashboard ETB</h1></div><div style="text-align:right"><div class="bg">AMÉRICAS BPS</div><div style="color:var(--md);font-size:9px;margin-top:3px"><span id="lu"></span> <span class="lv">EN VIVO</span></div></div></div>
 <div class="tabs">
   <div class="tab active" onclick="sv('res',this)">Resumen general</div>
   <div class="tab" onclick="sv('rank',this)">Ranking</div>
-  <div class="tab" onclick="sv('exec',this)">Ejecutivo IA</div>
-  <div class="tab" onclick="sv('evo',this)">Evolución</div>
   <div class="tab" onclick="sv('ind',this)">Detalle individual</div>
   <div class="tab" onclick="sv('pres',this)">Evaluar presencial</div>
-  <div class="tab" onclick="sv('rpres',this)">Ejecutivo presencial</div>
 </div>
 <div class="fb"><span style="font-size:11px;font-weight:600">Filtrar:</span><input type="date" id="fF"><span style="font-size:10px;color:var(--md)">a</span><input type="date" id="fT"><span style="font-size:10px;color:var(--md);margin-left:6px">|</span><select id="fA" style="padding:5px 10px;border:1px solid var(--bd);border-radius:5px;font-size:11px;font-family:Inter,sans-serif"><option value="">Todos los asesores</option></select><select id="fG" style="padding:5px 10px;border:1px solid var(--bd);border-radius:5px;font-size:11px;font-family:Inter,sans-serif"><option value="">Todos los grupos</option></select><button class="ba" onclick="af()">Aplicar</button><button onclick="cf()">Ver todo</button><span id="fs" style="font-size:9px;color:var(--md)"></span></div>
 <div class="ct">
   <div class="vw active" id="v-res"></div>
   <div class="vw" id="v-rank"></div>
-  <div class="vw" id="v-evo"></div>
   <div class="vw" id="v-ind"></div>
   <div class="vw" id="v-pres"></div>
-  <div class="vw" id="v-exec"></div>
-  <div class="vw" id="v-rpres"></div>
-</div>
 <div class="footer">CONFIDENCIAL · AMÉRICAS BPS · DESARROLLANDO ANDO · 2026<br>Uso restringido — Campaña ETB · Américas BPS</div>
+</div>
 
 <script>
 var A=[
@@ -243,7 +237,6 @@ function liveUpdate(nm){
   if(stEl){stEl.textContent=total>=80?'✓ Aprobado (meta 80%)':total>0?'✗ Por debajo de la meta ('+total+'%)':'Sin evaluar';stEl.style.color=total>=80?'var(--gn)':total>0?'var(--or)':'var(--md)';}
 }
 
-
 var SALA=[
 {nombre:"Alejandro León",cedula:"1012367130",grupo:"ETB-AGO21"},
 {nombre:"John Jairo Linares Ulloa",cedula:"1072648238",grupo:"ETB-AGO21"},
@@ -294,75 +287,253 @@ function render(data){
   var ds=lt.filter(function(d){return d.ds;}).length;
   var cp=so.filter(function(a){return gn(a.n);}).length;
   var avgP=cp>0?(so.reduce(function(s,a){var np=gn(a.n);return s+(np?np.total:0);},0)/cp).toFixed(1):0;
-  var alertas=so.filter(function(a){var d=bt(a);var np=gn(a.n);return d.t<3||d.p<=2||d.e<=2||d.c<=2||d.ne<=2||d.a<=2||d.ce<=2||(np&&np.total<60);});
+  var alertas=so.filter(function(a){var d=bt(a);var np=gn(a.n);return d.t<3.5||d.p<=2||d.e<=2||d.c<=2||d.ne<=2||d.a<=2||d.ce<=2||(np&&np.total<80);});
 
   // ═══ RESUMEN ═══
-  var h='<div class="mg"><div class="mc"><div class="v" style="color:var(--ac)">'+av('t')+'</div><div class="l">Score IA</div></div>';
-  if(cp)h+='<div class="mc"><div class="v" style="color:var(--pr)">'+avgP+'</div><div class="l">Score presencial</div></div>';
-  h+='<div class="mc"><div class="v" style="color:var(--tl)">'+n+'</div><div class="l">Asesores</div></div><div class="mc"><div class="v" style="color:var(--gn)">'+vt+'</div><div class="l">Ventas</div></div><div class="mc"><div class="v" style="color:var(--or)">'+(n-vt)+'</div><div class="l">Rechazos</div></div></div>';
-  if(alertas.length){h+='<div class="al"><h3>⚠ Requieren atención ('+alertas.length+')</h3>';alertas.forEach(function(a){var d=bt(a);var np=gn(a.n);var nb=LV.filter(function(l){return d[l.k]<=2;}).map(function(l){return l.l+':'+d[l.k];});
-      var reasons=[];
-      if(d.t<3)reasons.push('IA: '+d.t);
-      if(nb.length)reasons.push(nb.join(' · '));
-      if(np&&np.total<60)reasons.push('Presencial: '+np.total+'%');
-      h+='<div class="ai"><div><strong>'+a.n+'</strong></div><div>'+(reasons.length?'<span style="font-size:9px;color:var(--rd)">'+reasons.join(' | ')+'</span>':'')+'</div></div>';});h+='</div>';}
+  var h='<div class="mg"><div class="mc"><div class="v" style="color:var(--ac)">'+av('t')+'</div><div class="l">SCORE IA</div></div>';
+  if(cp)h+='<div class="mc"><div class="v" style="color:var(--pr)">'+avgP+'</div><div class="l">PRESENCIAL</div></div>';
+  h+='<div class="mc"><div class="v" style="color:var(--tl)">'+n+'</div><div class="l">ASESORES</div></div><div class="mc"><div class="v" style="color:var(--gn)">'+vt+'</div><div class="l">Ventas</div></div><div class="mc"><div class="v" style="color:var(--or)">'+(n-vt)+'</div><div class="l">Rechazos</div></div></div>';
+  if(alertas.length){h+='<div class="al"><h3>⚠ Requieren atención ('+alertas.length+')</h3>';alertas.forEach(function(a){var d=bt(a);var np=gn(a.n);
+      var iaIssues=[];var presIssues=[];
+      // IA issues
+      if(d.t<3.5){
+        var weakLvs=LV.filter(function(l){return d[l.k]<=2;}).map(function(l){return l.l;});
+        iaIssues.push('IA: '+d.t+'/5');
+        if(weakLvs.length)iaIssues.push('Trabajar: '+weakLvs.join(', '));
+      }
+      // Presencial issues
+      if(np&&np.total<80){
+        var weakRubs=RB.filter(function(r){return calcRubPres(np.scores,r.id)<r.w*0.5;}).map(function(r){return r.l;});
+        presIssues.push('Presencial: '+np.total+'%');
+        if(weakRubs.length)presIssues.push('Trabajar: '+weakRubs.join(', '));
+      }
+      h+='<div class="ai" style="flex-direction:column;align-items:flex-start;gap:2px"><div style="display:flex;justify-content:space-between;width:100%"><strong>'+a.n+'</strong>';
+      // Estado badge
+      var est=d.t>=3.5?'A':d.t>=3?'R':'N';
+      if(np){var ep=np.total>=80?'A':np.total>=65?'R':'N';if(ep==='N'||est==='N')est='N';else if(ep==='R'||est==='R')est='R';}
+      var ec=est==='A'?'var(--gn)':est==='R'?'#f59e0b':'var(--rd)';
+      var el=est==='A'?'Aprueba':est==='R'?'Re-evaluar':'No aprueba';
+      h+='<span style="font-size:8px;padding:2px 6px;border-radius:3px;font-weight:700;color:'+ec+';background:'+(est==='A'?'#ecfdf5':est==='R'?'#fffbeb':'#fef2f2')+'">'+el+'</span></div>';
+      if(iaIssues.length)h+='<div style="font-size:9px;color:var(--or)">'+iaIssues.join(' · ')+'</div>';
+      if(presIssues.length)h+='<div style="font-size:9px;color:var(--pr)">'+presIssues.join(' · ')+'</div>';
+      h+='</div>';});h+='</div>';}
   // Pendientes
   var TOTAL_SALA=Math.max(SALA.length,n);
   var PEND=SALA.filter(function(s){
     var sn=s.nombre.toLowerCase().trim();
     return !so.some(function(a){var an=a.n.toLowerCase().trim();return sn.indexOf(an)>=0||an.indexOf(sn)>=0||sn.split(' ')[0]===an.split(' ')[0]&&sn.split(' ')[1]===an.split(' ')[1];});
   }).map(function(s){return s.nombre;});
-  h+='<div class="info-card warn"><div class="info-row"><div><h2>'+n+' de '+TOTAL_SALA+' evaluados con clínica IA</h2><div class="sub">'+(PEND.length>0?PEND.length+' pendientes: '+PEND.join(', '):'Todos evaluados')+'</div></div><div class="right"><div class="big" style="color:'+(n/TOTAL_SALA2>=0.8?'var(--gn)':'var(--or)')+'">'+(TOTAL_SALA2>0?Math.round(n/TOTAL_SALA2*100):0)+'%</div><div class="small">cobertura</div></div></div></div>';
+  var pctIA=TOTAL_SALA>0?Math.round(n/TOTAL_SALA*100):0;
+  var nPres=so.filter(function(a){return gn(a.n);}).length;
+  var pctPres=TOTAL_SALA>0?Math.round(nPres/TOTAL_SALA*100):0;
+  var pendPres=so.filter(function(a){return !gn(a.n);}).map(function(a){return a.n;});
+  var pendPresAll=PEND.concat(pendPres);
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
+  h+='<div class="info-card warn"><div class="info-row"><div><h2>Clínica IA</h2><div class="sub">'+n+' de '+TOTAL_SALA+' evaluados'+(PEND.length>0?'<br>Pendientes: '+PEND.join(', '):'')+'</div></div><div class="right"><div class="big" style="color:'+(pctIA>=80?'var(--gn)':'var(--or)')+'">'+pctIA+'%</div><div class="small">cobertura</div></div></div></div>';
+  h+='<div class="info-card" style="border-left-color:var(--pr)"><div class="info-row"><div><h2>Clínica presencial</h2><div class="sub">'+nPres+' de '+TOTAL_SALA+' evaluados'+(pendPresAll.length>0?'<br>Pendientes: '+pendPresAll.slice(0,6).join(', ')+(pendPresAll.length>6?' y '+(pendPresAll.length-6)+' más':''):'')+'</div></div><div class="right"><div class="big" style="color:'+(pctPres>=80?'var(--gn)':'var(--or)')+'">'+pctPres+'%</div><div class="small">cobertura</div></div></div></div>';
+  h+='</div>';
 
   // Meta de grupo
   var pctBueno=so.filter(function(a){return nf(a)>=3.5;}).length;
   var pctMeta=Math.round(pctBueno/n*100);
-  h+='<div class="info-card '+(pctMeta>=80?'ok':'')+'"><div class="info-row"><div><h2>Meta: 80% del grupo en Buen vendedor (3.5+)</h2><div class="sub">'+pctBueno+' de '+n+' asesores están en 3.5 o más</div></div><div class="right"><div class="big" style="color:'+(pctMeta>=80?'var(--gn)':'var(--or)')+'">'+pctMeta+'%</div><div class="small">'+(pctMeta>=80?'✓ Meta alcanzada':'faltan '+(Math.ceil(n*0.8)-pctBueno)+' más')+'</div></div></div><div class="progress"><div class="progress-fill" style="width:'+Math.min(pctMeta,100)+'%;background:'+(pctMeta>=80?'var(--gn)':'var(--ac)')+'"></div></div></div>';
+  h+='<div class="info-card '+(pctMeta>=80?'ok':'')+'"><div class="info-row"><div><h2>Meta IA: 80% del grupo en Buen vendedor (3.5+)</h2><div class="sub">'+pctBueno+' de '+n+' asesores están en 3.5 o más</div></div><div class="right"><div class="big" style="color:'+(pctMeta>=80?'var(--gn)':'var(--or)')+'">'+pctMeta+'%</div><div class="small">'+(pctMeta>=80?'✓ Meta alcanzada':'faltan '+(Math.ceil(n*0.8)-pctBueno)+' más')+'</div></div></div><div class="progress"><div class="progress-fill" style="width:'+Math.min(pctMeta,100)+'%;background:'+(pctMeta>=80?'var(--gn)':'var(--ac)')+'"></div></div></div>';
+  // Meta presencial
+  if(nPres>0){
+    var aprobPres=so.filter(function(a){var np=gn(a.n);return np&&np.total>=80;}).length;
+    var pctMetaP=Math.round(aprobPres/nPres*100);
+    h+='<div class="info-card '+(pctMetaP>=80?'ok':'')+'" style="border-left-color:var(--pr)"><div class="info-row"><div><h2>Meta presencial: 80% del grupo aprueba (80%+)</h2><div class="sub">'+aprobPres+' de '+nPres+' evaluados superan el 80%</div></div><div class="right"><div class="big" style="color:'+(pctMetaP>=80?'var(--gn)':'var(--or)')+'">'+pctMetaP+'%</div><div class="small">'+(pctMetaP>=80?'✓ Meta alcanzada':'faltan '+(Math.ceil(nPres*0.8)-aprobPres)+' más')+'</div></div></div><div class="progress"><div class="progress-fill" style="width:'+Math.min(pctMetaP,100)+'%;background:'+(pctMetaP>=80?'var(--gn)':'var(--ac)')+'"></div></div></div>';
+  }
 
   // Impacto del descuento
-  var conDesc=so.filter(function(a){return bt(a).ds;});
-  var sinDesc=so.filter(function(a){return !bt(a).ds;});
-  var avgCon=conDesc.length?(conDesc.reduce(function(s,a){return s+nf(a);},0)/conDesc.length).toFixed(1):0;
-  var avgSin=sinDesc.length?(sinDesc.reduce(function(s,a){return s+nf(a);},0)/sinDesc.length).toFixed(1):0;
-  if(conDesc.length&&sinDesc.length){
-    h+='<div class="info-card teal"><h2>Impacto del descubrimiento del descuento</h2><div class="impact-grid"><div><div class="val" style="color:var(--gn)">'+avgCon+'</div><div class="lbl">Promedio de los '+conDesc.length+' que descubrieron</div></div><div><div class="val" style="color:var(--or)">'+avgSin+'</div><div class="lbl">Promedio de los '+sinDesc.length+' que no descubrieron</div></div></div><div style="font-size:10px;color:var(--tl);margin-top:10px;font-weight:600">Diferencia: '+(parseFloat(avgCon)-parseFloat(avgSin)).toFixed(1)+' puntos. Descubrir el descuento sube el score un '+(Math.round((parseFloat(avgCon)-parseFloat(avgSin))/parseFloat(avgSin)*100))+'%.</div></div>';
-  }
 
   // Botón copiar
   h+='<div class="copy-bar"><button onclick="copySummary()">📋 Copiar resumen para WhatsApp</button> <span id="copyOk" style="font-size:10px;color:var(--gn);display:none">✓ Copiado</span> <button onclick="downloadCSV()" style="margin-left:10px;padding:8px 20px;background:var(--gn);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer">⬇ Descargar CSV</button></div>';
 
-  h+='<div class="se"><h2>Promedio por nivel — Clínica IA</h2><div class="su">Score 1-5 por cada fase del método de venta</div><div class="bars">'+LV.map(function(l){var v=parseFloat(av(l.k));var ht=v*26;var cl=v>=4?'var(--gn)':v>=3.5?'var(--ac)':'var(--or)';return '<div class="bc"><div class="bv" style="color:'+cl+'">'+v+'</div><div class="bw"><div class="b" style="height:'+ht+'px;background:'+cl+'"></div></div><div class="bl">'+l.l+'</div></div>';}).join('')+'</div></div>';
+  h+='<div class="se"><h2>Promedio por nivel — IA</h2><div class="su">Score 1-5 por cada fase del método de venta</div>';
+  LV.forEach(function(l){
+    var v=parseFloat(av(l.k));var pct=v/5*100;
+    var cl=v>=4?'var(--gn)':v>=3.5?'var(--ac)':'var(--or)';
+    h+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:10px">';
+    h+='<div style="width:80px;text-align:right;font-weight:600;color:var(--dk)">'+l.l+'</div>';
+    h+='<div style="flex:1;background:var(--bd);height:12px;border-radius:6px;overflow:hidden"><div style="width:'+pct+'%;height:12px;border-radius:6px;background:'+cl+'"></div></div>';
+    h+='<div style="width:40px;font-weight:700;color:'+cl+'">'+v+' <span style="font-weight:400;color:var(--md);font-size:8px">/5</span></div>';
+    h+='</div>';
+  });
+  h+='</div>';
 
-  h+='<div class="ins"><h2>'+(n-ds)+' de '+n+' no descubrieron el descuento</h2><p>El '+Math.round((n-ds)/n*100)+'% compara contra un precio que no es real.</p><div class="bx"><div class="b1 t"><h3>Lo que SÍ predice</h3><p>Descubrir el descuento. Los '+ds+' que lo hicieron están en el top.</p></div><div class="b1 o"><h3>Acción</h3><p>Reforzar Explorar: ¿tarifa plena? ¿descuento? ¿cuándo se acaba?</p></div></div></div>';
+  // Presencial bars (if anyone has presencial eval)
+  if(cp>0){
+    h+='<div class="se"><h2>Promedio por rúbrica — Presencial</h2><div class="su">Porcentaje logrado en cada dimensión evaluada por el formador</div>';
+    RB.forEach(function(r){
+      var sum=0;var cnt=0;
+      so.forEach(function(a){var np=gn(a.n);if(np&&np.scores){sum+=calcRubPres(np.scores,r.id);cnt++;}});
+      var avg=cnt>0?(sum/cnt).toFixed(1):0;
+      var pct=r.w>0?parseFloat(avg)/r.w*100:0;
+      var cl=pct>=80?'var(--gn)':pct>=50?'var(--or)':'var(--rd)';
+      h+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:10px">';
+      h+='<div style="width:120px;text-align:right;font-weight:600;color:var(--dk)">'+r.l+'</div>';
+      h+='<div style="flex:1;background:var(--bd);height:12px;border-radius:6px;overflow:hidden"><div style="width:'+Math.min(pct,100)+'%;height:12px;border-radius:6px;background:'+cl+'"></div></div>';
+      h+='<div style="width:55px;font-weight:700;color:'+cl+'">'+avg+'% <span style="font-weight:400;color:var(--md);font-size:8px">/'+r.w+'%</span></div>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+
+  // Virtudes y falencias del grupo/asesor
+  var lvAvgsR=LV.map(function(l){return{l:l.l,k:l.k,v:parseFloat(av(l.k))};});
+  lvAvgsR.sort(function(a,b){return b.v-a.v;});
+  var virtudes=lvAvgsR.slice(0,2);
+  var falencias=lvAvgsR.slice(-2).reverse();
+
+  h+='<div class="se"><h2>Virtudes y falencias</h2><div class="su">'+(n===1?'Del asesor seleccionado':'Del grupo filtrado')+' — basado en la clínica IA</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px">';
+  // Virtudes
+  h+='<div style="padding:14px;background:#ecfdf5;border-radius:8px;border:1px solid #a7f3d0">';
+  h+='<div style="font-size:11px;font-weight:700;color:var(--gn);margin-bottom:8px">✦ Virtudes</div>';
+  virtudes.forEach(function(v){
+    h+='<div style="font-size:10px;margin-bottom:4px"><strong>'+v.l+'</strong> ('+v.v+'/5) — ';
+    if(v.k==='p')h+='Se identifican bien y captan la atención del cliente.';
+    else if(v.k==='e')h+='Exploran la situación del cliente antes de ofrecer.';
+    else if(v.k==='c')h+='Conectan con el cliente y mantienen su atención.';
+    else if(v.k==='ne')h+='Presentan la oferta de forma clara y estructurada.';
+    else if(v.k==='a')h+='Manejan objeciones con argumentos diferenciados.';
+    else if(v.k==='ce')h+='Cierran con recapitulación y aceptación expresa.';
+    h+='</div>';
+  });
+  h+='</div>';
+  // Falencias
+  h+='<div style="padding:14px;background:#fff7ed;border-radius:8px;border:1px solid #fed7aa">';
+  h+='<div style="font-size:11px;font-weight:700;color:var(--or);margin-bottom:8px">△ Falencias</div>';
+  falencias.forEach(function(v){
+    h+='<div style="font-size:10px;margin-bottom:4px"><strong>'+v.l+'</strong> ('+v.v+'/5) — ';
+    if(v.k==='p')h+='No se identifican o no captan la atención del cliente.';
+    else if(v.k==='e')h+='No indagan la situación real del cliente antes de ofrecer.';
+    else if(v.k==='c')h+='Pierden la atención del cliente o no generan rapport.';
+    else if(v.k==='ne')h+='La oferta se presenta sin estructura o sin personalización.';
+    else if(v.k==='a')h+='Repiten el mismo argumento o se rinden ante objeciones.';
+    else if(v.k==='ce')h+='No intentan cerrar o dan la venta por hecha sin aceptación.';
+    h+='</div>';
+  });
+  h+='</div>';
+  h+='</div>';
+
+  // Falencias presencial (if available)
+  if(cp>0){
+    var rubAvgsR=RB.map(function(r){
+      var sum=0;var cnt=0;
+      so.forEach(function(a){var np=gn(a.n);if(np&&np.scores){sum+=calcRubPres(np.scores,r.id);cnt++;}});
+      return{id:r.id,l:r.l,w:r.w,v:cnt>0?parseFloat((sum/cnt).toFixed(1)):0};
+    });
+    rubAvgsR.sort(function(a,b){return (a.v/a.w)-(b.v/b.w);});
+    var rubBot=rubAvgsR[0];
+    var rec=REC[rubBot.id]||{opp:"",acc:""};
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:0">';
+    h+='<div style="padding:14px;background:#ecfdf5;border-radius:8px;border:1px solid #a7f3d0">';
+    h+='<div style="font-size:11px;font-weight:700;color:var(--gn);margin-bottom:4px">✦ Presencial: rúbrica más fuerte</div>';
+    var rubTopP=rubAvgsR[rubAvgsR.length-1];
+    h+='<div style="font-size:10px"><strong>'+rubTopP.l+'</strong> ('+rubTopP.v+'% de '+rubTopP.w+'%)</div>';
+    h+='</div>';
+    h+='<div style="padding:14px;background:#fff7ed;border-radius:8px;border:1px solid #fed7aa">';
+    h+='<div style="font-size:11px;font-weight:700;color:var(--or);margin-bottom:4px">△ Presencial: rúbrica más débil</div>';
+    h+='<div style="font-size:10px"><strong>'+rubBot.l+'</strong> ('+rubBot.v+'% de '+rubBot.w+'%)</div>';
+    h+='</div></div>';
+  }
+  h+='</div>';
+
+  // Plan de acción
+  h+='<div class="ins"><h2>Plan de acción</h2><p>Basado en las falencias identificadas en ambas evaluaciones.</p>';
+  h+='<div class="bx">';
+  h+='<div class="b1 o"><h3>Clínica IA — '+falencias[0].l+' ('+falencias[0].v+'/5)</h3><p>';
+  if(falencias[0].k==='e')h+='Taller de sondeo: las 4 preguntas clave (¿operador? ¿cuánto paga? ¿tarifa plena o promo? ¿para qué usa el servicio?). Repetir clínica en 1 semana.';
+  else if(falencias[0].k==='a')h+='Banco de 3 argumentos por objeción. Regla: nunca repetir. Si se queda sin argumentos, preguntar qué necesitaría para decidir. Práctica con role-play.';
+  else if(falencias[0].k==='ce')h+='Practicar cierre en 3 pasos: recapitular condiciones, pedir sí explícito, pedir datos diciendo para qué. Repetir clínica.';
+  else if(falencias[0].k==='p')h+='Reforzar apertura en 3 pasos: nombre + empresa + gancho con pregunta. Grabar y escuchar sus propios inicios.';
+  else if(falencias[0].k==='c')h+='Ejercicio de recuperación de atención. Practicar uso del nombre del cliente y retoma después de distracción.';
+  else if(falencias[0].k==='ne')h+='Ejercicio CVB: cada característica se traduce en beneficio conectado con lo que el cliente dijo. Prohibido listar sin explicar.';
+  h+='</p></div>';
+  if(cp>0){
+    var rubBotP=rubAvgsR[0];
+    var recP=REC[rubBotP.id]||{opp:"",acc:""};
+    h+='<div class="b1 o"><h3>Presencial — '+rubBotP.l+' ('+rubBotP.v+'%/'+rubBotP.w+'%)</h3><p>'+recP.acc+'</p></div>';
+  }else{
+    h+='<div class="b1 t"><h3>Presencial pendiente</h3><p>Completar la evaluación presencial para tener el diagnóstico completo y poder comparar ambas clínicas.</p></div>';
+  }
+  h+='</div></div>';
+
+  
   document.getElementById('v-res').innerHTML=h;
 
   // ═══ RANKING ═══
-  h='<div class="se"><h2>Ranking — Nota combinada</h2><div class="su">Combinada = 50% IA + 50% Presencial · Banda: 4.5+ Experto · 3.5–4.4 Buen vendedor · 2.5–3.4 En desarrollo</div><div style="overflow-x:auto"><table><thead><tr><th>#</th><th style="text-align:left">Asesor</th>'+LV.map(function(l){return '<th>'+l.l+'</th>';}).join('')+'<th>IA</th><th>Presencial</th><th>Combinada</th><th>Desc.</th><th>Resultado</th></tr></thead><tbody>';
+  // Estado function
+  function estado(ia,pres){
+    var eIA=ia>=3.5?'A':ia>=3?'R':'N';
+    var ePR=pres===null?null:pres>=80?'A':pres>=65?'R':'N';
+    // Combined: worst of both, or just IA if no presencial
+    var e=eIA;
+    if(ePR!==null){if(ePR==='N'||eIA==='N')e='N';else if(ePR==='R'||eIA==='R')e='R';else e='A';}
+    return e;
+  }
+  function estadoLabel(e){return e==='A'?'Aprueba':e==='R'?'Re-evaluar':'No aprueba';}
+  function estadoColor(e){return e==='A'?'var(--gn)':e==='R'?'#f59e0b':'var(--rd)';}
+  function estadoBg(e){return e==='A'?'#ecfdf5':e==='R'?'#fffbeb':'#fef2f2';}
+
+  // Rubrica fuerte/debil por asesor (IA + presencial)
+  function rubFD(a){
+    var d=bt(a);var np=gn(a.n);
+    // IA
+    var lvs=LV.map(function(l){return{l:l.l,v:d[l.k]||0};});
+    lvs.sort(function(x,y){return y.v-x.v;});
+    var iaMax=lvs[0],iaMin=lvs[lvs.length-1];
+    var allMax=lvs.every(function(l){return l.v>=5;});
+    var allMin=lvs.every(function(l){return l.v>=5;});
+    // Presencial
+    var pMax=null,pMin=null,pAllMax=false;
+    if(np&&np.scores){
+      var rubs=RB.map(function(r){return{l:r.l,v:calcRubPres(np.scores,r.id),w:r.w};});
+      rubs.sort(function(x,y){return (y.v/y.w)-(x.v/x.w);});
+      pMax=rubs[0];pMin=rubs[rubs.length-1];
+      pAllMax=rubs.every(function(r){return r.v>=r.w;});
+    }
+    return{iaMax:iaMax,iaMin:iaMin,iaAllMax:allMax,pMax:pMax,pMin:pMin,pAllMax:pAllMax};
+  }
+
+  h='<div class="se"><h2>Ranking — Nota combinada</h2><div class="su">50% IA + 50% Presencial · Verde: aprueba · Amarillo: re-evaluar · Rojo: no aprueba</div><div style="overflow-x:auto"><table><thead><tr><th>#</th><th style="text-align:left">Asesor</th><th>Nota IA</th><th>Presencial</th><th>Combinada</th><th style="text-align:left">Nivel fuerte</th><th style="text-align:left">Nivel débil</th><th>Estado</th></tr></thead><tbody>';
   so.forEach(function(a,i){var d=bt(a);var ia=nf(a);var np=gn(a.n);var cb=nc(a);
-    h+='<tr><td style="font-weight:700;color:var(--ac)">'+(i+1)+'</td><td style="text-align:left;font-weight:600">'+a.n+'</td><td><span class="tg te">'+a.exp+'</span></td>';
-    LV.forEach(function(l){var v=d[l.k]||0;h+='<td class="sc '+sc(v)+'">'+v+'</td>';});
-    h+='<td><span class="sc" style="color:'+bc(ia)+'">'+ia+'</span></td>';
-    h+='<td>'+(np?'<span class="sc" style="color:'+bc(np.total)+'">'+np.total+'%</span>':'—')+'</td>';
+    var rd=rubFD(a);
+    var presVal=np?np.total:null;
+    var est=estado(ia,presVal);
+    h+='<tr><td style="font-weight:700;color:var(--ac)">'+(i+1)+'</td>';
+    h+='<td style="text-align:left;font-weight:600">'+a.n+'</td>';
+    h+='<td><span class="sc" style="color:'+bc(ia)+'">'+ia+'</span> <span style="font-size:8px;color:var(--md)">/5</span></td>';
+    h+='<td>'+(np?'<span class="sc" style="color:'+(np.total>=80?'var(--gn)':np.total>=65?'#f59e0b':'var(--rd)')+'">'+np.total+'%</span>':'—')+'</td>';
     h+='<td><span class="sc" style="color:'+bc(cb)+';font-size:13px">'+cb+'</span></td>';
-    h+='<td>'+(d.ds?'✅':'—')+'</td>';
-    h+='<td><span class="tg '+(d.r==='venta_aceptada'?'tv':'tr')+'">'+(d.r==='venta_aceptada'?'Venta':'Rechazo')+'</span></td></tr>';});
+    // Nivel fuerte
+    h+='<td style="text-align:left;font-size:9px;line-height:1.4">';
+    if(rd.iaAllMax)h+='<span style="color:var(--md)">IA: NOTA MÁXIMA</span>';
+    else h+='<span style="color:var(--gn)">IA: '+rd.iaMax.l+' ('+rd.iaMax.v+')</span>';
+    if(rd.pMax){
+      h+='<br>';
+      if(rd.pAllMax)h+='<span style="color:var(--md)">Pres: NOTA MÁXIMA</span>';
+      else h+='<span style="color:var(--gn)">Pres: '+rd.pMax.l+' ('+rd.pMax.v+'%)</span>';
+    }
+    h+='</td>';
+    // Nivel débil
+    h+='<td style="text-align:left;font-size:9px;line-height:1.4">';
+    if(rd.iaAllMax)h+='<span style="color:var(--md)">IA: NINGUNO</span>';
+    else h+='<span style="color:var(--or)">IA: '+rd.iaMin.l+' ('+rd.iaMin.v+')</span>';
+    if(rd.pMin){
+      h+='<br>';
+      if(rd.pAllMax)h+='<span style="color:var(--md)">Pres: NINGUNO</span>';
+      else h+='<span style="color:var(--or)">Pres: '+rd.pMin.l+' ('+rd.pMin.v+'%)</span>';
+    }
+    h+='</td>';
+    h+='<td><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;color:'+estadoColor(est)+';background:'+estadoBg(est)+'">'+estadoLabel(est)+'</span></td>';
+    h+='</tr>';});
   h+='</tbody></table></div></div>';
   document.getElementById('v-rank').innerHTML=h;
 
-  // ═══ EVOLUCIÓN ═══
-  var mu=so.filter(function(a){return a.i.length>1;}),si=so.filter(function(a){return a.i.length===1;});
-  h='<div class="se"><h2>Evolución por asesor</h2><div class="su">Comparación entre intentos de clínica IA · Muestra mejoras y retrocesos por nivel</div></div>';
-  if(!mu.length)h+='<div class="se"><p style="color:var(--md);text-align:center;padding:18px">Aún no hay asesores con más de un intento.</p></div>';
-  mu.forEach(function(a){var fn=nf(a);var ii=a.i;var fi=ii[0],la=ii[ii.length-1];var mj=LV.filter(function(l){return la[l.k]>fi[l.k];}).map(function(l){return l.l;});var em=LV.filter(function(l){return la[l.k]<fi[l.k];}).map(function(l){return l.l;});
-    h+='<div class="ec"><div class="eh"><div><strong>'+a.n+'</strong> <span class="tg te">'+a.exp+'</span> '+sp(ii)+'</div><div style="font-size:10px;color:var(--md)">Nota: <strong style="font-size:18px;color:'+bc(fn)+'">'+fn+'</strong></div></div>';
-    h+='<table class="et"><thead><tr><th style="text-align:left">Fecha</th>'+LV.map(function(l){return '<th>'+l.l+'</th>';}).join('')+'<th>Total</th><th>Resultado</th></tr></thead><tbody>';
-    ii.forEach(function(z,idx){var pv=idx>0?ii[idx-1]:null;h+='<tr><td style="text-align:left;font-weight:600;color:var(--ac)">'+z.f+'</td>';LV.forEach(function(l){h+='<td class="'+sc(z[l.k])+'">'+z[l.k]+(pv?' '+dl(z[l.k],pv[l.k]):'')+'</td>';});h+='<td class="sc" style="color:'+bc(z.t)+'">'+z.t+(pv?' '+dl(z.t,pv.t):'')+'</td><td><span class="tg '+(z.r==='venta_aceptada'?'tv':'tr')+'">'+(z.r==='venta_aceptada'?'V':'R')+'</span></td></tr>';});
-    h+='</tbody></table>';if(mj.length||em.length)h+='<div style="margin-top:6px;font-size:9px">'+(mj.length?'<span class="au">▲ '+mj.join(', ')+'</span> ':'')+(em.length?'<span class="ad">▼ '+em.join(', ')+'</span>':'')+'</div>';h+='</div>';});
-  if(si.length)h+='<div class="se"><h2>Pendientes ('+si.length+')</h2><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px">'+si.map(function(a){return '<span style="background:var(--lt);padding:3px 8px;border-radius:4px;font-size:10px;border:1px solid var(--bd)">'+a.n+' <strong style="color:'+bc(nf(a))+'">'+nf(a)+'</strong></span>';}).join('')+'</div></div>';
-  document.getElementById('v-evo').innerHTML=h;
-
   // ═══ INDIVIDUAL (con comparativo IA vs Presencial) ═══
-  h='<div class="se"><h2>Detalle individual</h2><div class="su">Virtudes, oportunidades de mejora y comparativo IA vs Presencial por asesor</div></div><div class="dtl">';
+  h='<div class="se"><h2>Detalle individual</h2><div class="su">Virtudes, oportunidades y comparativo por asesor</div></div><div class="dtl">';
   so.forEach(function(a,i){var d=bt(a);var ia=nf(a);var np=gn(a.n);var cb=nc(a);
     h+='<div class="dc"><div class="tp"><div><span style="color:var(--ac);font-weight:800;margin-right:3px">'+(i+1)+'</span><span class="nm">'+a.n+'</span></div><div class="ts" style="color:'+bc(cb)+'">'+cb+'</div></div>';
     h+='<div style="font-size:9px;color:var(--md)">'+bn(cb)+' · '+(d.r==='venta_aceptada'?'✓ Venta':'✗ Rechazo')+' · '+d.d+(d.ds?' · ✅ Desc.':'')+'</div>';
@@ -401,7 +572,7 @@ function render(data){
   presOrder.forEach(function(a){
     var np=gn(a.n);var ia=nf(a);var sN=a.n.replace(/'/g,"\\'");
     var currentTotal=np?np.total:0;
-    h+='<div class="pres-card"><div class="pc-top"><div><span class="pc-name">'+a.n+'</span> <span class="tg te">'+a.exp+'</span></div><div class="pc-ia">IA: <strong style="color:'+bc(ia)+'">'+ia+'</strong></div></div>';
+    h+='<div class="pres-card"><div class="pc-top"><div><span class="pc-name">'+a.n+'</span></div><div class="pc-ia">IA: <strong style="color:'+bc(ia)+'">'+ia+'</strong></div></div>';
     // 8 rubric sections with checkboxes
     h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">';
     RB.forEach(function(r){
@@ -429,124 +600,7 @@ function render(data){
   h+='</div>';
   document.getElementById('v-pres').innerHTML=h;
 
-  // ═══ RESUMEN EJECUTIVO ═══
-  var exp=so.filter(function(a){return nc(a)>=4.5;}).length;
-  var bue=so.filter(function(a){var c=nc(a);return c>=3.5&&c<4.5;}).length;
-  var des=so.filter(function(a){var c=nc(a);return c>=2.5&&c<3.5;}).length;
-  var ree=so.filter(function(a){return nc(a)<2.5;}).length;
-  h='<div class="se"><h2>Resumen ejecutivo — Clínica IA</h2><div class="su">Resultados agregados de la evaluación con inteligencia artificial · Sin detalle individual</div></div>';
-  h+='<div class="mg">';
-  h+='<div class="mc"><div class="v" style="color:var(--ac)">'+av('t')+'</div><div class="l">Score IA</div></div>';
-  if(cp)h+='<div class="mc"><div class="v" style="color:var(--pr)">'+avgP+'</div><div class="l">Presencial</div></div>';
-  h+='<div class="mc"><div class="v" style="color:var(--tl)">'+n+'</div><div class="l">Evaluados</div></div>';
-  h+='<div class="mc"><div class="v" style="color:var(--gn)">'+Math.round(vt/n*100)+'%</div><div class="l">Cierre</div></div>';
-  h+='<div class="mc"><div class="v" style="color:var(--or)">'+Math.round(ds/n*100)+'%</div><div class="l">Desc. descubierto</div></div>';
-  h+='</div>';
-  h+='<div class="se"><h2>Distribución por banda — Clínica IA</h2><div class="su">Escala 1 a 5 sobre los 6 niveles del método de venta</div>';
-  h+='<div class="band-grid">';
-  h+='<div class="band-card" style="background:var(--gn)"><div class="bv2">'+exp+'</div><div class="bl2">Experto</div><div class="bl2">4.5+</div></div>';
-  h+='<div class="band-card" style="background:var(--ac)"><div class="bv2">'+bue+'</div><div class="bl2">Buen vendedor</div><div class="bl2">3.5 – 4.4</div></div>';
-  h+='<div class="band-card" style="background:var(--or)"><div class="bv2">'+des+'</div><div class="bl2">En desarrollo</div><div class="bl2">2.5 – 3.4</div></div>';
-  h+='<div class="band-card" style="background:var(--rd)"><div class="bv2">'+ree+'</div><div class="bl2">Reentrenar</div><div class="bl2">&lt;2.5</div></div>';
-  h+='</div></div>';
-  // Pendientes
-  var TOTAL_SALA2=Math.max(SALA.length,n);
-  var PEND2=SALA.filter(function(s){
-    var sn=s.nombre.toLowerCase().trim();
-    return !so.some(function(a){var an=a.n.toLowerCase().trim();return sn.indexOf(an)>=0||an.indexOf(sn)>=0||sn.split(' ')[0]===an.split(' ')[0]&&sn.split(' ')[1]===an.split(' ')[1];});
-  }).map(function(s){return s.nombre;});
-  h+='<div class="info-card warn"><div class="info-row"><div><h2>'+n+' de '+TOTAL_SALA2+' evaluados</h2><div class="su">'+(TOTAL_SALA-n)+' pendientes: '+PEND.join(', ')+'</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:800;color:'+(n/TOTAL_SALA2>=0.8?'var(--gn)':'var(--or)')+'">'+(TOTAL_SALA2>0?Math.round(n/TOTAL_SALA2*100):0)+'%</div><div style="font-size:9px;color:var(--md)">cobertura</div></div></div></div>';
-  // Meta de grupo
-  var pctBueno=so.filter(function(a){return nf(a)>=3.5;}).length;
-  var pctMeta=Math.round(pctBueno/n*100);
-  h+='<div class="info-card '+(pctMeta>=80?'ok':'')+'"><div class="info-row"><div><h2>Meta: 80% en Buen vendedor (3.5+)</h2><div class="su">'+pctBueno+' de '+n+' asesores están en 3.5 o más</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:800;color:'+(pctMeta>=80?'var(--gn)':'var(--or)')+'">'+pctMeta+'%</div><div style="font-size:9px;color:var(--md)">'+(pctMeta>=80?'✓ Meta alcanzada':'faltan '+(Math.ceil(n*0.8)-pctBueno)+' más')+'</div></div></div><div style="background:var(--bd);height:8px;border-radius:4px;margin-top:8px"><div style="background:'+(pctMeta>=80?'var(--gn)':'var(--ac)');+';height:8px;border-radius:4px;width:'+Math.min(pctMeta,100)+'%"></div></div></div>';
-  // Impacto del descuento
-  var conDesc=so.filter(function(a){return bt(a).ds;});
-  var sinDesc=so.filter(function(a){return !bt(a).ds;});
-  var avgCon=conDesc.length?(conDesc.reduce(function(s,a){return s+nf(a);},0)/conDesc.length).toFixed(1):0;
-  var avgSin=sinDesc.length?(sinDesc.reduce(function(s,a){return s+nf(a);},0)/sinDesc.length).toFixed(1):0;
-  if(conDesc.length&&sinDesc.length){
-    h+='<div class="se" style="border-left:3px solid var(--tl)"><h2>Impacto del descubrimiento del descuento</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;text-align:center"><div><div style="font-size:28px;font-weight:800;color:var(--gn)">'+avgCon+'</div><div style="font-size:10px;color:var(--md)">Promedio de los '+conDesc.length+' que descubrieron</div></div><div><div style="font-size:28px;font-weight:800;color:var(--or)">'+avgSin+'</div><div style="font-size:10px;color:var(--md)">Promedio de los '+sinDesc.length+' que no descubrieron</div></div></div><div style="font-size:10px;color:var(--tl);margin-top:6px;font-weight:600">Diferencia: '+(parseFloat(avgCon)-parseFloat(avgSin)).toFixed(1)+' puntos. Descubrir el descuento sube el score un '+(Math.round((parseFloat(avgCon)-parseFloat(avgSin))/parseFloat(avgSin)*100))+'%.</div></div>';
-  }
-  h+='<div class="se"><h2>Promedio por nivel</h2><div class="bars">'+LV.map(function(l){var v=parseFloat(av(l.k));var ht=v*26;var cl=v>=4?'var(--gn)':v>=3.5?'var(--ac)':'var(--or)';return '<div class="bc"><div class="bv" style="color:'+cl+'">'+v+'</div><div class="bw"><div class="b" style="height:'+ht+'px;background:'+cl+'"></div></div><div class="bl">'+l.l+'</div></div>';}).join('')+'</div></div>';
-  // Fortaleza y brecha del grupo IA
-  var lvAvgs=LV.map(function(l){return{l:l.l,k:l.k,v:parseFloat(av(l.k))};});
-  lvAvgs.sort(function(a,b){return b.v-a.v;});
-  var lvTop=lvAvgs[0],lvBot=lvAvgs[lvAvgs.length-1];
-  h+='<div class="se"><h2>Fortaleza y brecha del grupo</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">';
-  h+='<div style="padding:14px;background:#ecfdf5;border-radius:8px;border:1px solid #a7f3d0"><div style="font-size:10px;font-weight:700;color:var(--gn)">✦ Fortaleza: '+lvTop.l+' ('+lvTop.v+')</div><div style="font-size:10px;color:var(--md);margin-top:4px;line-height:1.4">El grupo domina esta fase. Mantener con feedback individual a los que estén por debajo de 4.</div></div>';
-  h+='<div style="padding:14px;background:#fff7ed;border-radius:8px;border:1px solid #fed7aa"><div style="font-size:10px;font-weight:700;color:var(--or)">△ Brecha: '+lvBot.l+' ('+lvBot.v+')</div><div style="font-size:10px;color:var(--md);margin-top:4px;line-height:1.4">El grupo necesita refuerzo en esta fase. Taller focalizado + repetir clínica después.</div></div>';
-  h+='</div></div>';
-  h+='<div class="ins"><h2>Hallazgo principal</h2><p>El '+Math.round((n-ds)/n*100)+'% no descubrió que el precio del cliente es promocional. Sin ese dato, el argumento de venta más poderoso no se puede usar.</p>';
-  h+='<div class="bx"><div class="b1 t"><h3>Plan de acción</h3><p>1. Taller de sondeo: las 4 preguntas clave.<br>2. Repetir clínica IA enfocada en Explorar.<br>3. Re-medir en 1 semana.</p></div><div class="b1 o"><h3>Meta</h3><p>Subir Explorar de '+lvAvgs.filter(function(l){return l.k==="e";})[0].v+' a 4.0+ en la próxima medición. Que el 80% descubra el descuento.</p></div></div></div>';
-  h+='<div class="se" style="background:var(--lt)"><p style="font-size:9px;color:var(--md);text-align:center">Generado automáticamente · Método de 6 niveles Desarrollando Ando · Uso restringido Campaña ETB</p></div>';
-  document.getElementById('v-exec').innerHTML=h;
-
-  // ═══ RESUMEN PRESENCIAL ═══
-  var evP=so.filter(function(a){return gn(a.n);});
-  var nP=evP.length;
-  if(nP>0){
-    var avgPT=(evP.reduce(function(s,a){return s+gn(a.n).total;},0)/nP).toFixed(1);
-    var aprobados=evP.filter(function(a){return gn(a.n).total>=80;}).length;
-    var avgIA2=(evP.reduce(function(s,a){return s+nf(a);},0)/nP).toFixed(1);
-    var avgCB=(evP.reduce(function(s,a){return s+nc(a);},0)/nP).toFixed(1);
-    // Promedios por rúbrica
-    var rubAvg={};RB.forEach(function(r){var sum=0;evP.forEach(function(a){var np=gn(a.n);if(np&&np.scores)sum+=calcRubPres(np.scores,r.id);});rubAvg[r.id]=(sum/nP).toFixed(1);});
-    // Rúbrica más alta y más baja
-    var rubArr=RB.map(function(r){return{id:r.id,l:r.l,w:r.w,avg:parseFloat(rubAvg[r.id])};});
-    rubArr.sort(function(a,b){return b.avg-a.avg;});
-    var rubTop=rubArr[0],rubBot=rubArr[rubArr.length-1];
-    // Bandas presencial
-    var pExp=evP.filter(function(a){return gn(a.n).total>=80;}).length;
-    var pBue=evP.filter(function(a){var t=gn(a.n).total;return t>=60&&t<80;}).length;
-    var pDes=evP.filter(function(a){var t=gn(a.n).total;return t>=40&&t<60;}).length;
-    var pRee=evP.filter(function(a){return gn(a.n).total<40;}).length;
-
-    h='<div class="se"><h2>Resumen ejecutivo — Clínica presencial</h2><div class="su">Resultados agregados de la evaluación presencial con rúbrica de 8 dimensiones. '+nP+' de '+n+' asesores evaluados.</div></div>';
-    // Métricas
-    h+='<div class="mg"><div class="mc"><div class="v" style="color:var(--pr)">'+avgPT+'</div><div class="l">Score presencial</div></div><div class="mc"><div class="v" style="color:var(--ac)">'+avgIA2+'</div><div class="l">Score IA (mismos)</div></div><div class="mc"><div class="v" style="color:var(--tl)">'+avgCB+'</div><div class="l">Score combinado</div></div><div class="mc"><div class="v" style="color:var(--gn)">'+nP+'</div><div class="l">Evaluados</div></div></div>';
-    // Bandas
-    h+='<div class="se"><h2>Distribución por banda — Presencial</h2><div class="band-grid"><div class="band-card" style="background:var(--gn)"><div class="bv2">'+pExp+'</div><div class="bl2">Aprobado (80%+)</div></div><div class="band-card" style="background:var(--ac)"><div class="bv2">'+pBue+'</div><div class="bl2">Cerca (60-79%)</div></div><div class="band-card" style="background:var(--or)"><div class="bv2">'+pDes+'</div><div class="bl2">En desarrollo</div></div><div class="band-card" style="background:var(--rd)"><div class="bv2">'+pRee+'</div><div class="bl2">Reentrenar</div></div></div></div>';
-    // Barras por rúbrica
-    h+='<div class="se"><h2>Promedio por rúbrica presencial</h2><div class="su">Score promedio de cada dimensión evaluada por el formador</div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0">';
-    RB.forEach(function(r){var v=parseFloat(rubAvg[r.id]);var cl=v>=4?'var(--gn)':v>=3.5?'var(--ac)':'var(--or)';
-      h+='<div style="text-align:center;padding:10px;background:var(--lt);border-radius:6px;border:1px solid var(--bd)"><div style="font-size:20px;font-weight:800;color:'+cl+'">'+v+'</div><div style="font-size:9px;font-weight:600;color:var(--dk)">'+r.l+'</div><div style="font-size:8px;color:var(--md)">Peso: '+r.w+'%</div></div>';
-    });
-    h+='</div></div>';
-    // Comparativo IA vs Presencial grupo
-    h+='<div class="ins"><h2>Comparativo: IA vs Presencial</h2><p>Promedio del grupo en ambas evaluaciones para los '+nP+' asesores que tienen ambas notas.</p>';
-    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:14px">';
-    h+='<div style="text-align:center"><div style="font-size:36px;font-weight:800;color:var(--ac)">'+avgIA2+'</div><div style="font-size:12px;color:#adb5bd;margin-top:4px">Clínica IA</div><div style="font-size:10px;color:var(--md);margin-top:2px">de 5.0</div></div>';
-    h+='<div style="text-align:center"><div style="font-size:36px;font-weight:800;color:var(--pr)">'+avgPT+'%</div><div style="font-size:12px;color:#adb5bd;margin-top:4px">Presencial</div><div style="font-size:10px;color:var(--md);margin-top:2px">de 90%</div></div>';
-    h+='</div></div>';
-    // Hallazgos
-    h+='<div class="se"><h2>Hallazgos presenciales</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
-    h+='<div style="padding:10px;background:#d1fae5;border-radius:6px"><div style="font-size:10px;font-weight:700;color:var(--gn)">Rúbrica más fuerte</div><div style="font-size:14px;font-weight:800;color:var(--gn)">'+rubTop.l+' ('+rubTop.avg+')</div><div style="font-size:9px;color:var(--md)">Peso: '+rubTop.w+'%</div></div>';
-    h+='<div style="padding:10px;background:#fed7aa;border-radius:6px"><div style="font-size:10px;font-weight:700;color:var(--or)">Rúbrica más débil</div><div style="font-size:14px;font-weight:800;color:var(--or)">'+rubBot.l+' ('+rubBot.avg+')</div><div style="font-size:9px;color:var(--md)">Peso: '+rubBot.w+'%</div></div>';
-    h+='</div></div>';
-    // Oportunidad de mejora y acciones
-    var rec=REC[rubBot.id]||{opp:"",acc:""};
-    h+='<div class="ins"><h2>Oportunidad de mejora: '+rubBot.l+'</h2><p style="margin-bottom:10px">'+rec.opp+'</p><div class="bx"><div class="b1 o"><h3>Qué está pasando</h3><p>El grupo promedió <strong>'+rubBot.avg+'</strong> de 5.0 en esta dimensión (peso '+rubBot.w+'%). Es la rúbrica que más arrastra la nota presencial hacia abajo.</p></div><div class="b1 t"><h3>Acción recomendada</h3><p>'+rec.acc+'</p></div></div></div>';
-    // Ranking presencial (sin nombres, solo posición y notas)
-    h+='<div class="se"><h2>Ranking presencial</h2><div class="su">Ordenado por nota presencial</div><div style="overflow-x:auto"><table><thead><tr><th>#</th><th style="text-align:left">Asesor</th>';
-    RB.forEach(function(r){h+='<th>'+r.l.split(' ')[0]+'</th>';});
-    h+='<th>Presencial</th><th>IA</th><th>Combinada</th></tr></thead><tbody>';
-    evP.sort(function(a,b){return gn(b.n).total-gn(a.n).total;});
-    evP.forEach(function(a,i){var np=gn(a.n);var ia=nf(a);var cb=nc(a);
-      h+='<tr><td style="font-weight:700;color:var(--ac)">'+(i+1)+'</td><td style="text-align:left;font-weight:600">'+a.n+'</td>';
-      RB.forEach(function(r){var v=calcRubPres(np.scores,r.id);h+='<td class="sc" style="color:'+(v>=r.w*0.8?'var(--gn)':'var(--or)')+'">'+v+'%</td>';});
-      h+='<td><span class="sc" style="color:'+(np.total>=80?'var(--gn)':'var(--or)')+';font-size:13px">'+np.total+'%</span></td>';
-      h+='<td><span class="sc" style="color:'+bc(ia)+'">'+ia+'</span></td>';
-      h+='<td><span class="sc" style="color:'+bc(cb)+';font-size:13px">'+cb+'</span></td></tr>';
-    });
-    h+='</tbody></table></div></div>';
-    h+='<div class="se" style="background:var(--lt)"><p style="font-size:9px;color:var(--md);text-align:center">Evaluación presencial · Rúbrica de 8 dimensiones · Uso restringido Campaña ETB</p></div>';
-  }else{
-    h='<div class="se"><p style="text-align:center;color:var(--md);padding:30px">Aún no hay evaluaciones presenciales. Complete las evaluaciones en la pestaña "Evaluación presencial".</p></div>';
-  }
-  document.getElementById('v-rpres').innerHTML=h;
-
-    document.getElementById('lu').textContent=new Date().toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'});
+    var luEl=document.getElementById('lu');if(luEl)luEl.textContent=new Date().toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'});
 }
 
 // Copiar resumen
@@ -677,7 +731,7 @@ function downloadCSV(){
 }
 
 // Filtro
-function fbd(d,fr,to){if(!fr&&!to)return d;return d.map(function(a){var f=a.i.filter(function(z){if(!z.f)return true;if(fr&&z.f<fr)return false;if(to&&z.f>to)return false;return true;});if(!f.length)return null;return{n:a.n,exp:a.exp,i:f};}).filter(function(a){return a;});}
+function fbd(d,fr,to){if(!fr&&!to)return d;return d.map(function(a){var f=a.i.filter(function(z){if(!z.f)return true;if(fr&&z.f<fr)return false;if(to&&z.f>to)return false;return true;});if(!f.length)return null;return{n:a.n,i:f};}).filter(function(a){return a;});}
 function af(){var f=document.getElementById('fF').value,t=document.getElementById('fT').value,aN=document.getElementById('fA').value;var d=fbd(A,f,t);if(aN)d=d.filter(function(a){return a.n===aN;});render(d);var tot=d.reduce(function(s,a){return s+a.i.length;},0);document.getElementById('fs').textContent=d.length+' asesor'+(d.length!==1?'es':'')+' · '+tot+' llamada'+(tot!==1?'s':'');}
 function cf(){document.getElementById('fF').value='';document.getElementById('fT').value='';document.getElementById('fA').value='';document.getElementById('fG').value='';render(A);document.getElementById('fs').textContent='';}
 (function(){var dd=[];A.forEach(function(a){a.i.forEach(function(z){if(z.f)dd.push(z.f);});});if(dd.length){dd.sort();document.getElementById('fF').value=dd[0];document.getElementById('fT').value=dd[dd.length-1];}})();
