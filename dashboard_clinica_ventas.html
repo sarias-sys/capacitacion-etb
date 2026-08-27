@@ -551,21 +551,86 @@ function render(data){
 
 // Copiar resumen
 function copySummary(){
-  var so2=A.slice().sort(function(a,b){return nc(b)-nc(a);});
+  // Use currently filtered/displayed data
+  var filt=A.slice();
+  var f=document.getElementById('fF').value,t=document.getElementById('fT').value;
+  var aN=document.getElementById('fA').value,gN=document.getElementById('fG').value;
+  if(f||t)filt=fbd(filt,f,t);
+  if(aN)filt=filt.filter(function(a){return a.n===aN;});
+  if(gN){var grupoCC=SALA.filter(function(s){return s.grupo===gN;}).map(function(s){return s.nombre.toLowerCase().trim();});filt=filt.filter(function(a){return grupoCC.some(function(sn){var an=a.n.toLowerCase().trim();return sn.indexOf(an)>=0||an.indexOf(sn)>=0||(sn.split(' ')[0]===an.split(' ')[0]&&sn.split(' ')[1]===an.split(' ')[1]);});});}
+  var so2=filt.sort(function(a,b){return nc(b)-nc(a);});
   var n2=so2.length;var lt2=so2.map(bt);
   var av2=(lt2.reduce(function(s,d){return s+d.t;},0)/n2).toFixed(1);
   var vt2=lt2.filter(function(d){return d.r==='venta_aceptada';}).length;
   var ds2=lt2.filter(function(d){return d.ds;}).length;
   var bu2=so2.filter(function(a){return nf(a)>=3.5;}).length;
-  var top3=so2.slice(0,3).map(function(a){return a.n+' '+nf(a);}).join(', ');
-  var txt='*Clínica ETB — '+lt2[0].f+'*\n';
-  txt+=n2+' de '+TOTAL_SALA+' evaluados · Promedio: '+av2+'\n';
+  var pctMeta=Math.round(bu2/n2*100);
+
+  // Top 3
+  var top3=so2.slice(0,3).map(function(a,i){return (i+1)+'. '+a.n+' ('+nf(a)+'/5)';}).join('\n');
+
+  // Bottom 3
+  var bot3=so2.slice(-3).reverse().map(function(a){return '• '+a.n+' ('+nf(a)+'/5)';}).join('\n');
+
+  // Nivel más fuerte y más débil
+  var lvAvgs=LV.map(function(l){return{l:l.l,v:parseFloat((lt2.reduce(function(s,d){return s+d[l.k];},0)/n2).toFixed(1))};});
+  lvAvgs.sort(function(a,b){return b.v-a.v;});
+  var lvTop=lvAvgs[0],lvBot=lvAvgs[lvAvgs.length-1];
+
+  // Presencial
+  var cp2=so2.filter(function(a){return gn(a.n);}).length;
+  var avgP2=cp2>0?(so2.reduce(function(s,a){var np=gn(a.n);return s+(np?np.total:0);},0)/cp2).toFixed(1):0;
+
+  // Pendientes
+  var cpPend=SALA.filter(function(s){var sn=s.nombre.toLowerCase().trim();return !A.some(function(a){var an=a.n.toLowerCase().trim();return sn.indexOf(an)>=0||an.indexOf(sn)>=0||(sn.split(' ')[0]===an.split(' ')[0]&&sn.split(' ')[1]===an.split(' ')[1]);});}).map(function(s){return s.nombre;});
+
+  var txt='*📊 CLÍNICA DE VENTAS ETB*\n';
+  txt+='_Américas BPS · '+new Date().toLocaleDateString('es-CO')+'_\n';
+  txt+='━━━━━━━━━━━━━━━\n\n';
+
+  txt+='*👥 GRUPO*\n';
+  txt+=n2+' evaluados de '+SALA.length+' en sala\n';
   txt+=vt2+' ventas · '+(n2-vt2)+' rechazos\n';
-  txt+=bu2+'/'+n2+' en Buen vendedor (3.5+) → '+Math.round(bu2/n2*100)+'%\n';
-  txt+='Descubrieron descuento: '+ds2+'/'+n2+'\n';
-  txt+='Top 3: '+top3+'\n';
-  txt+='Brecha: Explorar ('+((lt2.reduce(function(s,d){return s+d.e;},0)/n2).toFixed(1))+')\n';
-  var cpPend=SALA.filter(function(s){var sn=s.nombre.toLowerCase().trim();return !A.some(function(a){var an=a.n.toLowerCase().trim();return sn.indexOf(an)>=0||an.indexOf(sn)>=0||sn.split(' ')[0]===an.split(' ')[0]&&sn.split(' ')[1]===an.split(' ')[1];});}).map(function(s){return s.nombre;});if(cpPend.length)txt+='Pendientes: '+cpPend.join(', ');
+  txt+='Descubrieron descuento: '+ds2+' de '+n2+'\n\n';
+
+  txt+='*📈 SCORES*\n';
+  txt+='Promedio IA: *'+av2+'* / 5.0\n';
+  if(cp2>0)txt+='Promedio presencial: *'+avgP2+'%* / 90%\n';
+  txt+='Meta 80% en Buen vendedor: *'+pctMeta+'%* '+(pctMeta>=80?'✅':'⚠️')+' ('+bu2+'/'+n2+')\n\n';
+
+  txt+='*🏆 TOP 3*\n';
+  txt+=top3+'\n\n';
+
+  txt+='*✅ FORTALEZA DEL GRUPO*\n';
+  txt+='Nivel más fuerte: *'+lvTop.l+'* ('+lvTop.v+'/5)\n';
+  txt+='El grupo domina esta fase. Mantener con feedback individual.\n\n';
+
+  txt+='*⚠️ BRECHA DEL GRUPO*\n';
+  txt+='Nivel más débil: *'+lvBot.l+'* ('+lvBot.v+'/5)\n';
+  txt+='El '+(100-Math.round(ds2/n2*100))+'% no descubrió el descuento del cliente.\n\n';
+
+  txt+='*📋 PLAN DE ACCIÓN*\n';
+  txt+='1. Taller de sondeo: preguntar por estructura del precio\n';
+  txt+='2. Repetir clínica IA enfocada en '+lvBot.l+'\n';
+  txt+='3. Re-medir en 1 semana\n\n';
+
+  txt+='*⬇️ REQUIEREN ATENCIÓN*\n';
+  txt+=bot3+'\n\n';
+
+  if(cpPend.length){
+    txt+='*⏳ PENDIENTES* ('+cpPend.length+')\n';
+    txt+=cpPend.join(', ')+'\n\n';
+  }
+
+  txt+='*📊 SCORES POR NIVEL*\n';
+  lvAvgs.sort(function(a,b){return b.v-a.v;});
+  lvAvgs.forEach(function(l){
+    var bar='';for(var i=0;i<5;i++)bar+=i<Math.round(l.v)?'🟩':'⬜';
+    txt+=bar+' '+l.l+': '+l.v+'\n';
+  });
+
+  txt+='\n_Dashboard: sarias-sys.github.io/capacitacion-etb/dashboard\_clinica\_ventas.html_';
+
   navigator.clipboard.writeText(txt).then(function(){var ok=document.getElementById('copyOk');if(ok){ok.style.display='inline';setTimeout(function(){ok.style.display='none';},2000);}});
 }
 
