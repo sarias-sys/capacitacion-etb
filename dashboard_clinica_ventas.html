@@ -124,6 +124,7 @@ tr:nth-child(even){background:var(--lt)}tr:hover{background:#edf2fb}
   <div class="tab active" onclick="sv('res',this)">Resumen general</div>
   <div class="tab" onclick="sv('rank',this)">Ranking</div>
   <div class="tab" onclick="sv('ind',this)">Detalle individual</div>
+  <div class="tab" onclick="sv('rpres',this)">Resultados presencial</div>
   <div class="tab" onclick="sv('pres',this)">Evaluar presencial</div>
 </div>
 <div class="fb"><span style="font-size:11px;font-weight:600">Filtrar:</span><input type="date" id="fF"><span style="font-size:10px;color:var(--md)">a</span><input type="date" id="fT"><span style="font-size:10px;color:var(--md);margin-left:6px">|</span><select id="fA" style="padding:5px 10px;border:1px solid var(--bd);border-radius:5px;font-size:11px;font-family:Inter,sans-serif"><option value="">Todos los asesores</option></select><select id="fG" style="padding:5px 10px;border:1px solid var(--bd);border-radius:5px;font-size:11px;font-family:Inter,sans-serif"><option value="">Todos los grupos</option></select><button class="ba" onclick="af()">Aplicar</button><button onclick="cf()">Ver todo</button><span id="fs" style="font-size:9px;color:var(--md)"></span></div>
@@ -131,6 +132,7 @@ tr:nth-child(even){background:var(--lt)}tr:hover{background:#edf2fb}
   <div class="vw active" id="v-res"></div>
   <div class="vw" id="v-rank"></div>
   <div class="vw" id="v-ind"></div>
+  <div class="vw" id="v-rpres"></div>
   <div class="vw" id="v-pres"></div>
 <div class="footer">CONFIDENCIAL · AMÉRICAS BPS · DESARROLLANDO ANDO · 2026<br>Uso restringido — Campaña ETB · Américas BPS</div>
 </div>
@@ -559,6 +561,61 @@ function render(data){
     h+='</div>';});
   h+='</div>';
   document.getElementById('v-ind').innerHTML=h;
+
+  // ═══ RESULTADOS PRESENCIAL (tabla) ═══
+  var evRP=so.filter(function(a){return gn(a.n);});
+  if(evRP.length>0){
+    evRP.sort(function(a,b){return gn(b.n).total-gn(a.n).total;});
+    h='<div class="se"><h2>Resultados — Clínica presencial</h2><div class="su">Nota por rúbrica y total · Meta: superar 80% · Ordenado por nota total</div></div>';
+    h+='<div style="overflow-x:auto"><table><thead><tr><th>#</th><th style="text-align:left">Asesor</th>';
+    RB.forEach(function(r){
+      h+='<th style="min-width:60px">'+r.l+'<br><span style="font-weight:400;font-size:7px;opacity:.7">máx '+r.w+'%</span></th>';
+    });
+    h+='<th style="min-width:55px">Total<br><span style="font-weight:400;font-size:7px;opacity:.7">máx 90%</span></th><th>Estado</th></tr></thead><tbody>';
+    evRP.forEach(function(a,i){
+      var np=gn(a.n);
+      var est=np.total>=80?'A':np.total>=65?'R':'N';
+      var ec=est==='A'?'var(--gn)':est==='R'?'#f59e0b':'var(--rd)';
+      var ebg=est==='A'?'#ecfdf5':est==='R'?'#fffbeb':'#fef2f2';
+      var el=est==='A'?'Aprueba':est==='R'?'Re-evaluar':'No aprueba';
+      h+='<tr><td style="font-weight:700;color:var(--ac)">'+(i+1)+'</td>';
+      h+='<td style="text-align:left;font-weight:600">'+a.n+'</td>';
+      RB.forEach(function(r){
+        var v=calcRubPres(np.scores,r.id);
+        var pct=r.w>0?v/r.w*100:0;
+        var cl=pct>=80?'var(--gn)':pct>=50?'#f59e0b':'var(--rd)';
+        // Show score with mini bar
+        h+='<td style="padding:4px 3px">';
+        h+='<div style="font-size:11px;font-weight:700;color:'+cl+';text-align:center">'+v+'%</div>';
+        h+='<div style="background:var(--bd);height:4px;border-radius:2px;margin-top:2px;overflow:hidden"><div style="width:'+pct+'%;height:4px;border-radius:2px;background:'+cl+'"></div></div>';
+        h+='</td>';
+      });
+      // Total
+      h+='<td style="text-align:center"><div style="font-size:14px;font-weight:800;color:'+ec+'">'+np.total+'%</div></td>';
+      // Estado
+      h+='<td><span style="display:inline-block;padding:3px 8px;border-radius:4px;font-size:9px;font-weight:700;color:'+ec+';background:'+ebg+'">'+el+'</span></td>';
+      h+='</tr>';
+    });
+    // Promedios row
+    h+='<tr style="background:var(--lt);font-weight:700"><td></td><td style="text-align:left;font-size:10px">PROMEDIO</td>';
+    RB.forEach(function(r){
+      var sum=0;evRP.forEach(function(a){sum+=calcRubPres(gn(a.n).scores,r.id);});
+      var avg=(sum/evRP.length).toFixed(1);
+      var pct=r.w>0?parseFloat(avg)/r.w*100:0;
+      var cl=pct>=80?'var(--gn)':pct>=50?'#f59e0b':'var(--rd)';
+      h+='<td style="text-align:center;font-size:10px;color:'+cl+'">'+avg+'%</td>';
+    });
+    var avgTotal=(evRP.reduce(function(s,a){return s+gn(a.n).total;},0)/evRP.length).toFixed(1);
+    h+='<td style="text-align:center;font-size:13px;color:var(--pr)">'+avgTotal+'%</td><td></td></tr>';
+    h+='</tbody></table></div>';
+    // Legend
+    h+='<div style="display:flex;gap:16px;margin-top:10px;font-size:9px;color:var(--md);justify-content:center">';
+    h+='<span>🟢 ≥80% del máximo</span><span>🟡 50-79%</span><span>🔴 <50%</span>';
+    h+='</div>';
+  }else{
+    h='<div class="se" style="text-align:center;padding:40px"><p style="color:var(--md);font-size:11px">Aún no hay evaluaciones presenciales. Complete las evaluaciones en la pestaña "Evaluar presencial".</p></div>';
+  }
+  document.getElementById('v-rpres').innerHTML=h;
 
   // ═══ EVALUACIÓN PRESENCIAL ═══
   var sinEval=so.filter(function(a){return !gn(a.n);});
