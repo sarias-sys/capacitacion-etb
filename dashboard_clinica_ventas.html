@@ -138,24 +138,7 @@ tr:nth-child(even){background:var(--lt)}tr:hover{background:#edf2fb}
 </div>
 
 <script>
-var A=[
-{n:"Alejandro León",i:[{f:"2026-08-21",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5,r:"venta_aceptada",d:"9:52",ds:true,co:true,ft:"Explicó portabilidad y resolvió objeciones con argumentos diferenciados.",br:"Profundizar en beneficios personalizados según uso del cliente."}]},
-{n:"John Jairo Linares",i:[{f:"2026-08-21",p:5,e:5,c:5,ne:5,a:5,ce:5,t:5,r:"venta_aceptada",d:"8:56",ds:true,co:true,ft:"Explicó portabilidad y beneficios antes de presentar oferta.",br:"Pedir confirmación explícita antes de solicitar datos."}]},
-{n:"Gustavo Zapata",i:[{f:"2026-08-21",p:5,e:5,c:5,ne:5,a:3,ce:5,t:4.7,r:"venta_aceptada",d:"10:03",ds:true,co:true,ft:"Exploró necesidades y explicó beneficios personalizados.",br:"Usar al menos tres argumentos distintos ante objeciones."}]},
-{n:"Francys García",i:[{f:"2026-08-21",p:5,e:3,c:5,ne:5,a:4,ce:5,t:4.5,r:"venta_aceptada",d:"6:16",ds:false,co:true,ft:"Explicó portabilidad y resolvió dudas.",br:"Indagar si el precio actual es promocional."}]},
-{n:"Vanessa Alzate",i:[{f:"2026-08-21",p:4,e:4,c:4,ne:4,a:4,ce:4,t:4,r:"venta_aceptada",d:"6:28",ds:true,co:true,ft:"Explicó beneficios y portabilidad.",br:"Mejorar naturalidad en manejo de objeciones."}]},
-{n:"Ghadyer Gómez",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,r:"venta_aceptada",d:"7:17",ds:false,co:true,ft:"Explicó beneficios y portabilidad.",br:"Indagar si el precio es promocional."}]},
-{n:"Andrés Nieto",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,r:"venta_aceptada",d:"11:03",ds:false,co:true,ft:"Explicó portabilidad con argumentos diferenciados.",br:"Indagar si el precio es promocional."}]},
-{n:"David Muñoz",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:4,t:3.8,r:"venta_aceptada",d:"8:59",ds:false,co:true,ft:"Manejó objeciones con argumentos variados.",br:"Indagar si el precio es promocional."}]},
-{n:"Andrés Torres",i:[{f:"2026-08-21",p:4,e:4,c:4,ne:4,a:4,ce:2,t:3.7,r:"rechazo",d:"6:57",ds:false,co:true,ft:"Exploró situación antes de ofrecer.",br:"Recapitular condiciones y obtener aceptación expresa."}]},
-{n:"Brandon Rincón",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,r:"venta_aceptada",d:"7:59",ds:false,co:true,ft:"Explicó portabilidad y validó datos.",br:"Descubrir si el precio es promocional."}]},
-{n:"Harold Romero",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,r:"venta_aceptada",d:"5:25",ds:false,co:true,ft:"Explicó portabilidad y beneficios.",br:"Descubrir si el precio es promocional."}]},
-{n:"Morela Piña",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:4,ce:3,t:3.7,r:"rechazo",d:"11:15",ds:false,co:true,ft:"Explicó portabilidad y permanencia.",br:"Indagar si el precio es promocional."}]},
-{n:"Germán Espinosa",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:4,a:3,ce:4,t:3.7,r:"venta_aceptada",d:"8:25",ds:true,co:true,ft:"Explicó portabilidad y resolvió dudas.",br:"Más argumentos diferenciados."}]},
-{n:"Joseph Parra",i:[{f:"2026-08-21",p:4,e:3,c:3,ne:3,a:3,ce:3,t:3.2,r:"rechazo",d:"13:00",ds:false,co:true,ft:"Explicó portabilidad y ausencia de permanencia.",br:"Descubrir si el precio es promocional."}]},
-{n:"Fredy Maldonado",i:[{f:"2026-08-21",p:4,e:3,c:4,ne:3,a:3,ce:2,t:3,r:"rechazo",d:"13:17",ds:true,co:true,ft:"Explicó portabilidad y beneficios.",br:"Mejorar cierre y personalizar argumentos."}]},
-{n:"Cristian Cuervo",i:[{f:"2026-08-21",p:4,e:3,c:3,ne:3,a:2,ce:2,t:2.8,r:"rechazo",d:"6:13",ds:false,co:true,ft:"Explicó portabilidad y resolvió objeción del número.",br:"Conectar beneficios con necesidades y argumentar con variedad."}]}
-];
+var A=[];
 
 // Rúbricas presenciales
 var RB=[
@@ -239,37 +222,14 @@ function liveUpdate(nm){
   if(stEl){stEl.textContent=total>=80?'✓ Aprobado (meta 80%)':total>0?'✗ Por debajo de la meta ('+total+'%)':'Sin evaluar';stEl.style.color=total>=80?'var(--gn)':total>0?'var(--or)':'var(--md)';}
 }
 
-var SALA=[
-{nombre:"Alejandro León",cedula:"1012367130",grupo:"ETB-AGO21"},
-{nombre:"John Jairo Linares Ulloa",cedula:"1072648238",grupo:"ETB-AGO21"},
-{nombre:"Gustavo Zapata",cedula:"80093375",grupo:"ETB-AGO21"},
-{nombre:"Francys García",cedula:"1181856",grupo:"ETB-AGO21"},
-{nombre:"Vanessa Alzate",cedula:"1023973806",grupo:"ETB-AGO21"},
-{nombre:"Ghadyer Gómez",cedula:"82392665",grupo:"ETB-AGO21"},
-{nombre:"Andrés Nieto",cedula:"1010203403",grupo:"ETB-AGO21"},
-{nombre:"David Muñoz",cedula:"1015440840",grupo:"ETB-AGO21"},
-{nombre:"Andrés Torres",cedula:"1092458421",grupo:"ETB-AGO21"},
-{nombre:"Brandon Rincón",cedula:"1023979543",grupo:"ETB-AGO21"},
-{nombre:"Harold Romero",cedula:"1022975762",grupo:"ETB-AGO21"},
-{nombre:"Morela Piña",cedula:"612768",grupo:"ETB-AGO21"},
-{nombre:"Germán Espinosa",cedula:"1024475116",grupo:"ETB-AGO21"},
-{nombre:"Joseph Parra",cedula:"1233490247",grupo:"ETB-AGO21"},
-{nombre:"Fredy Maldonado",cedula:"1032440069",grupo:"ETB-AGO21"},
-{nombre:"Cristian Cuervo",cedula:"1019021062",grupo:"ETB-AGO21"},
-{nombre:"Carolina Cortés",cedula:"1014235731",grupo:"ETB-AGO21"},
-{nombre:"Kirenia Massip",cedula:"457059",grupo:"ETB-AGO21"},
-{nombre:"Misael Balcazar",cedula:"1003314796",grupo:"ETB-AGO21"},
-{nombre:"Jorge Barinas",cedula:"79973115",grupo:"ETB-AGO21"},
-{nombre:"Darío Dueñas",cedula:"1026550265",grupo:"ETB-AGO21"},
-{nombre:"Nicoll Pineda",cedula:"1031120267",grupo:"ETB-AGO21"}
-];
+var SALA=[];
 // PEND and TOTAL_SALA now loaded from Sheet
 
 // Helpers
 var sc=function(s){return s>=4?'s4':s>=3?'s3':'s2';};
 var bc=function(t){return t>=4.5?'var(--gn)':t>=3.5?'var(--ac)':t>=2.5?'var(--or)':'var(--rd)';};
 var bn=function(t){return t>=4.5?'Experto':t>=3.5?'Buen vendedor':t>=2.5?'En desarrollo':'Reentrenar';};
-var bt=function(x){return x.i[x.i.length-1];};
+var bt=function(x){return x.i.length?x.i[x.i.length-1]:{f:"",p:0,e:0,c:0,ne:0,a:0,ce:0,t:0,r:"",d:"",ds:false,co:false,ft:"",br:""};};
 var nf=function(x){if(x.i.length===1)return x.i[0].t;var b=Math.max.apply(null,x.i.map(function(z){return z.t;})),l=x.i[x.i.length-1].t,av=x.i.reduce(function(s,z){return s+z.t;},0)/x.i.length;return Math.round((b*.4+l*.4+av*.2)*10)/10;};
 var nc=function(x){var ia=nf(x);var np=gn(x.n);if(!np)return ia;var pNorm=np.total/90*5;return Math.round((ia*.5+pNorm*.5)*10)/10;};
 var presColor=function(p){return p>=80?'var(--gn)':p>=60?'var(--ac)':p>=40?'var(--or)':'var(--rd)';};
@@ -468,16 +428,18 @@ function render(data){
   // ═══ RANKING ═══
   // Estado function
   function estado(ia,pres){
-    var eIA=ia>=3.5?'A':ia>=3?'R':'N';
+    var eIA=ia===0?null:ia>=3.5?'A':ia>=3?'R':'N';
     var ePR=pres===null?null:pres>=80?'A':pres>=65?'R':'N';
     // Combined: worst of both, or just IA if no presencial
     var e=eIA;
-    if(ePR!==null){if(ePR==='N'||eIA==='N')e='N';else if(ePR==='R'||eIA==='R')e='R';else e='A';}
+    if(eIA===null&&ePR===null)e='P';
+    else if(eIA===null)e=ePR;
+    else if(ePR!==null){if(ePR==='N'||eIA==='N')e='N';else if(ePR==='R'||eIA==='R')e='R';else e='A';}
     return e;
   }
-  function estadoLabel(e){return e==='A'?'Aprueba':e==='R'?'Re-evaluar':'No aprueba';}
-  function estadoColor(e){return e==='A'?'var(--gn)':e==='R'?'#f59e0b':'var(--rd)';}
-  function estadoBg(e){return e==='A'?'#ecfdf5':e==='R'?'#fffbeb':'#fef2f2';}
+  function estadoLabel(e){return e==='A'?'Aprueba':e==='R'?'Re-evaluar':e==='P'?'Pendiente':'No aprueba';}
+  function estadoColor(e){return e==='A'?'var(--gn)':e==='R'?'#f59e0b':e==='P'?'var(--md)':'var(--rd)';}
+  function estadoBg(e){return e==='A'?'#ecfdf5':e==='R'?'#fffbeb':e==='P'?'var(--lt)':'#fef2f2';}
 
   // Rubrica fuerte/debil por asesor (IA + presencial)
   function rubFD(a){
@@ -506,7 +468,7 @@ function render(data){
     var est=estado(ia,presVal);
     h+='<tr><td style="font-weight:700;color:var(--ac)">'+(i+1)+'</td>';
     h+='<td style="text-align:left;font-weight:600">'+a.n+'</td>';
-    h+='<td><span class="sc" style="color:'+bc(ia)+'">'+ia+'</span> <span style="font-size:8px;color:var(--md)">/5</span></td>';
+    h+='<td>'+(ia>0?'<span class="sc" style="color:'+bc(ia)+'">'+ia+'</span> <span style="font-size:8px;color:var(--md)">/5</span>':'<span style="font-size:9px;color:var(--md)">—</span>')+'</td>';
     h+='<td>'+(np?'<span class="sc" style="color:'+(np.total>=80?'var(--gn)':np.total>=65?'#f59e0b':'var(--rd)')+'">'+np.total+'%</span>':'—')+'</td>';
     h+='<td><span class="sc" style="color:'+bc(cb)+';font-size:13px">'+cb+'</span></td>';
     // Nivel fuerte
@@ -831,7 +793,19 @@ function loadAsesores(){
       var nombre=g("nombre");var cedula=g("cedula");var grupo=g("grupo");
       if(nombre&&cedula)SALA.push({nombre:nombre,cedula:cedula,grupo:grupo});
     });
-    if(SALA.length>0){console.log("Asesores cargados: "+SALA.length);updateGrupoDropdown();render(A);}
+    if(SALA.length>0){
+      console.log("Asesores cargados: "+SALA.length);
+      // Add SALA people who don't have IA data yet as placeholders
+      SALA.forEach(function(s){
+        var sn=s.nombre.toLowerCase().trim();
+        var exists=A.some(function(a){var an=a.n.toLowerCase().trim();return sn.indexOf(an)>=0||an.indexOf(sn)>=0||(sn.split(' ')[0]===an.split(' ')[0]&&sn.split(' ')[1]===an.split(' ')[1]);});
+        if(!exists){
+          A.push({n:s.nombre,i:[]});
+        }
+      });
+      updateGrupoDropdown();
+      render(A);
+    }
   }).catch(function(e){console.log("Asesores sheet no disponible. "+e.message);});
 }
 function lfs(){fetch(SH).then(function(r){if(!r.ok)throw new Error(r.status);return r.text();}).then(function(tx){var ls=tx.split("\n").filter(function(r){return r.trim();});if(ls.length<2)return;var hd=ls[0].split(",").map(function(h){return h.replace(/"/g,"").trim().toLowerCase();});var pp={};ls.slice(1).forEach(function(ln){var v=[],c="",q=false;for(var j=0;j<ln.length;j++){var ch=ln[j];if(ch==='"')q=!q;else if(ch===','&&!q){v.push(c.trim());c="";}else c+=ch;}v.push(c.trim());var g=function(nm){var x=hd.indexOf(nm);return x>=0&&x<v.length?v[x]:"";};var cc=g("cedula");if(!cc||cc==="cedula")return;if(!pp[cc])pp[cc]={n:g("nombre"),exp:g("experiencia")||"N/D",i:[]};var t=parseFloat(g("total"));if(isNaN(t)||!t)return;pp[cc].i.push({f:g("fecha"),p:parseInt(g("presentar"))||0,e:parseInt(g("explorar"))||0,c:parseInt(g("conectar"))||0,ne:parseInt(g("negociar"))||0,a:parseInt(g("argumentar"))||0,ce:parseInt(g("cerrar"))||0,t:t,r:g("resultado"),d:g("duracion"),ds:g("descuento")==="true"||g("descuento")==="TRUE",co:g("completa")==="true"||g("completa")==="TRUE",ft:g("fortaleza"),br:g("brecha")});});var nd=[];for(var k in pp)if(pp[k].i.length)nd.push(pp[k]);if(nd.length){A=nd;render(nd);}}).catch(function(e){console.log("Datos locales. "+e.message);});}
